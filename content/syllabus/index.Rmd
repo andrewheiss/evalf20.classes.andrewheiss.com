@@ -117,7 +117,7 @@ Fortunately there are tons of online resources to help you with this. Two of the
 
 If you use Twitter, post R-related questions and content with [#rstats](https://twitter.com/search?q=%23rstats). The community there is exceptionally generous and helpful.
 
-Searching for help with R on Google can sometimes be tricky because the program name is, um, a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot"). Also, since most of your R work will deal with **ggplot2**, it's often easier to just search for that instead of the letter "r" (e.g. "ggplot scatterplot"). 
+Searching for help with R on Google can sometimes be tricky because the program name is, um, a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
 
 Additionally, we have a class chatroom at [Slack](https://gsuevalf2020.slack.com) where anyone in the class can ask questions and anyone can answer. **I will monitor Slack regularly and will respond quickly.** (It's one of the rare Slack workspaces where I actually have notifications enabled!) Ask questions about the readings, assignments, and project. You'll likely have similar questions as your peers, and you'll likely be able to answer other peoples' questions too.
 
@@ -160,7 +160,7 @@ I want you to learn lots of things from this class, but I primarily want you to 
 
 ### Late work
 
-You will lose 1 point per day for each day a problem set is late. This is designed to not be a huge penalty (3 days late = 17/20 points on a problem set that gets a ✓), but instead is a commitment device to help you stay on schedule. 
+You will lose 1 point per day for each day a problem set is late. This is designed to not be a huge penalty (3 days late = 27/30 points on a problem set that gets a ✓), but instead is a commitment device to help you stay on schedule. 
 
 After 1 week, I will send an automated reminder e-mail. After 2 weeks, you will receive no points.
 
