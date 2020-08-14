@@ -1,0 +1,17 @@
+---
+title: "Difference-in-differences II"
+linktitle: "9: Diff-in-diff II"
+date: "2020-10-19"
+start_date: "2020-10-19"
+end_date: "2020-10-23"
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+## Readings
+
+This session is a continuation of [session 8](/content/08-content/).

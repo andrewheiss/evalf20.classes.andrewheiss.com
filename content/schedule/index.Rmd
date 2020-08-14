@@ -1,0 +1,12 @@
+---
+title: "Schedule"
+slug: schedule
+---
+
+Here's your roadmap for the semester!
+
+- [**Content**](/content/) (<i class="fas fa-book-reader"></i>): This page contains the readings, slides, and recorded lectures for the topic. Read and watch these first.
+- [**Example**](/example/) (<i class="fas fa-laptop-code"></i>): This page contains fully annotated R code and other supplementary information that you can use as a reference for your assignments and project. This is only a reference page—you don't have to necessarily do anything here. Some sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. This page will be *very* helpful as you work on your assignments.
+- [**Assignment**](/assignment/) (<i class="fas fa-pencil-ruler"></i>): This page contains the instructions for each assignment. **Assignments are due by 11:59 PM on the day they're listed.**
+
+`r blogdown::shortcode("schedule")`

@@ -1,0 +1,34 @@
+---
+title: "Theories of change and logic models"
+linktitle: "3: Theories of change and logic models"
+date: "2020-09-07"
+start_date: "2020-09-07"
+end_date: "2020-09-11"
+menu:
+  content:
+    parent: Course content
+    weight: 3
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+# slides: "03-slides"
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+## Readings
+
+- <i class="fas fa-book"></i> Chapter 2 in *Impact Evaluation in Practice* [@wb-eval]
+- <i class="fas fa-book"></i> Chapter 2 in *Evaluation: A Systematic Approach* [@RossiLipseyHenry:2019]. This is available on iCollege.
+- <i class="fas fa-book"></i> Chapter 3 in *Evaluation: A Systematic Approach* [@RossiLipseyHenry:2019]. This is available on iCollege.
+
+
+## Slides
+
+Slides go here.
+
+
+## Videos
+
+Videos go here.

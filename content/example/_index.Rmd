@@ -1,0 +1,13 @@
+---
+title: Code examples
+menu:
+  example:
+    parent: Overview
+    weight: 1
+type: docs
+weight: 1
+---
+
+Visit this section after you have finished the readings and lecture videos. It contains fully annotated R code and other supplementary information and it will be indispensable as you work on your problem sets and project.
+
+Many sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. You'll notice me make all sorts of little errors, which *is totally normal*—everyone does!

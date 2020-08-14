@@ -1,4 +1,4 @@
-# Program Evaluation for Public Service (PMAP 8521—Spring 2020)
+# Program Evaluation for Public Service (PMAP 8521—Fall 2020)
 
 ![Program evaluation image](static/img/social-image.png)
 

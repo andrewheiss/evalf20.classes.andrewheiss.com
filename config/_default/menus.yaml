@@ -1,0 +1,50 @@
+main:
+  - name: Syllabus
+    url: /syllabus/
+    weight: 1
+  - name: Schedule
+    url: /schedule/
+    weight: 2
+  - name: Content
+    url: /content/
+    weight: 3
+  - name: Examples
+    url: /example/
+    weight: 5
+  - name: Assignments
+    url: /assignment/
+    weight: 4
+  - name: Resources
+    url: /resource/
+    weight: 6
+  - name: '<i class="fab fa-slack"></i>'
+    url: "https://gsuevalf2020.slack.com"
+    weight: 7
+  - name: RStudio.cloud
+    url: https://rstudio.cloud/
+    weight: 8
+
+content:
+  - name: Overview
+    weight: 1
+  - name: Course content
+    weight: 2
+example:
+  - name: Overview
+    weight: 1
+  - name: Examples
+    weight: 2
+assignment:
+  - name: Assignments
+    weight: 1
+  - name: Problem sets
+    weight: 2
+  - name: Evaluation
+    weight: 3
+  - name: Other projects
+    weight: 4
+resource:
+  - name: Resources
+    weight: 1
+  - name: Guides
+    weight: 2

@@ -1,0 +1,33 @@
+---
+title: "Planning and running evaluations + other types of evaluation"
+linktitle: "13: Planning evaluations + other evaluations"
+date: "2020-11-16"
+start_date: "2020-11-16"
+end_date: "2020-11-20"
+menu:
+  content:
+    parent: Course content
+    weight: 13
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+# slides: "13-slides"
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+## Readings
+
+- <i class="fas fa-file-pdf"></i> ["Types of Evaluation,"](https://www.cdc.gov/std/Program/pupestd/Types%20of%20Evaluation.pdf) National Center for HIV/AIDS, Viral Hepatitis, STD, and TB Prevention, Centers for Disease Control (CDC)
+- <i class="fas fa-book"></i> Chapters 11–14 in *Impact Evaluation in Practice* [@wb-eval]
+
+
+## Slides
+
+Slides go here.
+
+
+## Videos
+
+Videos go here.

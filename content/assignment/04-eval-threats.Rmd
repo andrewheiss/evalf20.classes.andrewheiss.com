@@ -1,0 +1,19 @@
+---
+title: "Threats to validity"
+linktitle: "Threats to validity"
+date: "2020-10-05"
+due_date: "2020-10-05"
+due_time: "11:59 PM"
+output:
+  blogdown::html_page:
+    toc: true
+menu:
+  assignment:
+    parent: Evaluation
+    weight: 4
+type: docs
+editor_options: 
+  chunk_output_type: console
+---
+
+The instructions for this problem set will go live a couple weeks before the due date (and likely even earlier than that!)

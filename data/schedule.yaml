@@ -1,0 +1,194 @@
+lessons:
+  - title: 'Evaluation and causation'
+    header: True
+
+  - title: '<span class="content-title">Evaluation and the causal revolution</span>'
+    session: "Session 1"
+    date: "August 24–28"
+    content: "01-content"
+    bg: 1
+    
+  - title: 'Problem set 1'
+    date: "August 31"
+    assignment: "01-problem-set"
+    bg: 1
+    bottomborder: True
+
+  - title: '<span class="content-title">Regression and inference</span>'
+    session: "Session 2"
+    date: "August 31–September 4"
+    content: "02-content"
+    bg: 2
+
+  - title: 'Problem set 2'
+    date: "September 7"
+    assignment: "02-problem-set"
+    bg: 2
+    bottomborder: True
+
+  - title: '<span class="content-title">Theories of change and logic models</span>'
+    session: "Session 3"
+    date: "September 7–11"
+    content: "03-content"
+    bg: 1
+
+  - title: "Evaluation: Background and theory"
+    date: "September 14"
+    assignment: "01-eval-background-theory"
+    bg: 1
+    bottomborder: True
+
+  - title: '<span class="content-title">Measurement and DAGs</span>'
+    session: "Session 4"
+    date: "September 14–18"
+    content: "04-content"
+    bg: 2
+
+  - title: "Evaluation: Measurement"
+    date: "September 21"
+    assignment: "02-eval-measurement"
+    bg: 2
+    bottomborder: True
+
+  - title: '<span class="content-title">DAGs and potential outcomes</span>'
+    session: "Session 5"
+    date: "September 21–25"
+    content: "05-content"
+    bg: 1
+
+  - title: "Evaluation: Causal model"
+    date: "September 28"
+    assignment: "03-eval-dag"
+    bg: 1
+    bottomborder: True
+
+  - title: '<span class="content-title">Threats to validity</span>'
+    session: "Session 6"
+    date: "September 28–October 2"
+    content: "05-content"
+    bg: 2
+
+  - title: "Evaluation: Threats to validity"
+    date: "October 5"
+    assignment: "04-eval-threats"
+    bg: 2
+    
+  - title: '<i class="fas fa-star"></i> **Exam 1**'
+    date: "October 5–10"
+    bg: 3
+
+  - title: 'Tools and methods'
+    header: True
+
+  - title: '<span class="content-title">Randomization and matching</span>'
+    session: "Session 7"
+    date: "October 5–9"
+    content: "07-content"
+    bg: 1
+
+  - title: '<a href="https://georgia.gov/register-vote"><strong>Georgia voter registration deadline</strong></a>'
+    date: "October 5"
+    bg: 3
+
+  - title: "Problem set 3"
+    date: "October 12"
+    assignment: "03-problem-set"
+    bg: 1
+    bottomborder: True
+
+  - title: '<span class="content-title">Difference-in-differences I + II</span>'
+    session: "Sessions 8–9"
+    date: "October 12–23"
+    content: "08-content"
+    bg: 2
+
+  - title: "Problem set 4"
+    date: "October 19"
+    assignment: "04-problem-set"
+    bg: 1
+
+  - title: "Problem set 5"
+    date: "October 26"
+    assignment: "05-problem-set"
+    bg: 1
+    bottomborder: True
+    
+  - title: '<span class="content-title">Regression discontinuity I</span>'
+    session: "Session 10"
+    date: "October 26–30"
+    content: "10-content"
+    bg: 2
+
+  - title: '<a href="https://georgia.gov/vote-absentee-ballot"><strong>Deadline to request an absentee ballot</strong></a> <small>(request must be received by this day)</small>'
+    date: "October 30"
+    bg: 3
+
+  - title: "Problem set 6"
+    date: "November 2"
+    assignment: "06-problem-set"
+    bg: 1
+    bottomborder: True
+
+  - title: '<span class="content-title">Instrumental variables I</span>'
+    session: "Session 11"
+    date: "November 2–6"
+    content: "11-content"
+    bg: 2
+
+  - title: "<strong>Election Day</strong>"
+    date: "November 3"
+    bg: 3
+
+  - title: "Problem set 7"
+    date: "November 9"
+    assignment: "07-problem-set"
+    bg: 1
+    bottomborder: True
+
+  - title: '<span class="content-title">Instrumental variables II + Regression discontinuity II</span>'
+    session: "Session 12"
+    date: "November 9–13"
+    content: "12-content"
+    bg: 2
+
+  - title: "Problem set 8"
+    date: "November 16"
+    assignment: "08-problem-set"
+    bg: 1
+
+  - title: '<i class="fas fa-star"></i> **Exam 2**'
+    date: "November 16–21"
+    bg: 3
+
+  - title: 'Applied evaluation'
+    header: True
+
+  - title: '<span class="content-title">Planning and running evaluations + other types of evaluation</span>'
+    session: "Session 13"
+    date: "November 16–20"
+    content: "13-content"
+    bg: 2
+
+  - title: "Problem set 9"
+    date: "November 30"
+    assignment: "09-problem-set"
+    bg: 1
+    bottomborder: True
+
+  - title: '<span class="content-title">Ethics and open science</span>'
+    session: "Session 14"
+    date: "November 30–December 4"
+    content: "14-content"
+    bg: 2
+    bottomborder: True
+
+  - title: '<span class="content-title">Work session</span>'
+    date: "December 7"
+    bg: 2
+
+  - title: '<span class="fake-header-table">Final</span>'
+    header: True
+
+  - title: '<i class="fas fa-star"></i> **Final project due** (submit online by 7:00 PM)'
+    date: "December 14"
+    assignment: "final-project"

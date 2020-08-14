@@ -1,0 +1,19 @@
+---
+title: "Instrumental variables"
+linktitle: "Instrumental variables"
+date: "2020-04-08"
+output:
+  blogdown::html_page:
+    toc: true
+menu:
+  example:
+    parent: Examples
+    weight: 20
+type: docs
+editor_options: 
+  chunk_output_type: console
+---
+
+## Examples
+
+Worked-out examples and code and math, etc. will all go here.

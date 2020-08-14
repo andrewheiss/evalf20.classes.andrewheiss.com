@@ -1,0 +1,19 @@
+---
+title: "Problem set 2"
+linktitle: "Problem set 2"
+date: "2020-09-07"
+due_date: "2020-09-07"
+due_time: "11:59 PM"
+output:
+  blogdown::html_page:
+    toc: true
+menu:
+  assignment:
+    parent: Problem sets
+    weight: 2
+type: docs
+editor_options: 
+  chunk_output_type: console
+---
+
+The instructions for this problem set will go live a couple weeks before the due date (and likely even earlier than that!)

@@ -1,0 +1,32 @@
+---
+title: "Regression discontinuity I"
+linktitle: "10: RDD I"
+date: "2020-10-26"
+start_date: "2020-10-26"
+end_date: "2020-10-30"
+menu:
+  content:
+    parent: Course content
+    weight: 10
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+# slides: "10-slides"
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+## Readings
+
+Readings go here.
+
+
+## Slides
+
+Slides go here.
+
+
+## Videos
+
+Videos go here.

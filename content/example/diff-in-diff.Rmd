@@ -1,0 +1,19 @@
+---
+title: "Difference-in-differences"
+linktitle: "Diff-in-diff"
+date: "2020-03-04"
+output:
+  blogdown::html_page:
+    toc: true
+menu:
+  example:
+    parent: Examples
+    weight: 18
+type: docs
+editor_options: 
+  chunk_output_type: console
+---
+
+## Examples
+
+Worked-out examples and code and math, etc. will all go here.

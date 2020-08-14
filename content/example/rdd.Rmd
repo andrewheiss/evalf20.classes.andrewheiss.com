@@ -1,0 +1,19 @@
+---
+title: "Regression discontinuity"
+linktitle: "Regression discontinuity"
+date: "2020-03-25"
+output:
+  blogdown::html_page:
+    toc: true
+menu:
+  example:
+    parent: Examples
+    weight: 19
+type: docs
+editor_options: 
+  chunk_output_type: console
+---
+
+## Examples
+
+Worked-out examples and code and math, etc. will all go here.

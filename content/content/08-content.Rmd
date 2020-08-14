@@ -1,0 +1,34 @@
+---
+title: "Difference-in-differences I + II"
+linktitle: "8–9: Diff-in-diff I + II"
+date: "2020-10-12"
+start_date: "2020-10-12"
+end_date: "2020-10-16"
+menu:
+  content:
+    parent: Course content
+    weight: 8
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+# slides: "08-slides"
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+## Readings
+
+- <i class="fas fa-book"></i> Chapter 7 in *Impact Evaluation in Practice* [@wb-eval]
+- <i class="fas fa-book"></i> Chapter 5 in *Mastering 'Metrics* [@AngristPischke:2015]
+- <i class="fas fa-book"></i> "Differences-in-differences" in *Causal Inference: The Mixtape* [@mixtape]
+
+
+## Slides
+
+Slides go here.
+
+
+## Videos
+
+Videos go here.

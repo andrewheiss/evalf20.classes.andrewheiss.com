@@ -1,0 +1,40 @@
+---
+title: "Measurement and DAGs"
+linktitle: "4: Measurement and DAGs"
+date: "2020-09-14"
+start_date: "2020-09-14"
+end_date: "2020-09-18"
+menu:
+  content:
+    parent: Course content
+    weight: 4
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+# slides: "04-slides"
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+## Readings
+
+### Measurement
+
+- <i class="fas fa-book"></i> Chapter 5 in *Evaluation: A Systematic Approach* [@RossiLipseyHenry:2019]. This is available on iCollege.
+
+### DAGs
+
+- <i class="far fa-file-pdf"></i> Julia M. Rohrer, "Thinking Clearly About Correlations and Causation: Graphical Causal Models for Observational Data" [@Rohrer:2018] This will be posted on iCollege.
+- <i class="far fa-file-pdf"></i> Section 2 only (pp. 4–11) from Julian Schuessler and Peter Selb, "Graphical Causal Models for Survey Inference." [@SchuesslerSelb:2019] [The PDF is available at SocArXiv.](https://osf.io/preprints/socarxiv/hbg3m/)
+- <i class="fas fa-book"></i> "Directed acyclical graphs" in *Causal Inference: The Mixtape* [@mixtape]
+
+
+## Slides
+
+Slides go here.
+
+
+## Videos
+
+Videos go here.
