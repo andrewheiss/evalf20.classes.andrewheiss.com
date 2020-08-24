@@ -6,6 +6,7 @@ lessons:
     session: "Session 1"
     date: "August 24–28"
     content: "01-content"
+    example: "rstudio-tidyverse"
     bg: 1
     
   - title: 'Weekly check-in 1'

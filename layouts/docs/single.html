@@ -32,9 +32,9 @@
                     </div>
                     {{ end }}
 
-                    {{ if isset .Params "read_date" }}
+                    {{ if isset .Params "start_date" }}
                     <div class="due-date p-2 mb-3 bg-content text-white">
-                        Content for {{ dateFormat "Monday, January 2, 2006" .Params.read_date }}
+                        Content for the week of {{ dateFormat "Monday, January 2, 2006" .Params.start_date }}–{{ dateFormat "Monday, January 2, 2006" .Params.end_date }}
                     </div>
                     {{ end }}
 

@@ -1,43 +1,25 @@
-// Inferno colors
-// $colors-dark: (
-//     #4D016B,  /* Dark purple */
-//     #81056F,  /* Purple */
-//     #B1165F,  /* Pink */
-//     #E0343E,  /* Red */
-//     #FF6000,  /* Orange */
-//     #FFBC00,  /* Yellow */
-//     #42159D   /* Blue */
-// );
-
-// $colors-light: (
-//     #E8AFFE,  /* Dark purple */
-//     #FCB7F2,  /* Purple */
-//     #F8C8DE,  /* Pink */
-//     #F9D6D8,  /* Red */
-//     #FFDFCC,  /* Orange */
-//     #FFF2CC,  /* Yellow */
-//     #E3D8FA  /* Blue */ 
-// );
 
 // Plasma colors
 $colors-dark: (
-    #0D0887,  /* 1: Blue Trust */
-    #5601A4,  /* 2: Aubergine Perl */
-    #900DA4,  /* 3: Violet Eggplant */
-    #BF3984,  /* 4: Medium Red Violet */
-    #E16462,  /* 5: Briquette */
-    #F89441,  /* 6: Chat Orange */
-    #FCCE25   /* 7: Lemon Punch */
+    #170C3A,  /* 1: Grim Reaper */
+    #480B6A,  /* 2: Obsidian Shell */
+    #771C6D,  /* 3: Pure Purple */
+    #A52C60,  /* 4: Parlour Red */
+    #CF4446,  /* 5: Bullfighters Red */
+    #EE6A24,  /* 6: Fuego Nuevo */
+    #FB9E07,  /* 7: Bonus Level */
+    #F6D645   /* 8: Python Yellow */
 );
 
 $colors-light: (
-    #B2B1F9,  /* 1: Winterspring Lilac */
-    #CBB5FF,  /* 2: Lavender Tonic */
-    #EFB3FF,  /* 3: Euphoria */
-    #FFC0DC,  /* 4: Sweet Romance */
-    #FFD0CF,  /* 5: Girlie */
-    #FFDFD1,  /* 6: Soft Orange Bloom */
-    #FFF0D4   /* 7: Biogenic Sand */
+    #B1AEC4,  /* 1: Noble Purple */
+    #CCAEED,  /* 2: Purple Sand */
+    #F5ABEA,  /* 3: Pinky Swear */
+    #FFB7CD,  /* 4: Baby Pink */
+    #FFC6C6,  /* 5: Cinderella Pink */
+    #FFD3CA,  /* 6: Pale Jasper */
+    #FFE2D0,  /* 7: Powdered Peach */
+    #FFF2CE   /* 8: Bird's Child */
 );
 
 
@@ -83,6 +65,10 @@ Typography
 
 .small {
     font-size: 0.8em;
+}
+
+.smaller {
+    font-size: 0.65em;
 }
 
 .tiny {
@@ -146,6 +132,14 @@ figcaption {
 
 .bg-y-75 {
     background-position-y: 75%;
+}
+
+.sp-before {
+    margin-top: 1em !important;
+}
+
+.sp-before {
+    margin-top: 0.7em !important;
 }
 
 .sp-after {

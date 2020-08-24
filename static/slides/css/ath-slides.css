@@ -43,6 +43,10 @@ Typography
   font-size: 0.8em;
 }
 
+.smaller {
+  font-size: 0.65em;
+}
+
 .tiny {
   font-size: 0.5em;
 }
@@ -104,6 +108,14 @@ figcaption {
 
 .bg-y-75 {
   background-position-y: 75%;
+}
+
+.sp-before {
+  margin-top: 1em !important;
+}
+
+.sp-before {
+  margin-top: 0.7em !important;
 }
 
 .sp-after {
@@ -246,118 +258,134 @@ Slides with title bars at the top
 }
 
 .title-1 {
-  border-top-color: #0D0887;
+  border-top-color: #170C3A;
 }
 
 .title-2 {
-  border-top-color: #5601A4;
+  border-top-color: #480B6A;
 }
 
 .title-3 {
-  border-top-color: #900DA4;
+  border-top-color: #771C6D;
 }
 
 .title-4 {
-  border-top-color: #BF3984;
+  border-top-color: #A52C60;
 }
 
 .title-5 {
-  border-top-color: #E16462;
+  border-top-color: #CF4446;
 }
 
 .title-6 {
-  border-top-color: #F89441;
+  border-top-color: #EE6A24;
 }
 
 .title-7 {
-  border-top-color: #FCCE25;
+  border-top-color: #FB9E07;
+}
+
+.title-8 {
+  border-top-color: #F6D645;
 }
 
 .title-inv-1 {
-  border-top-color: #B2B1F9;
+  border-top-color: #B1AEC4;
 }
 
 .title-inv-2 {
-  border-top-color: #CBB5FF;
+  border-top-color: #CCAEED;
 }
 
 .title-inv-3 {
-  border-top-color: #EFB3FF;
+  border-top-color: #F5ABEA;
 }
 
 .title-inv-4 {
-  border-top-color: #FFC0DC;
+  border-top-color: #FFB7CD;
 }
 
 .title-inv-5 {
-  border-top-color: #FFD0CF;
+  border-top-color: #FFC6C6;
 }
 
 .title-inv-6 {
-  border-top-color: #FFDFD1;
+  border-top-color: #FFD3CA;
 }
 
 .title-inv-7 {
-  border-top-color: #FFF0D4;
+  border-top-color: #FFE2D0;
+}
+
+.title-inv-8 {
+  border-top-color: #FFF2CE;
 }
 
 /*
 General color classes
 */
 .color-1 {
-  color: #0D0887;
+  color: #170C3A;
 }
 
 .color-2 {
-  color: #5601A4;
+  color: #480B6A;
 }
 
 .color-3 {
-  color: #900DA4;
+  color: #771C6D;
 }
 
 .color-4 {
-  color: #BF3984;
+  color: #A52C60;
 }
 
 .color-5 {
-  color: #E16462;
+  color: #CF4446;
 }
 
 .color-6 {
-  color: #F89441;
+  color: #EE6A24;
 }
 
 .color-7 {
-  color: #FCCE25;
+  color: #FB9E07;
+}
+
+.color-8 {
+  color: #F6D645;
 }
 
 .color-light-1 {
-  color: #B2B1F9;
+  color: #B1AEC4;
 }
 
 .color-light-2 {
-  color: #CBB5FF;
+  color: #CCAEED;
 }
 
 .color-light-3 {
-  color: #EFB3FF;
+  color: #F5ABEA;
 }
 
 .color-light-4 {
-  color: #FFC0DC;
+  color: #FFB7CD;
 }
 
 .color-light-5 {
-  color: #FFD0CF;
+  color: #FFC6C6;
 }
 
 .color-light-6 {
-  color: #FFDFD1;
+  color: #FFD3CA;
 }
 
 .color-light-7 {
-  color: #FFF0D4;
+  color: #FFE2D0;
+}
+
+.color-light-8 {
+  color: #FFF2CE;
 }
 
 /* 
@@ -365,121 +393,137 @@ Coloring and inverse coloring in title bars and content boxes
 */
 .box-1,
 .section-title-1 {
-  background-color: #0D0887;
+  background-color: #170C3A;
 }
 
 .box-2,
 .section-title-2 {
-  background-color: #5601A4;
+  background-color: #480B6A;
 }
 
 .box-3,
 .section-title-3 {
-  background-color: #900DA4;
+  background-color: #771C6D;
 }
 
 .box-4,
 .section-title-4 {
-  background-color: #BF3984;
+  background-color: #A52C60;
 }
 
 .box-5,
 .section-title-5 {
-  background-color: #E16462;
+  background-color: #CF4446;
 }
 
 .box-6,
 .section-title-6 {
-  background-color: #F89441;
+  background-color: #EE6A24;
 }
 
 .box-7,
 .section-title-7 {
-  background-color: #FCCE25;
+  background-color: #FB9E07;
+}
+
+.box-8,
+.section-title-8 {
+  background-color: #F6D645;
 }
 
 .box-inv-1,
 .section-title-inv-1 {
-  background-color: #B2B1F9;
+  background-color: #B1AEC4;
 }
 
 .box-inv-2,
 .section-title-inv-2 {
-  background-color: #CBB5FF;
+  background-color: #CCAEED;
 }
 
 .box-inv-3,
 .section-title-inv-3 {
-  background-color: #EFB3FF;
+  background-color: #F5ABEA;
 }
 
 .box-inv-4,
 .section-title-inv-4 {
-  background-color: #FFC0DC;
+  background-color: #FFB7CD;
 }
 
 .box-inv-5,
 .section-title-inv-5 {
-  background-color: #FFD0CF;
+  background-color: #FFC6C6;
 }
 
 .box-inv-6,
 .section-title-inv-6 {
-  background-color: #FFDFD1;
+  background-color: #FFD3CA;
 }
 
 .box-inv-7,
 .section-title-inv-7 {
-  background-color: #FFF0D4;
+  background-color: #FFE2D0;
+}
+
+.box-inv-8,
+.section-title-inv-8 {
+  background-color: #FFF2CE;
 }
 
 .box-inv-1,
 .title-inv-1 h1,
 .section-title-inv-1 h1 {
-  color: #0D0887;
+  color: #170C3A;
 }
 
 .box-inv-2,
 .title-inv-2 h1,
 .section-title-inv-2 h1 {
-  color: #5601A4;
+  color: #480B6A;
 }
 
 .box-inv-3,
 .title-inv-3 h1,
 .section-title-inv-3 h1 {
-  color: #900DA4;
+  color: #771C6D;
 }
 
 .box-inv-4,
 .title-inv-4 h1,
 .section-title-inv-4 h1 {
-  color: #BF3984;
+  color: #A52C60;
 }
 
 .box-inv-5,
 .title-inv-5 h1,
 .section-title-inv-5 h1 {
-  color: #E16462;
+  color: #CF4446;
 }
 
 .box-inv-6,
 .title-inv-6 h1,
 .section-title-inv-6 h1 {
-  color: #F89441;
+  color: #EE6A24;
 }
 
 .box-inv-7,
 .title-inv-7 h1,
 .section-title-inv-7 h1 {
-  color: #FCCE25;
+  color: #FB9E07;
 }
 
-.box-7, .box-6, .box-5, .box-4, .box-3, .box-2, .box-1, .title-7 h1, .title-6 h1, .title-5 h1, .title-4 h1, .title-3 h1, .title-2 h1, .title-1 h1, .section-title h1 {
+.box-inv-8,
+.title-inv-8 h1,
+.section-title-inv-8 h1 {
+  color: #F6D645;
+}
+
+.box-8, .box-7, .box-6, .box-5, .box-4, .box-3, .box-2, .box-1, .title-8 h1, .title-7 h1, .title-6 h1, .title-5 h1, .title-4 h1, .title-3 h1, .title-2 h1, .title-1 h1, .section-title h1 {
   color: #FFFFFF;
 }
 
-.box-7, .box-inv-7, .box-6, .box-inv-6, .box-5, .box-inv-5, .box-4, .box-inv-4, .box-3, .box-inv-3, .box-2, .box-inv-2, .box-1, .box-inv-1 {
+.box-8, .box-inv-8, .box-7, .box-inv-7, .box-6, .box-inv-6, .box-5, .box-inv-5, .box-4, .box-inv-4, .box-3, .box-inv-3, .box-2, .box-inv-2, .box-1, .box-inv-1 {
   margin: 0em auto;
   overflow: hidden;
   padding: 0.1em 0.4em;
@@ -531,6 +575,11 @@ Coloring and inverse coloring in title bars and content boxes
   display: inline;
 }
 
+.float-left .box-8, .float-left .box-inv-8,
+.float-right .box-8, .float-right .box-inv-8 {
+  display: inline;
+}
+
 /* Corner ribbon */
 /* Adapted from https://codepen.io/eode9/pen/twkKm */
 .corner-ribbon {
@@ -545,6 +594,6 @@ Coloring and inverse coloring in title bars and content boxes
   text-align: center;
   font-size: 0.6em;
   padding: 0.25em 0;
-  background: #BF3984;
+  background: #A52C60;
   color: #FFFFFF;
 }

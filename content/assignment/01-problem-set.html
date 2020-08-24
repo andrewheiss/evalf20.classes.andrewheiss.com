@@ -18,5 +18,87 @@ editor_options:
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#task-1-introduce-yourself-to-r-rstudio-and-the-tidyverse">Task 1: Introduce yourself to R, RStudio, and the tidyverse</a></li>
+<li><a href="#task-2-make-an-rstudio-project">Task 2: Make an RStudio Project</a></li>
+<li><a href="#task-3-work-with-r">Task 3: Work with R</a></li>
+</ul>
+</div>
 
-<p>The instructions for this problem set will go live a couple weeks before the due date (and likely even earlier than that!)</p>
+<div id="task-1-introduce-yourself-to-r-rstudio-and-the-tidyverse" class="section level2">
+<h2>Task 1: Introduce yourself to R, RStudio, and the tidyverse</h2>
+<ol style="list-style-type: decimal">
+<li><p>Go the the example page for this week, <a href="/example/rstudio-tidyverse/">“Welcome to R, RStudio, and the tidyverse”</a>, and work through the different primers and videos in the four parts of the page.</p>
+<p>It seems like there’s a lot on the page, but they’re short and go fairly quickly (especially as you get the hang of the syntax). Also, <strong>I have no way of seeing what you do or what you get wrong or right, and that’s totally fine!</strong> If you get stuck and want to skip some (or if it gets too easy), go right ahead and skip them!</p></li>
+</ol>
+</div>
+<div id="task-2-make-an-rstudio-project" class="section level2">
+<h2>Task 2: Make an RStudio Project</h2>
+<ol style="list-style-type: decimal">
+<li><p>Use either RStudio.cloud or RStudio on your computer (preferably RStudio on your computer! <a href="/resource/install/">Follow these instructions to get started!</a>) to create a new RStudio Project.</p></li>
+<li><p>Create a folder named “data” in the project folder you just made.</p></li>
+<li><p>Download this CSV file and place it in that folder:</p>
+<ul>
+<li><a href="/data/cars.csv"><i class="fas fa-file-csv"></i> <code>cars.csv</code></a></li>
+</ul></li>
+<li><p>In RStudio, go to “File” &gt; “New File…” &gt; “R Markdown…” and click “OK” in the dialog without changing anything.</p></li>
+<li><p>Delete all the placeholder text in that new file and replace it with this:</p>
+<pre class="text"><code>---
+title: &quot;Problem set 1&quot;
+author: &quot;Put your name here&quot;
+output: html_document
+---
+
+```{r load-libraries-data, warning=FALSE, message=FALSE}
+library(tidyverse)
+
+cars &lt;- read_csv(&quot;data/cars.csv&quot;)
+```
+
+# Learning R
+
+Tell me that you worked through the primers and videos and examples at the example page for this week:
+
+WRITE SOMETHING HERE LIKE &quot;I did all the primers and had the time of my life!&quot; or whatever.
+
+
+# My first plots
+
+Insert a chunk below and use it to create a scatterplot (hint: `geom_point()`) with diplacement (`displ`) on the x-axis, city MPG (`cty`) on the y-axis, and with the points colored by drive (`drv`).
+
+PUT CHUNK HERE
+
+Insert a chunk below and use it to create a histogram (hint: `geom_histogram()`) with highway MPG (`hwy`) on the x-axis. Do not include anything on the y-axis (`geom_histogram()` will do that automatically for you). Choose an appropriate bin width. If you&#39;re brave, facet by drive (`drv`).
+
+PUT CHUNK HERE
+
+
+# My first data manipulation
+
+Insert a chunk below and use it to calculate the average city MPG (`cty`) by class of car (`class`). This won&#39;t be a plot---it&#39;ll be a table. Hint: use a combination of `group_by()` and `summarize()`.
+
+PUT CHUNK HERE</code></pre></li>
+<li><p>Save the R Markdown file with some sort of name (<strong>without any spaces!</strong>)</p></li>
+<li><p>Your project folder should look something like this:</p>
+<p><img src="/img/assignments/project-structure.png" width="30%" /></p></li>
+</ol>
+</div>
+<div id="task-3-work-with-r" class="section level2">
+<h2>Task 3: Work with R</h2>
+<ol style="list-style-type: decimal">
+<li><p>Remove the text that says “PUT CHUNK HERE” and insert a new R code chunk. Either type <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>i</kbd> on Windows, or <kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>i</kbd> on macOS, or use the “Insert Chunk” menu:</p>
+<p><img src="/img/assignments/insert-chunk-button.png" width="19%" /></p></li>
+<li><p>Follow the instructions for the three chunks of code.</p></li>
+<li><p>Knit your document as a Word file (or PDF if you’re brave and <a href="/resource/install/#install-tinytex">installed LaTeX</a>). Use the “Knit” menu:</p>
+<p><img src="/img/assignments/knit-button.png" width="30%" /></p></li>
+<li><p>Upload the knitted document to iCollege.</p></li>
+<li><p>🎉 Party! 🎉</p></li>
+</ol>
+<div class="fyi">
+<p>You’ll be doing this same process for all your future problem sets. Each problem set will involve an R Markdown file. You can either create a new RStudio Project directory for all your work:</p>
+<p><img src="/img/reference/rproj-one-folder.png" width="30%" /></p>
+<p>Or you can create individual projects for each assignment and project:</p>
+<p><img src="/img/reference/rproj-multiple-folders.png" width="30%" /></p>
+</div>
+</div>

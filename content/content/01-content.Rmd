@@ -11,26 +11,99 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "01-slides"
+slides: "01-slides"
 output:
   blogdown::html_page:
     toc: true
 ---
 
+```{r slides-videos, echo=FALSE, include=FALSE}
+source(here::here("R", "slide-tabs.R"))
+source(here::here("R", "youtube-playlist.R"))
+
+playlist_id <- "PLS6tnpTr39sHcnk9KcoQVzDywxWRzVWHC"
+
+slide_details <- tibble::tribble(
+  ~youtube_id,   ~title, ~slide, ~active,
+  "BIhz1dz5Vws", "Introduction", "1", TRUE,
+  "f-sOSXyeeJE", "Data science and public service", "ds-ps", FALSE,
+  "Z2foqSMWnGU", "Evidence, evaluation, and causation (1)", "evidence-evaluation-causation", FALSE,
+  "W5ChuEhAzrs", "Evidence, evaluation, and causation (2)", "evidence-evaluation-causation1", FALSE,
+  "D4LoEctZxHE", "Class details", "class-details", FALSE
+)
+```
+
 ## Readings
 
 - The [syllabus](/syllabus/), [content](/content/), [examples](/example/), and [assignments](/assigment/) pages for this class
 - <i class="fas fa-book"></i> Chapter 1 in *Impact Evaluation in Practice* [@wb-eval]
-- <i class="fab fa-youtube"></i> DJ Patil, ["What Makes a Radical and Revolutionary Technology?](https://www.youtube.com/watch?v=UOoMzaWOQJA) <small>(DJ Patil is the former Chief Data Scientist of the United States under President Obama. He gave this forum address at Brigham Young University on February 13, 2018.)</small>
+- <i class="fab fa-youtube"></i> DJ Patil, ["What Makes a Radical and Revolutionary Technology?"](https://www.youtube.com/watch?v=UOoMzaWOQJA) 
+    - <small>(DJ Patil is the former Chief Data Scientist of the United States under President Obama. He gave this forum address at Brigham Young University on February 13, 2018.)</small>
 - <i class="fas fa-external-link-square-alt"></i> Stephen Goldsmith, ["Next Generation of Public Employees Must Understand Data and Policy"](http://www.govtech.com/opinion/Next-Generation-Public-Employees-Must-Understand-Data-Policy.html)
 - <i class="fas fa-external-link-square-alt"></i> Hadley Wickham, ["Data Science: How is it Different To Statistics?"](http://bulletin.imstat.org/2014/09/data-science-how-is-it-different-to-statistics%E2%80%89/)
 
 
 ## Slides
 
-Slides go here.
+The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+`r blogdown::shortcode("slide-buttons")`
+
+```{r show-slide-tabs, echo=FALSE, results="asis"}
+slide_tabs(slide_details, "/slides/01-slides.html")
+```
+
+:::fyi
+**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.
+:::
 
 
 ## Videos
 
-Videos go here.
+```{r show-youtube-list, echo=FALSE, results="asis"}
+youtube_list(slide_details, playlist_id)
+```
+
+```{cat include=FALSE, eval=FALSE}
+Playlist: https://www.youtube.com/playlist?list=PLS6tnpTr39sHcnk9KcoQVzDywxWRzVWHC
+
+https://youtu.be/BIhz1dz5Vws
+PMAP 8521 • (1) Evaluation and the causal revolution: (0) Introduction
+
+Introduction to the class session on evaluation and the causal revolution
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/01-content/
+
+
+https://youtu.be/f-sOSXyeeJE
+PMAP 8521 • (1) Evaluation and the causal revolution: (1) Data science and public service
+
+Discussion of the role of data science in the public and nonprofit sectors
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/01-content/
+
+  
+https://youtu.be/Z2foqSMWnGU
+PMAP 8521 • (1) Evaluation and the causal revolution: (2.1) Evidence, evaluation, and causation
+
+Discussion of the role of evidence-based policy and program evaluation
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/01-content/
+
+
+https://youtu.be/W5ChuEhAzrs
+PMAP 8521 • (1) Evaluation and the causal revolution: (2.2) Evidence, evaluation, and causation
+
+Discussion of why causation is tricky (but also possible!) to measure
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/01-content/
+
+
+https://youtu.be/D4LoEctZxHE
+PMAP 8521 • (1) Evaluation and the causal revolution: (3) Class details
+
+Overview of how the class works
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/01-content/
+
+```
