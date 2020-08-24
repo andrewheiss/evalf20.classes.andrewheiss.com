@@ -257,7 +257,7 @@ div.note:before {
 
 div.fyi {
     color: nth($colors, 3);
-    background-color: lighten(nth($colors, 3), 60%);
+    background-color: lighten(nth($colors, 3), 50%);
     border: dotted 4px nth($colors, 3);
 }
 
@@ -268,7 +268,7 @@ div.fyi:before {
 
 div.puzzle {
     color: nth($colors, 4);
-    background-color: lighten(nth($colors, 4), 60%);
+    background-color: lighten(nth($colors, 4), 50%);
     border: dotted 4px nth($colors, 4);
 }
 
