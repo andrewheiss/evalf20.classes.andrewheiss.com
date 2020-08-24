@@ -8,6 +8,11 @@ lessons:
     content: "01-content"
     bg: 1
     
+  - title: 'Weekly check-in 1'
+    date: "August 31"
+    assignment: "weekly-check-in"
+    bg: 1
+
   - title: 'Problem set 1'
     date: "August 31"
     assignment: "01-problem-set"
@@ -18,6 +23,11 @@ lessons:
     session: "Session 2"
     date: "August 31–September 4"
     content: "02-content"
+    bg: 2
+
+  - title: 'Weekly check-in 2'
+    date: "September 7"
+    assignment: "weekly-check-in"
     bg: 2
 
   - title: 'Problem set 2'
@@ -32,6 +42,11 @@ lessons:
     content: "03-content"
     bg: 1
 
+  - title: 'Weekly check-in 3'
+    date: "September 14"
+    assignment: "weekly-check-in"
+    bg: 1
+
   - title: "Evaluation: Background and theory"
     date: "September 14"
     assignment: "01-eval-background-theory"
@@ -42,6 +57,11 @@ lessons:
     session: "Session 4"
     date: "September 14–18"
     content: "04-content"
+    bg: 2
+
+  - title: 'Weekly check-in 4'
+    date: "September 21"
+    assignment: "weekly-check-in"
     bg: 2
 
   - title: "Evaluation: Measurement"
@@ -56,6 +76,11 @@ lessons:
     content: "05-content"
     bg: 1
 
+  - title: 'Weekly check-in 5'
+    date: "September 28"
+    assignment: "weekly-check-in"
+    bg: 1
+
   - title: "Evaluation: Causal model"
     date: "September 28"
     assignment: "03-eval-dag"
@@ -66,6 +91,11 @@ lessons:
     session: "Session 6"
     date: "September 28–October 2"
     content: "05-content"
+    bg: 2
+
+  - title: 'Weekly check-in 6'
+    date: "October 5"
+    assignment: "weekly-check-in"
     bg: 2
 
   - title: "Evaluation: Threats to validity"
@@ -90,6 +120,11 @@ lessons:
     date: "October 5"
     bg: 3
 
+  - title: 'Weekly check-in 7'
+    date: "October 12"
+    assignment: "weekly-check-in"
+    bg: 1
+
   - title: "Problem set 3"
     date: "October 12"
     assignment: "03-problem-set"
@@ -102,26 +137,41 @@ lessons:
     content: "08-content"
     bg: 2
 
+  - title: 'Weekly check-in 8'
+    date: "October 19"
+    assignment: "weekly-check-in"
+    bg: 2
+
   - title: "Problem set 4"
     date: "October 19"
     assignment: "04-problem-set"
-    bg: 1
+    bg: 2
+
+  - title: 'Weekly check-in 9'
+    date: "October 26"
+    assignment: "weekly-check-in"
+    bg: 2
 
   - title: "Problem set 5"
     date: "October 26"
     assignment: "05-problem-set"
-    bg: 1
+    bg: 2
     bottomborder: True
     
   - title: '<span class="content-title">Regression discontinuity I</span>'
     session: "Session 10"
     date: "October 26–30"
     content: "10-content"
-    bg: 2
+    bg: 1
 
   - title: '<a href="https://georgia.gov/vote-absentee-ballot"><strong>Deadline to request an absentee ballot</strong></a> <small>(request must be received by this day)</small>'
     date: "October 30"
     bg: 3
+
+  - title: 'Weekly check-in 10'
+    date: "November 2"
+    assignment: "weekly-check-in"
+    bg: 1
 
   - title: "Problem set 6"
     date: "November 2"
@@ -139,17 +189,27 @@ lessons:
     date: "November 3"
     bg: 3
 
+  - title: 'Weekly check-in 11'
+    date: "November 9"
+    assignment: "weekly-check-in"
+    bg: 2
+
   - title: "Problem set 7"
     date: "November 9"
     assignment: "07-problem-set"
-    bg: 1
+    bg: 2
     bottomborder: True
 
   - title: '<span class="content-title">Instrumental variables II + Regression discontinuity II</span>'
     session: "Session 12"
     date: "November 9–13"
     content: "12-content"
-    bg: 2
+    bg: 1
+
+  - title: 'Weekly check-in 12'
+    date: "November 16"
+    assignment: "weekly-check-in"
+    bg: 1
 
   - title: "Problem set 8"
     date: "November 16"
@@ -169,17 +229,27 @@ lessons:
     content: "13-content"
     bg: 2
 
+  - title: 'Weekly check-in 13'
+    date: "November 30"
+    assignment: "weekly-check-in"
+    bg: 2
+
   - title: "Problem set 9"
     date: "November 30"
     assignment: "09-problem-set"
-    bg: 1
+    bg: 2
     bottomborder: True
 
   - title: '<span class="content-title">Ethics and open science</span>'
     session: "Session 14"
     date: "November 30–December 4"
     content: "14-content"
-    bg: 2
+    bg: 1
+
+  - title: 'Weekly check-in 14'
+    date: "December 7"
+    assignment: "weekly-check-in"
+    bg: 1
     bottomborder: True
 
   - title: '<span class="content-title">Work session</span>'
@@ -192,3 +262,4 @@ lessons:
   - title: '<i class="fas fa-star"></i> **Final project due** (submit online by 7:00 PM)'
     date: "December 14"
     assignment: "final-project"
+    bg: 3
