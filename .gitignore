@@ -8,3 +8,4 @@ private/*
 resources/_gen/*
 *.zip
 temp_figs/*
+static/slides/*.pdf
