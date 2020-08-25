@@ -56,7 +56,7 @@ You might find this evaluation (and its proposal) of a truancy program in the Pr
 
 ## Suggested outline
 
-Here's an outline of what you'll need to do. You did lots of this work in your evaluation assignments. Please don't just copy/paste those assignments as is into this final project—you'll want to policy it up for this final report. You can download this as an RMarkdown file and change the text if you want. I've also included this as an RMarkdown file in the empty RStudio.cloud project.
+Here's an outline of what you'll need to do. You did lots of this work in your evaluation assignments. Please don't just copy/paste those assignments as is into this final project—you'll want to polish it up for this final report. You can download this as an RMarkdown file and change the text if you want. I've also included this as an RMarkdown file in the empty RStudio.cloud project.
 
 - [<i class="fab fa-r-project"></i> `final-project-template.Rmd`](/projects/final-project/final-project-template.Rmd)
 
