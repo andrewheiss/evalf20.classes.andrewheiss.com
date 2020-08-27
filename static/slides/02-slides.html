@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Regression and inference</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-08-26" />
+    <script src="libs/header-attrs-2.3/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# Regression&lt;br&gt;and inference
+
+.class-info[
+
+**Session 2**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-2.medium.sp-after-half[Drawing lines]
+
+--
+
+.box-6.medium.sp-after-half[Lines, Grϵϵκ, and regression]
+
+--
+
+.box-5.medium.sp-after-half[Null worlds and statistical significance]
+
+---
+
+layout: false
+name: drawing-lines
+class: center middle section-title section-title-2 animated fadeIn
+
+# Drawing lines
+
+---
+
+layout: true
+class: title title-2
+
+---
+
+# Essential parts of regression
+
+.pull-left[
+.box-inv-2.large[**Y**]
+
+.box-2[Outcome variable]
+
+.box-2[Response variable]
+
+.box-2[Dependent variable]
+
+.box-inv-2[Thing you want to&lt;br&gt;explain or predict]
+]
+
+--
+
+.pull-right[
+.box-inv-2.large[**X**]
+
+.box-2[Explanatory variable]
+
+.box-2[Predictor variable]
+
+.box-2[Independent variable]
+
+.box-inv-2[Thing you use to&lt;br&gt;explain or predict **Y**]
+]
+
+---
+
+# Identify variables
+
+.pull-left[
+.box-inv-2[A study examines the effect of smoking on lung cancer]
+
+.box-inv-2[Researchers predict genocides by looking at negative media coverage, revolutions in neighboring countries, and economic growth]
+]
+
+.pull-right[
+.box-inv-2[You want to see if taking more AP classes in high school improves college grades]
+
+.box-inv-2[Netflix uses your past viewing history, the day of the week, and the time of the day to guess which show you want to watch next]
+]
+
+---
+
+# Two purposes of regression
+
+.pull-left[
+.box-inv-2.medium[Prediction]
+
+.box-2[Forecast the future]
+
+.box-2.sp-after[Focus is on **Y**]
+
+.box-inv-2.small[Netflix trying to&lt;br&gt;guess your next show]
+
+.box-inv-2.small[Predicting who will enroll in SNAP]
+]
+
+--
+
+.pull-right[
+.box-inv-2.medium[Explanation]
+
+.box-2[Explain effect of **X** on **Y**]
+
+.box-2.sp-after[Focus is on **X**]
+
+.box-inv-2.small[Netflix looking at the effect of the&lt;br&gt;time of day on show selection]
+
+.box-inv-2.small[Measuring the effect of&lt;br&gt;SNAP on poverty reduction]
+]
+
+---
+
+# How?
+
+.box-inv-2.medium.sp-after-half[Plot **X** and **Y**]
+
+--
+
+.box-inv-2.medium[Draw a line that approximates the relationship]
+
+.box-2.tiny[and that would plausibly work for data not in the sample!]
+
+--
+
+.box-inv-2.medium.sp-after-half.sp-before-half[Find mathy parts of the line]
+
+--
+
+.box-inv-2.medium[Interpret the math]
+
+---
+
+# Cookies and happiness
+
+
+
+.center[
+
+```
+## # A tibble: 10 x 2
+##    happiness cookies
+##        &lt;dbl&gt;   &lt;int&gt;
+##  1       0.5       1
+##  2       2         2
+##  3       1         3
+##  4       2.5       4
+##  5       3         5
+##  6       1.5       6
+##  7       2         7
+##  8       2.5       8
+##  9       2         9
+## 10       3        10
+```
+]
+
+---
+
+layout: false
+
+&lt;img src="02-slides_files/figure-html/cookies-base-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="02-slides_files/figure-html/cookies-spline-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="02-slides_files/figure-html/cookies-loess-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="02-slides_files/figure-html/cookies-lm-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="02-slides_files/figure-html/cookies-lm-residual-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="02-slides_files/figure-html/cookies-residual-only-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="02-slides_files/figure-html/cookies-resid-side-by-side-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-2
+
+# Ordinary least squares (OLS) regression
+
+&lt;img src="02-slides_files/figure-html/cookies-lm-residual-shorter-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: false
+name: lines-greek-regression
+class: center middle section-title section-title-6 animated fadeIn
+
+# Lines, Grϵϵκ, &lt;br&gt;and regression
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Drawing lines with math
+
+$$
+y = mx + b
+$$
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;\(y\)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;A number&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;\(x\)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;A number&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;\(m\)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;Slope (\(\frac{\text{rise}}{\text{run}}\))&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;\(b\)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;y-intercept&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+# Slopes and intercepts
+
+.pull-left[
+
+$$
+y = 2x - 1
+$$
+
+&lt;img src="02-slides_files/figure-html/simple-line-1-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+$$
+y = -0.5x + 6
+$$
+
+&lt;img src="02-slides_files/figure-html/simple-line-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Greek, Latin, and extra markings
+
+.box-inv-6[Statistics: use a sample to make inferences about a population]
+
+--
+
+.pull-left[
+.box-6[Greek]
+
+Letters like `\(\beta_1\)` are the ***truth***
+
+Letters with extra markings like `\(\hat{\beta_1}\)` are our ***estimate*** of the truth based on our sample
+]
+
+--
+
+.pull-right[
+.box-6[Latin]
+
+Letters like `\(X\)` are ***actual data*** from our sample
+
+Letters with extra markings like `\(\bar{X}\)` are ***calculations*** from our sample
+]
+
+---
+
+# Estimating truth
+
+.box-inv-6.sp-after[Data → Calculation → Estimate → Truth]
+
+--
+
+.pull-left[
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Data&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(X\)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Calculation&amp;ensp;&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\bar{X} = \frac{\sum{X}}{N}\)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Estimate&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\hat{\mu}\)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Truth&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\mu\)&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right[
+$$
+\bar{X} = \hat{\mu}
+$$
+
+$$
+X \rightarrow \bar{X} \rightarrow \hat{\mu} \xrightarrow{\text{🤞 hopefully 🤞}} \mu
+$$
+]
+
+---
+
+# Drawing lines with stats
+
+$$
+\hat{y} = \hat{\beta_0} + \hat{\beta_1} x_1 + \varepsilon
+$$
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;\(y\)&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\hat{y}\)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;Outcome variable (DV)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;\(x\)&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(x_1\)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;Explanatory variable (IV)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;\(m\)&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\hat{\beta_1}\)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;Slope&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;\(b\)&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\hat{\beta_0}\)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;y-intercept&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&amp;emsp;&amp;emsp;&lt;/td&gt;
+    &lt;td class="cell-center"&gt;&amp;emsp;\(\varepsilon\)&amp;emsp;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&amp;ensp;Error (residuals)&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+.box-inv-6.smaller[(most of the time we can get rid of markings on Greek and just use β)]
+
+---
+
+# Modeling cookies and happiness
+
+.pull-left[
+$$
+\hat{y} = \beta_0 + \beta_1 x_1 + \varepsilon
+$$
+&amp;nbsp;
+
+$$
+`\begin{aligned}
+&amp;\widehat{\text{happiness}} = \\ 
+&amp;\beta_0 + \beta_1 \text{cookies} + \varepsilon
+\end{aligned}`
+$$
+
+]
+
+.pull-right[
+
+&lt;img src="02-slides_files/figure-html/cookies-happiness-again-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Building models in R
+
+
+```r
+name_of_model &lt;- lm(&lt;Y&gt; ~ &lt;X&gt;, data = &lt;DATA&gt;)
+
+summary(name_of_model)  # See model details
+```
+
+--
+
+
+```r
+library(broom)
+
+# Convert model results to a data frame for plotting
+tidy(name_of_model)
+
+# Convert model diagnostics to a data frame
+glance(name_of_model)
+```
+
+---
+
+# Modeling cookies and happiness
+
+.pull-left[
+$$
+`\begin{aligned}
+&amp;\widehat{\text{happiness}} = \\ 
+&amp;\beta_0 + \beta_1 \text{cookies} + \varepsilon
+\end{aligned}`
+$$
+
+
+```r
+happiness_model &lt;- 
+  lm(happiness ~ cookies,
+     data = cookies_data)
+```
+
+]
+
+.pull-right[
+![](02-slides_files/figure-html/cookies-happiness-again-1.png)
+]
+
+---
+
+# Modeling cookies and happiness
+
+.small-code[
+
+```r
+tidy(happiness_model, conf.int = TRUE)
+```
+
+```
+## # A tibble: 2 x 7
+##   term        estimate std.error statistic p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)    1.1      0.470       2.34  0.0475   0.0156     2.18 
+## 2 cookies        0.164    0.0758      2.16  0.0629  -0.0111     0.338
+```
+]
+
+--
+
+.small-code[
+
+```r
+glance(happiness_model)
+```
+
+```
+## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.368         0.289 0.688      4.66  0.0629     1  -9.34  24.7  25.6
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;
+```
+]
+
+---
+
+# Translating results to math
+
+.pull-left[
+
+.small-code[
+
+```
+## # A tibble: 2 x 2
+##   term        estimate
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 (Intercept)    1.1  
+## 2 cookies        0.164
+```
+]
+
+.small[
+$$
+`\begin{aligned}
+&amp;\widehat{\text{happiness}} = \\ 
+&amp;\beta_0 + \beta_1 \text{cookies} + \varepsilon
+\end{aligned}`
+$$
+
+$$
+`\begin{aligned}
+&amp;\widehat{\text{happiness}} = \\ 
+&amp;1.1 + 0.16 \times \text{cookies} + \varepsilon
+\end{aligned}`
+$$
+]
+]
+
+.pull-right[
+![](02-slides_files/figure-html/cookies-happiness-again-1.png)
+]
+
+---
+
+# Template for single variables
+
+.box-inv-6.medium[A one unit increase in X is *associated* with&lt;br&gt;a β&lt;sub&gt;1&lt;/sub&gt; increase (or decrease) in Y, on average]
+
+$$
+\widehat{\text{happiness}} = \beta_0 + \beta_1 \text{cookies} + \varepsilon
+$$
+
+$$
+\widehat{\text{happiness}} = 1.1 + 0.16 \times \text{cookies} + \varepsilon
+$$
+
+---
+
+# Multiple regression
+
+.box-inv-6[We're not limited to just one explanatory variable!]
+
+--
+
+$$
+\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n + \varepsilon
+$$
+
+&amp;nbsp;
+
+--
+
+
+```r
+car_model &lt;- lm(hwy ~ displ + cyl + drv,
+                data = mpg)
+```
+
+$$
+\widehat{\text{hwy}} = \beta_0 + \beta_1 \text{displ} + \beta_2 \text{cyl} + \beta_3 \text{drv:f} + \beta_4 \text{drv:r} + \varepsilon
+$$
+
+---
+
+# Modeling lots of things and MPG
+
+.small-code[
+
+```r
+tidy(car_model, conf.int = TRUE)
+```
+
+```
+## # A tibble: 5 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)    33.1      1.03      32.1  9.49e-87    31.1     35.1  
+## 2 displ          -1.12     0.461     -2.44 1.56e- 2    -2.03    -0.215
+## 3 cyl            -1.45     0.333     -4.36 1.99e- 5    -2.11    -0.796
+## 4 drvf            5.04     0.513      9.83 3.07e-19     4.03     6.06 
+## 5 drvr            4.89     0.712      6.86 6.20e-11     3.48     6.29
+```
+]
+
+--
+
+$$
+`\begin{aligned}
+\widehat{\text{hwy}} =&amp;\ 33.1 + (-1.12) \times \text{displ} + (-1.45) \times \text{cyl} \ + \\
+&amp;(5.04) \times \text{drv:f} + (4.89) \times \text{drv:r} + \varepsilon
+\end{aligned}`
+$$
+
+---
+
+# Sliders and switches
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/02/slider-switch-plain-80.jpg" alt="Switch and slider" title="Switch and slider" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Sliders and switches
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/02/slider-switch-annotated-80.jpg" alt="Switch and slider" title="Switch and slider" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Filtering out variation
+
+.box-inv-6.medium.sp-after[Each **X** in the model explains&lt;br&gt;some portion of the variation in **Y**]
+
+--
+
+.box-6[Interpretation is a little trickier,&lt;br&gt;since you can only ever move&lt;br&gt;**one** switch or slider at at time]
+
+---
+
+# Template for continuous variables
+
+.box-inv-6[*Holding everything else constant*, a one unit increase in **X** is *associated* with a β&lt;sub&gt;n&lt;/sub&gt; increase (or decrease) in **Y**, on average]
+
+$$
+`\begin{aligned}
+\widehat{\text{hwy}} =&amp;\ 33.1 + (-1.12) \times \text{displ} + (-1.45) \times \text{cyl} \ + \\
+&amp;(5.04) \times \text{drv:f} + (4.89) \times \text{drv:r} + \varepsilon
+\end{aligned}`
+$$
+
+--
+
+.box-6.small[On average, a one unit increase in cylinders is associated with&lt;br&gt;1.45 lower highway MPG, holding everything else constant]
+
+---
+
+# Template for categorical variables
+
+.box-inv-6[*Holding everything else constant*, **Y** is β&lt;sub&gt;n&lt;/sub&gt; units larger (or smaller) in **X**&lt;sub&gt;n&lt;/sub&gt;, compared to **X**&lt;sub&gt;omitted&lt;/sub&gt;, on average]
+
+$$
+`\begin{aligned}
+\widehat{\text{hwy}} =&amp;\ 33.1 + (-1.12) \times \text{displ} + (-1.45) \times \text{cyl} \ + \\
+&amp;(5.04) \times \text{drv:f} + (4.89) \times \text{drv:r} + \varepsilon
+\end{aligned}`
+$$
+
+--
+
+.box-6[On average, front-wheel drive cars have 5.04 higher highway MPG than 4-wheel-drive cars, holding everything else constant]
+
+---
+
+# Economists and Greek letters
+
+.box-inv-6[Economists like to assign all sorts of Greek letters&lt;br&gt;to their different coefficients]
+
+$$
+Y_i = \alpha + \beta P_i + \gamma A_i + e_i
+$$
+
+.box-inv-6.tiny[Equation 2.1 on p. 57 in *Mastering 'Metrics*]
+
+.box-6.smaller[*i* = an individual]
+
+.box-6.smaller[α ("alpha") = intercept]
+
+.box-6.smaller[β ("beta") = coefficient just for *treatment*, or the causal effect]
+
+.box-6.smaller[γ ("gamma") = coefficient for the *identifying variable*&lt;br&gt;&lt;small&gt;(being in Group A or not)&lt;/small&gt;]
+
+---
+
+# Economists and Greek letters
+
+$$
+\ln Y_i = \alpha + \beta P_i + \gamma A_i + \delta_1 \text{SAT}_i + \delta_2 \text{PI}_i + e_i
+$$
+
+.box-inv-6.tiny[Equation 2.2 on p. 61 in *Mastering 'Metrics*]
+
+.box-6.small[*i* = an individual]
+
+.box-6.small[α ("alpha") = intercept]
+
+.box-6.small[β ("beta") = coefficient just for *treatment*, or the causal effect]
+
+.box-6.small[γ ("gamma") = coefficient for the *identifying variable*&lt;br&gt;&lt;small&gt;(being in Group A or not)&lt;/small&gt;]
+
+.box-6.small[δ ("delta") = coefficient for *control variables*]
+
+---
+
+# These are all the same thing!
+
+$$
+\ln Y_i = \alpha + \beta P_i + \gamma A_i + \delta_1 \text{SAT}_i + \delta_2 \text{PI}_i + e_i
+$$
+
+$$
+\ln Y_i = \beta_0 + \beta_1 P_i + \beta_2 A_i + \beta_3 \text{SAT}_i + \beta_4 \text{PI}_i + e_i
+$$
+
+```r
+lm(log(income) ~ private + group_a + sat + parental_income, 
+   data = income_data)
+```
+
+--
+
+.box-inv-6[(I personally like the all-β version instead of using like the entire Greek alphabet, but you'll see both varieties in the real world)]
+
+---
+
+layout: false
+name: significance
+class: center middle section-title section-title-5 animated fadeIn
+
+# Null worlds and&lt;br&gt;statistical significance
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# "hopefully"
+
+.box-inv-5.medium[How do we know if our estimate is the truth?]
+
+$$
+X \rightarrow \bar{X} \rightarrow \hat{\mu} \xrightarrow{\text{🤞 hopefully 🤞}} \mu
+$$
+
+---
+
+layout: false
+
+
+
+.box-inv-5.medium.sp-after[Are action movies rated higher than comedies?]
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Data&lt;/td&gt;
+    &lt;td class="cell-left"&gt;IMDB ratings&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(D\)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Calculation&amp;ensp;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Average action rating − average comedy rating&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\bar{D} = \frac{\sum{D}_\text{Action}}{N} - \frac{\sum{D}_\text{Comedy}}{N}\)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Estimate&lt;/td&gt;
+    &lt;td class="cell-left"&gt;\(\bar{D}\) in a sample of movies&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\hat{\delta}\)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Truth&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Difference in rating for &lt;em&gt;all&lt;/em&gt; movies&lt;/td&gt;
+    &lt;td class="cell-center"&gt;\(\delta\)&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+.left-code[
+
+```r
+head(movie_data)
+```
+
+```
+## # A tibble: 6 x 4
+##   title                year rating genre 
+##   &lt;chr&gt;               &lt;int&gt;  &lt;dbl&gt; &lt;fct&gt; 
+## 1 Tarzan Finds a Son!  1939    6.4 Action
+## 2 Silmido              2003    7.1 Action
+## 3 Stagecoach           1939    8   Action
+## 4 Diamondbacks         1998    1.9 Action
+## 5 Chaos Factor, The    2000    4.5 Action
+## 6 Secret Command       1944    7   Action
+```
+]
+
+--
+
+.right-code[
+
+```r
+movie_data %&gt;% 
+  group_by(genre) %&gt;% 
+  summarize(avg_rating = mean(rating))
+```
+
+```
+## # A tibble: 2 x 2
+##   genre  avg_rating
+##   &lt;fct&gt;       &lt;dbl&gt;
+## 1 Action       5.41
+## 2 Comedy       5.84
+```
+
+$$
+\hat{\delta} = \bar{D} = 5.41 - 5.84 = 0.43
+$$
+.box-5[Is the true δ 0.43?]
+]
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Null worlds
+
+--
+
+.box-inv-5.medium[What would the world look like&lt;br&gt;if the true δ was really 0?]
+
+--
+
+.box-5[Action movies and comedies wouldn't all have the same rating, but on average there'd be no difference]
+
+---
+
+# Simulated null world
+
+.box-inv-5[Shuffle the `rating` and `genre` columns&lt;br&gt;and calculate the difference in ratings across genres]
+
+--
+
+.box-inv-5[Do that ↑ 5,000 times]
+
+--
+
+.center[
+&lt;img src="02-slides_files/figure-html/plot-null-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Check δ in the null world
+
+.box-inv-5[Does the δ we observed fit well in the world where it's actually 0?]
+
+.center[
+&lt;img src="02-slides_files/figure-html/plot-null-delta-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.box-5[That seems fairly rare for a null world!]
+
+---
+
+# How likely is that δ in the null world?
+
+
+
+.pull-left[
+![](02-slides_files/figure-html/plot-null-delta-1.png)
+]
+
+.pull-right[
+.box-inv-5[What's the chance that we'd see that red line in a world where there's no difference?]
+
+.box-5[p = 0.005]
+
+.box-5[That's really really low!]
+]
+
+---
+
+# p-values
+
+.box-inv-5[That 0.005 is a p-value]
+
+--
+
+.box-inv-5.sp-after[p-value = probability of seeing something&lt;br&gt;in a world where the effect is 0]
+
+--
+
+.box-5[The δ we measured doesn't fit well&lt;br&gt;in the null world, so it's most likely not 0]
+
+--
+
+.box-5[We can safely say that there's a difference between the two groups. Action movies are rated lower, on average, than comedies]
+
+---
+
+# Significance
+
+.box-inv-5.sp-after[If p &lt; 0.05, there's a good chance&lt;br&gt;the estimate is not zero and is "real"]
+
+--
+
+.box-5[If p &gt; 0.05, we can't say anything] 
+
+--
+
+.box-5[That doesn't mean that there's no effect!&lt;br&gt;It just means we can't tell if there is.]
+
+---
+
+# No need for all that simulation
+
+.box-inv-5.small[This simulation stuff is helpful for the intuition behind a p-value,&lt;br&gt;but you can also just interpret p-values in the wild]
+
+--
+
+.small-code[
+
+```r
+t.test(rating ~ genre, data = movie_data)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  rating by genre
+## t = -2.8992, df = 388.75, p-value = 0.003953
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.7299913 -0.1400087
+## sample estimates:
+## mean in group Action mean in group Comedy 
+##                5.407                5.842
+```
+]
+
+
+---
+
+# Slopes and coefficients
+
+.box-inv-5[You can find a p-value for any Greek letter estimate,&lt;br&gt;like β from a regression]
+
+--
+
+$$
+\hat{\beta} \xrightarrow{\text{🤞 hopefully 🤞}} \beta
+$$
+
+--
+
+.box-5[In a null world, the slope (β) would be zero]
+
+--
+
+.box-5[p-value shows us if β=hat would fit in a world where β is zero]
+
+---
+
+# Regression and p-values
+
+.small-code[
+
+```r
+tidy(car_model, conf.int = TRUE)
+```
+
+```
+## # A tibble: 5 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)    33.1      1.03      32.1  9.49e-87    31.1     35.1  
+## 2 displ          -1.12     0.461     -2.44 1.56e- 2    -2.03    -0.215
+## 3 cyl            -1.45     0.333     -4.36 1.99e- 5    -2.11    -0.796
+## 4 drvf            5.04     0.513      9.83 3.07e-19     4.03     6.06 
+## 5 drvr            4.89     0.712      6.86 6.20e-11     3.48     6.29
+```
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

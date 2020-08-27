@@ -169,8 +169,23 @@ figcaption {
     padding-left: 1%;
 }
 
+.right-code {
+    color: #777;
+    width: 48%;
+    height: 92%;
+    float: right;
+}
+
+.left-plot {
+    width: 50%;
+    float: left;
+    padding-right: 1%;
+}
+
 .left-code .remark-code,
-.left-code .remark-inline-code {
+.left-code .remark-inline-code,
+.right-code .remark-code,
+.right-code .remark-inline-code{ 
     font-size: 0.5em;
 }
 
