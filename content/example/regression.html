@@ -1,0 +1,789 @@
+---
+title: "Regression"
+linktitle: "Regression"
+date: "2020-08-26"
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+menu:
+  example:
+    parent: Examples
+    weight: 2
+type: docs
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#live-coding-example">Live coding example</a></li>
+<li><a href="#complete-code">Complete code</a>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#exploratory-questions">Exploratory questions</a>
+<ul>
+<li><a href="#how-well-do-sat-scores-correlate-with-freshman-gpa">How well do SAT scores correlate with freshman GPA?</a></li>
+<li><a href="#how-well-does-high-school-gpa-correlate-with-freshman-gpa">How well does high school GPA correlate with freshman GPA?</a></li>
+<li><a href="#is-the-correlation-between-sat-scores-and-freshman-gpa-stronger-for-men-or-for-women">Is the correlation between SAT scores and freshman GPA stronger for men or for women?</a></li>
+<li><a href="#is-the-correlation-between-high-school-gpa-and-freshman-gpa-stronger-for-men-or-for-women">Is the correlation between high school GPA and freshman GPA stronger for men or for women?</a></li>
+</ul></li>
+<li><a href="#models">Models</a>
+<ul>
+<li><a href="#do-sat-scores-predict-freshman-gpas">Do SAT scores predict freshman GPAs?</a></li>
+<li><a href="#does-a-certain-type-of-sat-score-have-a-larger-effect-on-freshman-gpas">Does a certain type of SAT score have a larger effect on freshman GPAs?</a></li>
+<li><a href="#do-high-school-gpas-predict-freshman-gpas">Do high school GPAs predict freshman GPAs?</a></li>
+<li><a href="#college-gpa-sat-sex">College GPA ~ SAT + sex</a></li>
+<li><a href="#college-gpa-sat-high-school-gpa-sex">College GPA ~ SAT + high school GPA + sex</a></li>
+<li><a href="#which-model-best-predicts-freshman-gpa-how-do-you-know">Which model best predicts freshman GPA? How do you know?</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<p>If you want to follow along with this example, you can download the data below:</p>
+<ul>
+<li><a href="/projects/regression-example/data/sat_gpa.csv"><i class="fas fa-table"></i> <code>sat_gpa.csv</code></a></li>
+</ul>
+<p>You can also download a complete <code>.zip</code> file with a finished R Markdown file that you can knit and play with on your own:</p>
+<ul>
+<li><a href="/projects/regression-example.zip"><i class="fas fa-file-archive"></i> <code>regression-example.zip</code></a></li>
+</ul>
+<div id="live-coding-example" class="section level2">
+<h2>Live coding example</h2>
+<p>Video will go here shortly</p>
+</div>
+<div id="complete-code" class="section level2">
+<h2>Complete code</h2>
+<p><em>(This is a heavily cleaned up and annotated version of the code from the video.)</em></p>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>SAT scores have long been a major factor in college admissions, under the assumption that students with higher test scores will perform better in college and receive a higher GPA. The SAT’s popularity <a href="https://www.washingtonpost.com/news/answer-sheet/wp/2017/04/12/the-list-of-test-optional-colleges-and-universities-keeps-growing-despite-college-boards-latest-jab/">has dropped in recent years</a>, though, and this summer, the <a href="http://www.chicagotribune.com/news/local/breaking/ct-university-chicago-sat-act-20180614-story.html">University of Chicago announced that it would stop requiring SAT scores for all prospective undergraduates</a>.</p>
+<p>Educational Testing Service (ETS), the creator of the SAT, collected SAT scores, high school GPAs, and freshman-year-college GPAs for 1,000 students at an unnamed university.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>You are a university admissions officer and you are curious if SAT scores really do predict college performance. You’re also interested in other factors that could influence student performance.</p>
+<p>The data contains 6 variables:</p>
+<ul>
+<li><code>sex</code>: The sex of the student (male or female; female is the base case)</li>
+<li><code>sat_verbal</code>: The student’s <em>percentile</em> score in the verbal section of the SAT</li>
+<li><code>sat_math</code>: The student’s <em>percentile</em> score in the math section of the SAT</li>
+<li><code>sat_total</code>: <code>sat_verbal</code> + <code>sat_math</code></li>
+<li><code>gpa_hs</code>: The student’s GPA in high school at graduation</li>
+<li><code>gpa_fy</code>: The student’s GPA at the end of their freshman year</li>
+</ul>
+<pre class="r"><code># First we load the libraries and data
+library(tidyverse)     # This lets you create plots with ggplot, manipulate data, etc.
+library(broom)         # This lets you convert regression models into nice tables
+library(modelsummary)  # This lets you combine multiple regression models into a single table</code></pre>
+<pre class="r"><code># Load the data. 
+# It&#39;d be a good idea to click on the &quot;sat_gpa&quot; object in the Environment panel
+# in RStudio to see what the data looks like after you load it.
+sat_gpa &lt;- read_csv(&quot;data/sat_gpa.csv&quot;)</code></pre>
+</div>
+<div id="exploratory-questions" class="section level3">
+<h3>Exploratory questions</h3>
+<div id="how-well-do-sat-scores-correlate-with-freshman-gpa" class="section level4">
+<h4>How well do SAT scores correlate with freshman GPA?</h4>
+<pre class="r"><code># Note the syntax here with the $. That lets you access columns. The general
+# pattern is name_of_data_set$name_of_column
+cor(sat_gpa$gpa_fy, sat_gpa$sat_total)</code></pre>
+<pre><code>## [1] 0.46</code></pre>
+<p>SAT scores and first-year college GPA are moderately positively correlated (r = 0.46). As one goes up, the other also tends to go up.</p>
+<p>Here’s what that relationship looks like:</p>
+<pre class="r"><code>ggplot(sat_gpa, aes(x = sat_total, y = gpa_fy)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE) +
+  labs(x = &quot;Total SAT score&quot;, y = &quot;Freshman GPA&quot;)</code></pre>
+<p><img src="/example/regression_files/figure-html/plot-sat-gpa-correlation-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+<div id="how-well-does-high-school-gpa-correlate-with-freshman-gpa" class="section level4">
+<h4>How well does high school GPA correlate with freshman GPA?</h4>
+<pre class="r"><code>cor(sat_gpa$gpa_fy, sat_gpa$gpa_hs)</code></pre>
+<pre><code>## [1] 0.54</code></pre>
+<p>High school and freshman GPAs are also moderately correlated (r = 0.54), but with a slightly stronger relationship.</p>
+<p>Here’s what that relationship looks like:</p>
+<pre class="r"><code>ggplot(sat_gpa, aes(x = gpa_hs, y = gpa_fy)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE) +
+  labs(x = &quot;High school GPA&quot;, y = &quot;Freshman GPA&quot;) </code></pre>
+<p><img src="/example/regression_files/figure-html/plot-hs-gpa-correlation-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+<div id="is-the-correlation-between-sat-scores-and-freshman-gpa-stronger-for-men-or-for-women" class="section level4">
+<h4>Is the correlation between SAT scores and freshman GPA stronger for men or for women?</h4>
+<pre class="r"><code># We can calculate the correlation for subgroups within the data with slightly
+# different syntax. Notice how this uses the pipe (%&gt;%), which makes it read
+# like English. We can say &quot;Take the sat_gpa data set, split it into groups
+# based on sex, and calculate the correlation between sat_total and gpa_fy in
+# each of the groups
+sat_gpa %&gt;% 
+  group_by(sex) %&gt;% 
+  summarize(correlation = cor(sat_total, gpa_fy))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   sex    correlation
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Female       0.493
+## 2 Male         0.481</code></pre>
+<p>We can calculate the correlation between SAT scores and freshman GPA for both sexes to see if there are any differences. The correlation is slightly stronger for women, but it’s hardly noticeable (r = 0.49 for females, r = 0.48 for males)</p>
+<p>This is apparent visually if we include a trendline for each sex. The lines are essentially parallel:</p>
+<pre class="r"><code># The only difference between this graph and the earlier two is that it is
+# coloring by sex
+ggplot(sat_gpa, aes(x = gpa_hs, y = gpa_fy, color = sex)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE) +
+  labs(x = &quot;High school GPA&quot;, y = &quot;Freshman GPA&quot;)</code></pre>
+<p><img src="/example/regression_files/figure-html/plot-sat-gpa-correlation-sex-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+<div id="is-the-correlation-between-high-school-gpa-and-freshman-gpa-stronger-for-men-or-for-women" class="section level4">
+<h4>Is the correlation between high school GPA and freshman GPA stronger for men or for women?</h4>
+<pre class="r"><code>sat_gpa %&gt;% 
+  group_by(sex) %&gt;% 
+  summarize(correlation = cor(gpa_hs, gpa_fy))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   sex    correlation
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Female       0.597
+## 2 Male         0.483</code></pre>
+<p>There is a noticeable difference between men and women in the correlation between high school and college GPA. For men, the two are moderately correlated (r = 0.48), while for women the relationship is much stronger (r = 0.60). High school grades might be a better predictor of college grades for women than for men.</p>
+</div>
+</div>
+<div id="models" class="section level3">
+<h3>Models</h3>
+<div id="do-sat-scores-predict-freshman-gpas" class="section level4">
+<h4>Do SAT scores predict freshman GPAs?</h4>
+<p>We can build a model that predicts college GPAs (our outcome variable, or dependent variable) using SAT scores (our main explanatory variable):</p>
+<p><span class="math display">\[
+\text{freshman GPA} = \beta_0 + \beta_1 \text{SAT total} + \epsilon
+\]</span></p>
+<pre class="r"><code>model_sat_gpa &lt;- lm(gpa_fy ~ sat_total, data = sat_gpa)
+
+# Look at the model results and include confidence intervals for the coefficients
+tidy(model_sat_gpa, conf.int = TRUE)</code></pre>
+<pre><code>## # A tibble: 2 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  0.00193   0.152      0.0127 9.90e- 1  -0.296     0.300 
+## 2 sat_total    0.0239    0.00146   16.4    1.39e-53   0.0210    0.0267</code></pre>
+<p>Here’s what these coefficients mean:</p>
+<ul>
+<li>The intercept (or <span class="math inline">\(\beta_0\)</span>) is 0.002, which means that the average freshman GPA will be 0.002 when the total SAT percentile score is 0. This is a pretty nonsensical number (nobody has a score that low), so we can ignore it.</li>
+<li>The slope of <code>sat_total</code> (or <span class="math inline">\(\beta_1\)</span>) is 0.024, which means that a 1 percentile increase in SAT score is associated with a 0.024 point increase in GPA, on average.</li>
+</ul>
+<p>We can look at the summary table of the regression to check the <span class="math inline">\(R^2\)</span>:</p>
+<pre class="r"><code>glance(model_sat_gpa)</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC deviance df.residual  nobs
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+## 1     0.212         0.211 0.658      268. 1.39e-53     1  -999. 2005. 2019.     432.         998  1000</code></pre>
+<p>The <span class="math inline">\(R^2\)</span> here is 0.212, which means that SAT scores explain 21% of the variation in freshman GPA. It’s not a fantastic model, but it explains some stuff.</p>
+</div>
+<div id="does-a-certain-type-of-sat-score-have-a-larger-effect-on-freshman-gpas" class="section level4">
+<h4>Does a certain type of SAT score have a larger effect on freshman GPAs?</h4>
+<p>The <code>sat_total</code> variable combines both <code>sat_math</code> and <code>sat_verbal</code>. We can disaggregate the total score to see the effect of each portion of the test on freshman GPA, using the following model:</p>
+<p><span class="math display">\[
+\text{freshman GPA} = \beta_0 + \beta_1 \text{SAT verbal} + \beta_2 \text{SAT math} + \epsilon
+\]</span></p>
+<pre class="r"><code>model_sat_gpa_types &lt;- lm(gpa_fy ~ sat_verbal + sat_math, data = sat_gpa)
+
+tidy(model_sat_gpa_types, conf.int = TRUE)</code></pre>
+<pre><code>## # A tibble: 3 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  0.00737   0.152      0.0484 9.61e- 1  -0.291     0.306 
+## 2 sat_verbal   0.0254    0.00286    8.88   3.07e-18   0.0198    0.0310
+## 3 sat_math     0.0224    0.00279    8.04   2.58e-15   0.0169    0.0279</code></pre>
+<p>Again, the intercept is meaningless since no student has a zero on both the verbal and the math test. The slope for <code>sat_verbal</code> (or <span class="math inline">\(\beta_1\)</span>) is 0.025, so a one percentile point increase in the verbal SAT is associated with a 0.025 point increase in GPA, on average, controlling for math scores. Meanwhile, a one percentile point increase in the math SAT (<span class="math inline">\(\beta_2\)</span>) is associated with a 0.022 point increase in GPA, on average, controlling for verbal scores. These are essentially the same, so at first glance, it doesn’t seem like the type of test has substantial bearing on college GPAs.</p>
+<p>The adjusted <span class="math inline">\(R^2\)</span> (which we need to look at because we’re using more than one explanatory variable) is 0.211, which means that this model explains 21% of the variation in college GPA. Like before, this isn’t great, but it tells us a little bit about the importance of SAT scores.</p>
+<pre class="r"><code>glance(model_sat_gpa_types)</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC deviance df.residual  nobs
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+## 1     0.212         0.211 0.658      134. 2.36e-52     2  -999. 2006. 2026.     432.         997  1000</code></pre>
+</div>
+<div id="do-high-school-gpas-predict-freshman-gpas" class="section level4">
+<h4>Do high school GPAs predict freshman GPAs?</h4>
+<p>We can also use high school GPA to predict freshman GPA, using the following model:</p>
+<p><span class="math display">\[
+\text{freshman GPA} = \beta_0 + \beta_1 \text{high school GPA} + \epsilon
+\]</span></p>
+<pre class="r"><code>model_sat_gpa_hs &lt;- lm(gpa_fy ~ gpa_hs, data = sat_gpa)
+
+tidy(model_sat_gpa_hs)</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)   0.0913    0.118      0.775 4.39e- 1
+## 2 gpa_hs        0.743     0.0363    20.4   6.93e-78</code></pre>
+<p>The intercept here (<span class="math inline">\(\beta_0\)</span>) is 0.091, which means that a student with a high school GPA of zero would have a predicted freshman GPA of 0.091, on average. This is nonsensical, so we can ignore it. The slope for <code>gpa_hs</code> (<span class="math inline">\(\beta_1\)</span>), on the other hand, is helpful. For every 1 point increase in GPA (i.e. moving from 2.0 to 3.0, or 3.0 to 4.0), there’s an associated increase in college GPA of 0.743 points, on average.</p>
+<p>The <span class="math inline">\(R^2\)</span> value is 0.295, which means that nearly 30% of the variation in college GPA can be explained by high school GPA. Neat.</p>
+<pre class="r"><code>glance(model_sat_gpa_hs)</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC deviance df.residual  nobs
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+## 1     0.295         0.295 0.622      418. 6.93e-78     1  -943. 1893. 1908.     386.         998  1000</code></pre>
+</div>
+<div id="college-gpa-sat-sex" class="section level4">
+<h4>College GPA ~ SAT + sex</h4>
+<p>Next, we can see how both SAT scores and sex affect variation in college GPA with the following model:</p>
+<p><span class="math display">\[
+\text{freshman GPA} = \beta_0 + \beta_1 \text{SAT total} + \beta_2 \text{sex} + \epsilon
+\]</span></p>
+<pre class="r"><code>model_sat_sex &lt;- lm(gpa_fy ~ sat_total + sex, data = sat_gpa)
+
+tidy(model_sat_sex, conf.int = TRUE)</code></pre>
+<pre><code>## # A tibble: 3 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  -0.0269   0.149      -0.181 8.57e- 1  -0.319     0.265 
+## 2 sat_total     0.0255   0.00145    17.6   1.14e-60   0.0227    0.0284
+## 3 sexMale      -0.274    0.0414     -6.62  6.05e-11  -0.355    -0.193</code></pre>
+<p>Here, stuff gets interesting. The intercept (<span class="math inline">\(\beta_0\)</span>) is once again nonsensical—females with a 0 score on their SAT would have a -0.027 college GPA on average. There’s a positive effect with our <span class="math inline">\(\beta_1\)</span> (or <code>sat_total</code>), since controlling for sex, a one percentile point increase in SAT scores is associated with a 0.026 point increase in freshman GPA, on average. If we control for SAT scores, males see an average drop of 0.274 points (<span class="math inline">\(\beta_2\)</span>) in their college GPAs.</p>
+<p>The combination of these two variables, however, doesn’t boost the model’s explanatory power that much. The adjusted <span class="math inline">\(R^2\)</span> (which we must look at because we’re using more than one explanatory variable) is 0.243, meaning that the model explains a little over 24% of the variation in college GPAs.</p>
+<pre class="r"><code>glance(model_sat_sex)</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC deviance df.residual  nobs
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+## 1     0.245         0.243 0.644      162. 1.44e-61     2  -978. 1964. 1983.     414.         997  1000</code></pre>
+</div>
+<div id="college-gpa-sat-high-school-gpa-sex" class="section level4">
+<h4>College GPA ~ SAT + high school GPA + sex</h4>
+<p>Finally we can see what the effect of SAT scores, high school GPA, and sex is on college GPAs all at the same time, using the following model:</p>
+<p><span class="math display">\[
+\text{freshman GPA} = \beta_0 + \beta_1 \text{SAT total} + \beta_2 \text{high school GPA} + \beta_3 \text{sex} + \epsilon
+\]</span></p>
+<pre class="r"><code>model_sat_hs_sex &lt;- lm(gpa_fy ~ sat_total + gpa_hs + sex, data = sat_gpa)
+
+tidy(model_sat_hs_sex, conf.int = TRUE)</code></pre>
+<pre><code>## # A tibble: 4 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  -0.836    0.148       -5.63 2.35e- 8  -1.13     -0.544 
+## 2 sat_total     0.0158   0.00150     10.5  9.72e-25   0.0129    0.0188
+## 3 gpa_hs        0.545    0.0394      13.8  6.61e-40   0.467     0.622 
+## 4 sexMale      -0.143    0.0391      -3.66 2.66e- 4  -0.220    -0.0664</code></pre>
+<p>We can say the following things about these results:</p>
+<ul>
+<li>Yet again, the intercept (<span class="math inline">\(\beta_0\)</span>) can be safely ignored. Here it means that a female with a 0.0 high school GPA and an SAT score of 0 would have a college GPA of -0.84, on average. That’s pretty impossible.</li>
+<li>The <span class="math inline">\(\beta_1\)</span> coefficient for <code>sat_total</code> indicates that taking into account high school GPA and sex, a one percentile point increase in a student’s SAT score is associated with a 0.016 point increase in their college GPA, on average.</li>
+<li>Controlling for SAT scores and sex, a one point increase in high school GPA is associated with a 0.545 point (this is <span class="math inline">\(\beta_2\)</span>) increase in college GPA, on average. This coefficient is lower than the 0.74 point coefficient we found previously. That’s because SAT scores and sex soaked up some of high school GPA’s explanatory power.</li>
+<li>Taking SAT scores and high school GPAs into account, males have a 0.143 point lower GPA in college, on average (this is <span class="math inline">\(\beta_3\)</span>)</li>
+</ul>
+<p>As always, the adjusted <span class="math inline">\(R^2\)</span> shows us how well the model fits overall (again, we have to look at the adjusted <span class="math inline">\(R^2\)</span> because we have more than one explanatory variable). In this case, the model explains 36.5% of the variation in college GPA, which is higher than any of the previous models (but not phenomenal, in the end).</p>
+<pre class="r"><code>glance(model_sat_hs_sex)</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC deviance df.residual  nobs
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+## 1     0.367         0.365 0.590      192. 2.67e-98     3  -890. 1790. 1815.     347.         996  1000</code></pre>
+</div>
+<div id="which-model-best-predicts-freshman-gpa-how-do-you-know" class="section level4">
+<h4>Which model best predicts freshman GPA? How do you know?</h4>
+<p>As you’ve learned in previous stats classes, adjusted <span class="math inline">\(R^2\)</span> generally shows the strength of a model’s fit, or how well the model will predict future values of the outcome variable. If we compare the adjusted <span class="math inline">\(R^2\)</span> for each of the models, we see that the “best” model is the last one.</p>
+<pre class="r"><code># The modelsummary() function takes a bunch of different regression models and
+# puts them in a neat side-by-side table. In a normal report or analysis, you&#39;d
+# include all of these once instead of going one by one like we did above.
+modelsummary(list(model_sat_gpa, model_sat_gpa_types, model_sat_gpa_hs, 
+                  model_sat_sex, model_sat_hs_sex))</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#pzveloiefp .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#pzveloiefp .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#pzveloiefp .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#pzveloiefp .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#pzveloiefp .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#pzveloiefp .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#pzveloiefp .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#pzveloiefp .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#pzveloiefp .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#pzveloiefp .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#pzveloiefp .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#pzveloiefp .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#pzveloiefp .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#pzveloiefp .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#pzveloiefp .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pzveloiefp .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pzveloiefp .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#pzveloiefp .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pzveloiefp .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#pzveloiefp .gt_left {
+  text-align: left;
+}
+
+#pzveloiefp .gt_center {
+  text-align: center;
+}
+
+#pzveloiefp .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#pzveloiefp .gt_font_normal {
+  font-weight: normal;
+}
+
+#pzveloiefp .gt_font_bold {
+  font-weight: bold;
+}
+
+#pzveloiefp .gt_font_italic {
+  font-style: italic;
+}
+
+#pzveloiefp .gt_super {
+  font-size: 65%;
+}
+
+#pzveloiefp .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="pzveloiefp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"> </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 5</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">(Intercept)</td>
+      <td class="gt_row gt_left">0.002</td>
+      <td class="gt_row gt_left">0.007</td>
+      <td class="gt_row gt_left">0.091</td>
+      <td class="gt_row gt_left">-0.027</td>
+      <td class="gt_row gt_left">-0.836</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">(0.152)</td>
+      <td class="gt_row gt_left">(0.152)</td>
+      <td class="gt_row gt_left">(0.118)</td>
+      <td class="gt_row gt_left">(0.149)</td>
+      <td class="gt_row gt_left">(0.148)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">sat_total</td>
+      <td class="gt_row gt_left">0.024</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">0.026</td>
+      <td class="gt_row gt_left">0.016</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">(0.001)</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">(0.001)</td>
+      <td class="gt_row gt_left">(0.002)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">sat_math</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">0.022</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">(0.003)</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">sat_verbal</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">0.025</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">(0.003)</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">gpa_hs</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">0.743</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">0.545</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">(0.036)</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">(0.039)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">sexMale</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">-0.274</td>
+      <td class="gt_row gt_left">-0.143</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
+      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
+      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
+      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
+      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">(0.041)</td>
+      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">(0.039)</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Num.Obs.</td>
+      <td class="gt_row gt_left">1000</td>
+      <td class="gt_row gt_left">1000</td>
+      <td class="gt_row gt_left">1000</td>
+      <td class="gt_row gt_left">1000</td>
+      <td class="gt_row gt_left">1000</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">R2</td>
+      <td class="gt_row gt_left">0.212</td>
+      <td class="gt_row gt_left">0.212</td>
+      <td class="gt_row gt_left">0.295</td>
+      <td class="gt_row gt_left">0.245</td>
+      <td class="gt_row gt_left">0.367</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">R2 Adj.</td>
+      <td class="gt_row gt_left">0.211</td>
+      <td class="gt_row gt_left">0.211</td>
+      <td class="gt_row gt_left">0.295</td>
+      <td class="gt_row gt_left">0.243</td>
+      <td class="gt_row gt_left">0.365</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">AIC</td>
+      <td class="gt_row gt_left">2004.8</td>
+      <td class="gt_row gt_left">2006.4</td>
+      <td class="gt_row gt_left">1893.0</td>
+      <td class="gt_row gt_left">1963.8</td>
+      <td class="gt_row gt_left">1790.2</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">BIC</td>
+      <td class="gt_row gt_left">2019.5</td>
+      <td class="gt_row gt_left">2026.0</td>
+      <td class="gt_row gt_left">1907.7</td>
+      <td class="gt_row gt_left">1983.4</td>
+      <td class="gt_row gt_left">1814.8</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Log.Lik.</td>
+      <td class="gt_row gt_left">-999.382</td>
+      <td class="gt_row gt_left">-999.189</td>
+      <td class="gt_row gt_left">-943.477</td>
+      <td class="gt_row gt_left">-977.904</td>
+      <td class="gt_row gt_left">-890.108</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>This is real data about real students, <a href="https://www.dartmouth.edu/~chance/course/Syllabi/Princeton96/Class12.html">compiled and cleaned by a professor at Dartmouth.</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
