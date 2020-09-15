@@ -16,6 +16,8 @@ editor_options:
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 <div id="TOC">
 <ul>
@@ -53,7 +55,10 @@ editor_options:
 </ul>
 <div id="live-coding-example" class="section level2">
 <h2>Live coding example</h2>
-<p>Video will go here shortly</p>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/E-Zz5S5NOUo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
 </div>
 <div id="complete-code" class="section level2">
 <h2>Complete code</h2>
@@ -119,6 +124,7 @@ cor(sat_gpa$gpa_fy, sat_gpa$sat_total)</code></pre>
 sat_gpa %&gt;% 
   group_by(sex) %&gt;% 
   summarize(correlation = cor(sat_total, gpa_fy))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 2 x 2
 ##   sex    correlation
 ##   &lt;chr&gt;        &lt;dbl&gt;
@@ -139,6 +145,7 @@ ggplot(sat_gpa, aes(x = gpa_hs, y = gpa_fy, color = sex)) +
 <pre class="r"><code>sat_gpa %&gt;% 
   group_by(sex) %&gt;% 
   summarize(correlation = cor(gpa_hs, gpa_fy))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 2 x 2
 ##   sex    correlation
 ##   &lt;chr&gt;        &lt;dbl&gt;
@@ -283,501 +290,373 @@ tidy(model_sat_hs_sex, conf.int = TRUE)</code></pre>
 # include all of these once instead of going one by one like we did above.
 modelsummary(list(model_sat_gpa, model_sat_gpa_types, model_sat_gpa_hs, 
                   model_sat_sex, model_sat_hs_sex))</code></pre>
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#pzveloiefp .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#pzveloiefp .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#pzveloiefp .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#pzveloiefp .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#pzveloiefp .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#pzveloiefp .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#pzveloiefp .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#pzveloiefp .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#pzveloiefp .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#pzveloiefp .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#pzveloiefp .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#pzveloiefp .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#pzveloiefp .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#pzveloiefp .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#pzveloiefp .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#pzveloiefp .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#pzveloiefp .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#pzveloiefp .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#pzveloiefp .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#pzveloiefp .gt_left {
-  text-align: left;
-}
-
-#pzveloiefp .gt_center {
-  text-align: center;
-}
-
-#pzveloiefp .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#pzveloiefp .gt_font_normal {
-  font-weight: normal;
-}
-
-#pzveloiefp .gt_font_bold {
-  font-weight: bold;
-}
-
-#pzveloiefp .gt_font_italic {
-  font-style: italic;
-}
-
-#pzveloiefp .gt_super {
-  font-size: 65%;
-}
-
-#pzveloiefp .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-<div id="pzveloiefp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"> </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Model 5</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">(Intercept)</td>
-      <td class="gt_row gt_left">0.002</td>
-      <td class="gt_row gt_left">0.007</td>
-      <td class="gt_row gt_left">0.091</td>
-      <td class="gt_row gt_left">-0.027</td>
-      <td class="gt_row gt_left">-0.836</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">(0.152)</td>
-      <td class="gt_row gt_left">(0.152)</td>
-      <td class="gt_row gt_left">(0.118)</td>
-      <td class="gt_row gt_left">(0.149)</td>
-      <td class="gt_row gt_left">(0.148)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">sat_total</td>
-      <td class="gt_row gt_left">0.024</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">0.026</td>
-      <td class="gt_row gt_left">0.016</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">(0.001)</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">(0.001)</td>
-      <td class="gt_row gt_left">(0.002)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">sat_math</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">0.022</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">(0.003)</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">sat_verbal</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">0.025</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">(0.003)</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">gpa_hs</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">0.743</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">0.545</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">(0.036)</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">(0.039)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">sexMale</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_left">-0.274</td>
-      <td class="gt_row gt_left">-0.143</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
-      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
-      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
-      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
-      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">(0.041)</td>
-      <td class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">(0.039)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Num.Obs.</td>
-      <td class="gt_row gt_left">1000</td>
-      <td class="gt_row gt_left">1000</td>
-      <td class="gt_row gt_left">1000</td>
-      <td class="gt_row gt_left">1000</td>
-      <td class="gt_row gt_left">1000</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">R2</td>
-      <td class="gt_row gt_left">0.212</td>
-      <td class="gt_row gt_left">0.212</td>
-      <td class="gt_row gt_left">0.295</td>
-      <td class="gt_row gt_left">0.245</td>
-      <td class="gt_row gt_left">0.367</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">R2 Adj.</td>
-      <td class="gt_row gt_left">0.211</td>
-      <td class="gt_row gt_left">0.211</td>
-      <td class="gt_row gt_left">0.295</td>
-      <td class="gt_row gt_left">0.243</td>
-      <td class="gt_row gt_left">0.365</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AIC</td>
-      <td class="gt_row gt_left">2004.8</td>
-      <td class="gt_row gt_left">2006.4</td>
-      <td class="gt_row gt_left">1893.0</td>
-      <td class="gt_row gt_left">1963.8</td>
-      <td class="gt_row gt_left">1790.2</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">BIC</td>
-      <td class="gt_row gt_left">2019.5</td>
-      <td class="gt_row gt_left">2026.0</td>
-      <td class="gt_row gt_left">1907.7</td>
-      <td class="gt_row gt_left">1983.4</td>
-      <td class="gt_row gt_left">1814.8</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Log.Lik.</td>
-      <td class="gt_row gt_left">-999.382</td>
-      <td class="gt_row gt_left">-999.189</td>
-      <td class="gt_row gt_left">-943.477</td>
-      <td class="gt_row gt_left">-977.904</td>
-      <td class="gt_row gt_left">-890.108</td>
-    </tr>
-  </tbody>
-  
-  
-</table></div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Model 1
+</th>
+<th style="text-align:left;">
+Model 2
+</th>
+<th style="text-align:left;">
+Model 3
+</th>
+<th style="text-align:left;">
+Model 4
+</th>
+<th style="text-align:left;">
+Model 5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:left;">
+0.002
+</td>
+<td style="text-align:left;">
+0.007
+</td>
+<td style="text-align:left;">
+0.091
+</td>
+<td style="text-align:left;">
+-0.027
+</td>
+<td style="text-align:left;">
+-0.836
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(0.152)
+</td>
+<td style="text-align:left;">
+(0.152)
+</td>
+<td style="text-align:left;">
+(0.118)
+</td>
+<td style="text-align:left;">
+(0.149)
+</td>
+<td style="text-align:left;">
+(0.148)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sat_total
+</td>
+<td style="text-align:left;">
+0.024
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.026
+</td>
+<td style="text-align:left;">
+0.016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(0.001)
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(0.001)
+</td>
+<td style="text-align:left;">
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sat_math
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.022
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(0.003)
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sat_verbal
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.025
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(0.003)
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gpa_hs
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.743
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.545
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(0.036)
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(0.039)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sexMale
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+-0.274
+</td>
+<td style="text-align:left;">
+-0.143
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+(0.041)
+</td>
+<td style="text-align:left;">
+(0.039)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:left;">
+1000
+</td>
+<td style="text-align:left;">
+1000
+</td>
+<td style="text-align:left;">
+1000
+</td>
+<td style="text-align:left;">
+1000
+</td>
+<td style="text-align:left;">
+1000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:left;">
+0.212
+</td>
+<td style="text-align:left;">
+0.212
+</td>
+<td style="text-align:left;">
+0.295
+</td>
+<td style="text-align:left;">
+0.245
+</td>
+<td style="text-align:left;">
+0.367
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:left;">
+0.211
+</td>
+<td style="text-align:left;">
+0.211
+</td>
+<td style="text-align:left;">
+0.295
+</td>
+<td style="text-align:left;">
+0.243
+</td>
+<td style="text-align:left;">
+0.365
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AIC
+</td>
+<td style="text-align:left;">
+2004.8
+</td>
+<td style="text-align:left;">
+2006.4
+</td>
+<td style="text-align:left;">
+1893.0
+</td>
+<td style="text-align:left;">
+1963.8
+</td>
+<td style="text-align:left;">
+1790.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BIC
+</td>
+<td style="text-align:left;">
+2019.5
+</td>
+<td style="text-align:left;">
+2026.0
+</td>
+<td style="text-align:left;">
+1907.7
+</td>
+<td style="text-align:left;">
+1983.4
+</td>
+<td style="text-align:left;">
+1814.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Log.Lik.
+</td>
+<td style="text-align:left;">
+-999.382
+</td>
+<td style="text-align:left;">
+-999.189
+</td>
+<td style="text-align:left;">
+-943.477
+</td>
+<td style="text-align:left;">
+-977.904
+</td>
+<td style="text-align:left;">
+-890.108
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+268.270
+</td>
+<td style="text-align:left;">
+134.244
+</td>
+<td style="text-align:left;">
+418.071
+</td>
+<td style="text-align:left;">
+161.762
+</td>
+<td style="text-align:left;">
+192.141
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>

@@ -11,11 +11,26 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "03-slides"
+slides: "03-slides"
 output:
   blogdown::html_page:
     toc: true
 ---
+
+```{r slides-videos, echo=FALSE, include=FALSE}
+source(here::here("R", "slide-tabs.R"))
+source(here::here("R", "youtube-playlist.R"))
+
+playlist_id <- "PLS6tnpTr39sHjKJRcD-ebQUbcaFhc0cQH"
+
+slide_details <- tibble::tribble(
+  ~youtube_id,   ~title, ~slide, ~active,
+  "dwsCSqczNng", "Introduction", "1", TRUE,
+  "XkHUQJp5fh0", "Reproducibility", "reproducibility", FALSE,
+  "Uos8RumBrzE", "Program theories", "program-theories", FALSE,
+  "8CJ7M2dTmF4", "Logic models & results chains", "logic-models", FALSE
+)
+```
 
 ## Readings
 
@@ -26,9 +41,57 @@ output:
 
 ## Slides
 
-Slides go here.
+The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+`r blogdown::shortcode("slide-buttons")`
+
+```{r show-slide-tabs, echo=FALSE, results="asis"}
+slide_tabs(slide_details, "/slides/03-slides.html")
+```
+
+:::fyi
+**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.
+:::
 
 
 ## Videos
 
-Videos go here.
+```{r show-youtube-list, echo=FALSE, results="asis"}
+youtube_list(slide_details, playlist_id)
+```
+
+
+```{cat include=FALSE, eval=FALSE}
+Playlist: https://www.youtube.com/playlist?list=PLS6tnpTr39sHjKJRcD-ebQUbcaFhc0cQH
+
+https://youtu.be/dwsCSqczNng
+PMAP 8521 • (3) Theories of change: (0) Introduction
+
+Introduction to the class session on theories of change
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/03-content/
+
+
+https://youtu.be/XkHUQJp5fh0
+PMAP 8521 • (3) Theories of change: (1) Reproducibility
+
+Discussion about the importance of reproducible data analysis practices
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/03-content/
+
+  
+https://youtu.be/Uos8RumBrzE
+PMAP 8521 • (3) Theories of change: (2) Program theories
+
+Discussion of program components, program impact theories, and the importance of basing programs on sound theories
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/03-content/
+
+
+https://youtu.be/8CJ7M2dTmF4
+PMAP 8521 • (3) Theories of change: (3) Logic models & results chains
+
+Discussion of results chains, logic models, and the difference between logic models and impact theories 
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/03-content/
+```

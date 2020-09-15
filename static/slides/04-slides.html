@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Measurement and DAGs</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-09-10" />
+    <script src="libs/header-attrs-2.3/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# Measurement&lt;br&gt;and DAGs
+
+.class-info[
+
+**Session 4**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-4.medium.sp-after-half[Abstraction, stretching,&lt;br&gt;and validity]
+
+--
+
+.box-6.medium.sp-after-half[Causal models]
+
+--
+
+.box-5.medium[Paths, doors, and adjustment]
+
+---
+
+name: abstraction
+class: center middle section-title section-title-4 animated fadeIn
+
+# Abstraction, stretching,&lt;br&gt;and validity
+
+---
+
+layout: true
+class: title title-4
+
+---
+
+# Indicators
+
+.pull-left[
+.box-4.medium[Inputs, activities,&lt;br&gt;and outputs]
+
+.box-inv-4[Generally directly measurable]
+
+.box-inv-4[\# of citations mailed,&lt;br&gt;% increase in grades, etc.]
+]
+
+--
+
+.pull-right[
+.box-4.medium[Outcomes]
+
+&amp;nbsp;
+
+.box-inv-4[Harder to measure directly]
+
+.box-inv-4[Loftier and more abstract]
+
+.box-inv-4[Commitment to school,&lt;br&gt;reduced risk factors]
+]
+
+---
+
+layout: false
+
+&amp;nbsp;
+
+.box-4.large.sp-after[How do you measure&lt;br&gt;abstract outcomes?]
+
+--
+
+.box-inv-4.large[Move up the ladder of abstraction.]
+
+---
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/04/monty-python-witch.jpg" alt="Witch scene from Monty Python and the Holy Grail" title="Witch scene from Monty Python and the Holy Grail" width="80%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+https://www.youtube.com/watch?v=yp_l5ntikaU
+
+---
+
+layout: false
+class: bg-full
+background-image: url("img/04/witches.jpg")
+
+???
+
+Here's a dataset of witches.
+
+What are the common features across witches in general?
+
+Are these criteria useful if certain cases don’t fit like Sabrina?
+
+What are the most important elements here? Doing magic + being female – that’s good, probably – covers Hermione and HP world
+
+---
+
+layout: true
+class: title title-4
+
+---
+
+# Conceptual stretching
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/04/stretching.jpg" alt="Magical women who aren't witches" title="Magical women who aren't witches" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+But now the concept is stretched too far – this includes all magical female creatures, like trolls and goblins
+
+Too much conceptual stretching
+
+---
+
+# Ladder of abstraction for witches
+
+--
+
+.box-inv-4.small[Mammal]
+
+--
+
+.box-inv-4.small[Enmagicked]
+
+.box-4.tiny[Trolls, elves, gods/goddesses]
+
+--
+
+.box-inv-4.small[Female]
+
+.box-4.tiny[Arwen, Winky, Athena]
+
+--
+
+.box-inv-4.small[Human]
+
+--
+
+.pull-left[
+.pull-left[
+.box-inv-4.small[Young]
+
+.box-4.tiny[Salem witch trials]
+]
+
+.pull-right[
+.box-inv-4.small[Student]
+
+.box-4.tiny[Hermione Granger,&lt;br&gt;Sabrina Spellman]
+]
+]
+
+--
+
+.pull-right[
+.box-inv-4.small[Old]
+
+.box-4.tiny[Elphaba, Halloween decorations]
+]
+
+---
+
+# Connection to theory
+
+.pull-left[
+
+&lt;figure&gt;
+  &lt;img src="img/04/trials-1.jpg" alt="Salem witch trials" title="Salem witch trials" width="100%"&gt;
+&lt;/figure&gt;
+
+]
+
+.pull-right[
+&lt;figure&gt;
+  &lt;img src="img/04/trials-2.jpg" alt="Salem witch trials" title="Salem witch trials" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+Accusations typically targeted successful women; women who worked with medicine; women who posed a threat to the patriarchy. In real life, it was a misogynistic tool for maintaining social order.
+
+What went wrong? The theory was wrong, yes, but also the indicators weren’t connected to reality
+
+---
+
+# Outcomes and programs
+
+.box-4.medium[Outcome variable]
+
+.box-inv-4.sp-after-half.SMALL[Thing you're measuring]
+
+--
+
+.box-4.medium[Outcome change]
+
+.box-inv-4.sp-after-half.SMALL[∆ in thing you're measuring over time]
+
+--
+
+.box-4.medium[Program effect]
+
+.box-inv-4.SMALL[∆ in thing you're measuring over time *because of* the program]
+
+---
+
+# Outcomes and programs
+
+&lt;figure&gt;
+  &lt;img src="img/04/program-effect.png" alt="Outcomes and program effect" title="Outcomes and program effect" width="100%"&gt;
+&lt;/figure&gt;
+
+---
+
+# Connecting measurment to programs
+
+.box-inv-4.medium.sp-after-half[Measurable definition of program effect]
+
+--
+
+.box-inv-4.medium.sp-after-half[Ideal measurement]
+
+--
+
+.box-inv-4.medium.sp-after-half[Feasible measurement]
+
+--
+
+.box-inv-4.medium[Connection to real world]
+
+---
+
+layout: false
+name: causal-models
+class: center middle section-title section-title-6 animated fadeIn
+
+# Causal models
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Types of data
+
+.pull-left[
+
+.box-inv-6.medium[Experimental]
+
+.box-6[You have control over which units get treatment]
+
+]
+
+--
+
+.pull-right[
+
+.box-inv-6.medium[Observational]
+
+.box-6[You don't have control over which units get treatment]
+
+]
+
+--
+
+.box-inv-6.medium.sp-before[Which kind lets you prove causation?]
+
+---
+
+# Causation with observational data
+
+.box-inv-6.medium.sp-after[Can you prove causation&lt;br&gt;with observational data?]
+
+--
+
+.box-inv-6.medium[Why is it so controversial&lt;br&gt;to use observational data?]
+
+---
+
+layout: false
+class: bg-full
+background-image: url("img/04/too-much-rct.jpg")
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# The causal revolution
+
+.pull-left-narrow[
+&lt;figure&gt;
+  &lt;img src="img/01/book-of-why.jpg" alt="The Book of Why" title="The Book of Why" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right-wide.center[
+&lt;figure&gt;
+  &lt;img src="img/01/judea-pearl.jpg" alt="Judea Pearl" title="Judea Pearl" width="90%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Causal diagrams
+
+.box-inv-6.medium[Directed acyclic graphs (DAGs)]
+
+.pull-left[
+
+.box-6.SMALL[**Directed**: Each node has an arrow that points to another node]
+
+.box-6.SMALL[**Acyclic**: You can't cycle back to a node (and arrows only have one direction)]
+
+.box-6.SMALL[**Graph**: It's… um… a graph]
+
+]
+
+.pull-right[
+
+&lt;img src="04-slides_files/figure-html/simple-dag-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Causal diagrams
+
+.box-inv-6.medium[Directed acyclic graphs (DAGs)]
+
+.pull-left[
+
+.box-6.SMALL[Graphical model of the process that generates the data]
+
+.box-6.SMALL[Maps your philosophical model]
+
+.box-6.SMALL[Fancy math ("*do*-calculus") tells you what to control for to isolate and identify causation]
+
+]
+
+.pull-right[
+
+![](04-slides_files/figure-html/simple-dag-1.png)
+
+]
+
+---
+
+# Acyclicalness
+
+.box-inv-6[What if there's something that really is cyclical?]
+
+--
+
+.box-6[Wealth → Power → Wealth]
+
+--
+
+.box-6.sp-after[**This isn't acyclic!**&lt;br&gt;Wealth ↔ Power]
+
+--
+
+.box-inv-6[Split the node into different time periods]
+
+--
+
+.box-6[Wealth&lt;sub&gt;*t* - 1&lt;/sub&gt; → Power&lt;sub&gt;*t*&lt;/sub&gt; → Wealth&lt;sub&gt;*t*&lt;/sub&gt;]
+
+---
+
+# How to draw a DAG
+
+.box-inv-6.medium[What is the causal effect of an&lt;br&gt;additional year of education on earnings?]
+
+--
+
+.box-6[Step 1: List variables]
+
+--
+
+.box-6[Step 2: Simplify]
+
+--
+
+.box-6[Step 3: Connect arrows]
+
+--
+
+.box-6[Step 4: Use logic and math to determine&lt;br&gt;which nodes and arrows to measure]
+
+---
+
+# 1. List variables
+
+.box-6.sp-after[Education (treatment) → Earnings (outcome)]
+
+.center.float-left.sp-after-half[
+.box-inv-6[Location]&amp;ensp;.box-inv-6[Ability]&amp;ensp;.box-inv-6[Demographics]
+]
+
+.center.float-left.sp-after-half[
+.box-inv-6[Socioeonomic status]&amp;ensp;.box-inv-6[Year of birth]
+]
+
+.center.float-left[
+.box-inv-6[Compulsory schooling laws]&amp;ensp;.box-inv-6[Job connections]
+]
+
+---
+
+# 2. Simplify
+
+.box-6.sp-after[Education (treatment) → Earnings (outcome)]
+
+.center.float-left.sp-after-half[
+.box-inv-6[Location]&amp;ensp;.box-inv-3[Ability]&amp;ensp;.box-inv-3[Demographics]
+]
+
+.center.float-left.sp-after-half[
+.box-inv-3[Socioeonomic status]&amp;ensp;.box-inv-6[Year of birth]
+]
+
+.center.float-left[
+.box-inv-6[Compulsory schooling laws]&amp;ensp;.box-inv-6[Job connections]
+]
+
+.box-inv-5[Background]
+
+---
+
+# 3. Draw arrows
+
+.pull-left-narrow[
+
+.box-inv-6[Education causes earnings]
+
+]
+
+.pull-right-wide[
+
+&lt;img src="04-slides_files/figure-html/edu-earn-simple-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# 3. Draw arrows
+
+.pull-left-narrow[
+
+.box-inv-6[Background, year of birth, location, job connections, and school requirements all cause education]
+
+]
+
+.pull-right-wide[
+
+&lt;img src="04-slides_files/figure-html/edu-earn-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# 3. Draw arrows
+
+.pull-left-narrow[
+
+.box-inv-6[Background, year of birth, and location all cause earnings too]
+
+]
+
+.pull-right-wide[
+
+&lt;img src="04-slides_files/figure-html/edu-earn-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# 3. Draw arrows
+
+.pull-left-narrow[
+
+.box-inv-6[Education causes job earnings]
+
+]
+
+.pull-right-wide[
+
+&lt;img src="04-slides_files/figure-html/edu-earn-4-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# 3. Draw arrows
+
+.pull-left-narrow[
+
+.box-inv-6[Location and background are probably related, but neither causes the other. Something unobservable (U1) does that.]
+
+]
+
+.pull-right-wide[
+
+&lt;img src="04-slides_files/figure-html/edu-earn-full-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Let the computer do this!
+
+.box-inv-6.large.sp-after-half[dagitty.net]
+
+.box-inv-6.large[**ggdag** package in R]
+
+---
+
+layout: false
+name: paths-doors-adjustment
+class: center middle section-title section-title-5 animated fadeIn
+
+# Paths, doors,&lt;br&gt;and adjustment
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Causal identification
+
+.pull-left-narrow[
+
+.box-inv-5[All these nodes are related; there's correlation between them all]
+
+.box-inv-5[We care about Edu → Earn, but what do we do about all the other nodes?]
+
+]
+
+.pull-right-wide[
+
+![](04-slides_files/figure-html/edu-earn-full-1.png)
+
+]
+
+---
+
+# Causal identification
+
+.box-inv-5.medium[A causal effect is *identified* if the association between treatment and outcome is propertly stripped and isolated]
+
+---
+
+# Paths and associations
+
+.box-inv-5.medium[Arrows in a DAG transmit associations]
+
+.box-inv-5.medium[You can redirect and control those paths by "adjusting" or "conditioning"]
+
+---
+
+# Three types of associations
+
+.pull-left-3[
+.box-5.medium[Confounding]
+
+&lt;img src="04-slides_files/figure-html/confounding-dag-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.box-inv-5.small[Common cause]
+]
+
+.pull-middle-3.center[
+.box-5.medium[Causation]
+
+&lt;img src="04-slides_files/figure-html/mediation-dag-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.box-inv-5.small[Mediation]
+]
+
+.pull-right-3[
+.box-5.medium[Collision]
+
+&lt;img src="04-slides_files/figure-html/collision-dag-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.box-inv-5.small[Selection /&lt;br&gt;endogeneity]
+]
+
+---
+
+# Confounding
+
+.pull-left-wide[
+&lt;img src="04-slides_files/figure-html/confounding-dag-big-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-narrow[
+.box-inv-5.medium[**X** causes **Y**]
+
+.box-inv-5.medium[But **Z** causes both **X** and **Y**]
+
+.box-inv-5.medium[**Z** * confounds* the **X** → **Y** association]
+]
+
+---
+
+# Paths
+
+.pull-left-wide[
+![](04-slides_files/figure-html/confounding-dag-big-1.png)
+]
+
+.pull-right-narrow[
+.box-inv-5[Paths between&lt;br&gt;**X** and **Y**?]
+
+.box-5[**X** → **Y**]
+
+.box-5[**X** ← **Z** → **Y**]
+
+.box-inv-5.medium[**Z** is a *backdoor*]
+]
+
+---
+
+# *d*-connection
+
+.pull-left-wide[
+![](04-slides_files/figure-html/confounding-dag-big-1.png)
+]
+
+.pull-right-narrow[
+.box-inv-5[**X** and **Y** are&lt;br&gt;"*d*-connected" because associations can pass through **Z**]
+
+.box-5[The relationship between **X** and **Y** is not identified / isolated]
+]
+
+---
+
+# Effect of money on elections
+
+.box-inv-5.medium[What are the paths&lt;br&gt;between **money** and **win margin**?]
+
+.pull-left[
+&lt;img src="04-slides_files/figure-html/money-elections-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+.box-5[Money → Margin]
+
+.box-5[Money ← Quality → Margin]
+
+.box-inv-5[Quality is a *backdoor*]
+]
+
+---
+
+# Closing doors
+
+.pull-left[
+&lt;img src="04-slides_files/figure-html/confounding-dag-adjusted-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+.box-inv-5.medium[Close the backdoor by adjusting for **Z**]
+]
+
+---
+
+# Closing doors
+
+.pull-left[
+.box-inv-5.small[Find the part of campaign money that is explained by quality, remove it.&lt;br&gt;This is the residual part of money.]
+
+.box-inv-5.small[Find the part of win margin that is explained by quality, remove it. This is the residual part of win margin.]
+
+.box-inv-5.small[Find the relationship between the residual part of money and residual part of win margin.&lt;br&gt;**This is the causal effect**.]
+]
+
+.pull-right[
+&lt;img src="04-slides_files/figure-html/money-elections-adjusted-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Closing doors
+
+.pull-left[
+.box-inv-5[Compare candidates as if they had the same quality]
+
+.box-inv-5[Remove differences that are predicted by quality]
+
+.box-inv-5[Hold quality constant]
+]
+
+.pull-right[
+![](04-slides_files/figure-html/money-elections-adjusted-1.png)
+]
+
+---
+
+# How to adjust
+
+.box-inv-5.medium[Include term in regression]
+
+$$
+`\begin{aligned}
+\text{Win margin} =&amp; \beta_0 + \beta_1 \text{Campaign money} +\\
+&amp; \beta_2 \text{Candidate quality} + \varepsilon
+\end{aligned}`
+$$
+
+.center.float-left[
+.box-inv-5.medium[Matching]&amp;ensp;.box-inv-5.medium[Stratifying]
+
+.box-inv-5.medium.sp-before-half[Inverse probability weighting]
+]
+
+---
+
+# *d*-separation
+
+.pull-left[
+![](04-slides_files/figure-html/confounding-dag-adjusted-1.png)
+]
+
+.pull-right[
+.box-inv-5.medium[If we control for **Z**,&lt;br&gt;**X** and **Y** are now&lt;br&gt;"*d*-separated" and the association is isolated!]
+
+]
+
+---
+
+# Closing backdoors
+
+.pull-left-narrow[
+.box-inv-5[Block all backdoor paths to identify the main pathway you care about]
+]
+
+.pull-right-wide[
+![](04-slides_files/figure-html/edu-earn-full-1.png)
+]
+
+---
+
+# All paths
+
+.pull-left.left[
+.box-5.smaller[Education → Earnings]
+
+.box-5.smaller[Education → Job connections → Earnings]
+
+.box-7.smaller[Education ← Background → Earnings]
+
+.box-7.smaller[Education ← Background ← U1 → Location → Earnings]
+
+.box-7.smaller[Education ← Location → Earnings]
+
+.box-7.smaller[Education ← Location ← U1 → Background → Earnings]
+
+.box-7.smaller[Education ← Year → Earnings]
+]
+
+.pull-right[
+![](04-slides_files/figure-html/edu-earn-full-1.png)
+]
+
+---
+
+# All paths
+
+.pull-left-narrow[
+.box-inv-5[Adjust for **Location**, **Background** and **Year** to isolate the **Education → Earnings** causal effect]
+]
+
+.pull-right-wide[
+&lt;img src="04-slides_files/figure-html/edu-earn-adjust-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Let the computer do this!
+
+.box-inv-5.large.sp-after-half[dagitty.net]
+
+.box-inv-5.large[The **ggdag** and **dagitty**&lt;br&gt;packages in R]
+
+---
+
+# How do you know if this is right?
+
+.pull-left-narrow[
+.box-inv-5[You can test the implications of the model to see if they're right in your data]
+
+$$
+X \perp Y\ |\ Z
+$$
+
+.box-5.small[X is independent of Y, given Z]
+]
+
+.pull-right-wide[
+&lt;figure&gt;
+  &lt;img src="img/04/dagitty-implications.png" alt="Dagitty implications" title="Dagitty implications" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Causation
+
+.pull-left-wide[
+&lt;img src="04-slides_files/figure-html/causation-dag-big-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-narrow[
+.box-inv-5.medium[**X** causes **Y**]
+
+.box-inv-5.medium[**X** causes&lt;br&gt;**Z** which causes **Y**]
+
+.box-5.medium[Should you control for **Z**?]
+]
+
+---
+
+# Causation
+
+.pull-left-wide[
+![](04-slides_files/figure-html/causation-dag-big-1.png)
+]
+
+.pull-right-narrow[
+.box-5.medium[Should you control for **Z**?]
+
+.box-inv-5.medium[No!]
+
+.box-inv-5[Overcontrolling]
+]
+
+---
+
+# Causation and overcontrolling
+
+.pull-left-wide[
+![](04-slides_files/figure-html/edu-earn-full-1.png)
+]
+
+.pull-right-narrow[
+.box-inv-5[Should you control for job connections?]
+]
+
+---
+
+# Colliders
+
+.pull-left-wide[
+&lt;img src="04-slides_files/figure-html/collider-dag-big-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-narrow[
+.box-inv-5.medium[**X** causes **Z**]
+
+.box-inv-5.medium[**Y** causes **Z**]
+
+.box-5.medium[Should you control for **Z**?]
+]
+
+---
+
+# Programming and social skills
+
+.box-inv-5.medium[Do programming skills reduce social skills?]
+
+.pull-left[
+&lt;img src="04-slides_files/figure-html/programming-social-skills-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+.box-5[You go to a tech company and conduct a survey. You find a negative relationship!&lt;br&gt;Is it real?]
+]
+
+---
+
+# Programming and social skills
+
+.box-inv-5.medium[Do programming skills reduce social skills?]
+
+.pull-left[
+![](04-slides_files/figure-html/programming-social-skills-1.png)
+]
+
+.pull-right[
+.box-5[No! **Hired by a tech company** is a collider and we controlled for it.]
+
+.box-5[This inadvertently connected the two.]
+]
+
+---
+
+layout: false
+
+.pull-left[
+.box-5.medium[Colliders can create&lt;br&gt;fake causal effects]
+]
+
+.pull-right[
+.box-5.medium[Colliders can hide&lt;br&gt;real causal effects]
+]
+
+&lt;img src="04-slides_files/figure-html/bulls-scores-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+.center[
+.box-inv-5[Height is unrelated to basketball skill… among NBA players]
+]
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Colliders and selection bias
+
+&lt;img src="04-slides_files/figure-html/nba-dag-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Three types of associations
+
+.pull-left-3[
+.box-5.medium[Confounding]
+
+![](04-slides_files/figure-html/confounding-dag-1.png)
+
+.box-inv-5.small[Common cause]
+]
+
+.pull-middle-3[
+.box-5.medium[Causation]
+
+![](04-slides_files/figure-html/mediation-dag-1.png)
+
+.box-inv-5.small[Mediation]
+]
+
+.pull-right-3[
+.box-5.medium[Collision]
+
+![](04-slides_files/figure-html/collision-dag-1.png)
+
+.box-inv-5.small[Selection /&lt;br&gt;endogeneity]
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

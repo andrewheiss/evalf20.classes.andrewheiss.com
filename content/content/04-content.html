@@ -11,7 +11,7 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "04-slides"
+slides: "04-slides"
 output:
   blogdown::html_page:
     toc: true
@@ -25,6 +25,7 @@ output:
 <ul>
 <li><a href="#measurement">Measurement</a></li>
 <li><a href="#dags">DAGs</a></li>
+<li><a href="#dag-example-page">DAG example page</a></li>
 </ul></li>
 <li><a href="#slides">Slides</a></li>
 <li><a href="#videos">Videos</a></li>
@@ -36,6 +37,7 @@ output:
 <div id="measurement" class="section level3">
 <h3>Measurement</h3>
 <ul>
+<li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/watch?v=yp_l5ntikaU">The witch trial scene from <em>Monty Python and the Holy Grail</em></a></li>
 <li><i class="fas fa-book"></i> Chapter 5 in <em>Evaluation: A Systematic Approach</em> <span class="citation">Peter H. Rossi, Mark W. Lipsey, and Gary T. Henry, <em>Evaluation: A Systematic Approach</em>, 8th ed. (Los Angeles: Sage, 2019).</span> This is available on iCollege.</li>
 </ul>
 </div>
@@ -47,12 +49,73 @@ output:
 <li><i class="fas fa-book"></i> “Directed acyclical graphs” in <em>Causal Inference: The Mixtape</em> <span class="citation">Scott Cunningham, <em>Causal Inference: The Mixtape</em>, 2018, <a href="https://www.scunning.com/mixtape.html" role="doc-biblioref">https://www.scunning.com/mixtape.html</a>.</span></li>
 </ul>
 </div>
+<div id="dag-example-page" class="section level3">
+<h3>DAG example page</h3>
+<ul>
+<li>The <a href="/example/dags/">example page on DAGs</a> shows how to draw and analyze DAGs with both dagitty.net and R + <strong>ggdag</strong></li>
+</ul>
+</div>
 </div>
 <div id="slides" class="section level2">
 <h2>Slides</h2>
-<p>Slides go here.</p>
+<p>The slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.</p>
+{{% slide-buttons %}}
+<ul class="nav nav-tabs" id="slide-tabs" role="tablist">
+<li class="nav-item">
+<a class="nav-link active" id="introduction-tab" data-toggle="tab" href="#introduction" role="tab" aria-controls="introduction" aria-selected="true">Introduction</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="abstraction-stretching-and-validity-tab" data-toggle="tab" href="#abstraction-stretching-and-validity" role="tab" aria-controls="abstraction-stretching-and-validity" aria-selected="false">Abstraction, stretching, and validity</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="causal-models-tab" data-toggle="tab" href="#causal-models" role="tab" aria-controls="causal-models" aria-selected="false">Causal models</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="paths-doors-and-adjustment-tab" data-toggle="tab" href="#paths-doors-and-adjustment" role="tab" aria-controls="paths-doors-and-adjustment" aria-selected="false">Paths, doors, and adjustment</a>
+</li>
+</ul>
+<div id="slide-tabs" class="tab-content">
+<div id="introduction" class="tab-pane fade show active" role="tabpanel" aria-labelledby="introduction-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/04-slides.html#1">
+</iframe>
+</div>
+</div>
+<div id="abstraction-stretching-and-validity" class="tab-pane fade" role="tabpanel" aria-labelledby="abstraction-stretching-and-validity-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/04-slides.html#abstraction">
+</iframe>
+</div>
+</div>
+<div id="causal-models" class="tab-pane fade" role="tabpanel" aria-labelledby="causal-models-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/04-slides.html#causal-models">
+</iframe>
+</div>
+</div>
+<div id="paths-doors-and-adjustment" class="tab-pane fade" role="tabpanel" aria-labelledby="paths-doors-and-adjustment-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/04-slides.html#paths-doors-adjustment">
+</iframe>
+</div>
+</div>
+</div>
+<div class="fyi">
+<p><strong>Fun fact</strong>: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.</p>
+</div>
 </div>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
-<p>Videos go here.</p>
+<p>Videos for each section of the lecture are <a href="https://www.youtube.com/playlist?list=PLS6tnpTr39sFVrHdTifzlyS9dsJjhEhsF">available at this YouTube playlist</a>.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=V9zIL7bI9WI&amp;list=PLS6tnpTr39sFVrHdTifzlyS9dsJjhEhsF">Introduction</a></li>
+<li><a href="https://www.youtube.com/watch?v=QkFhHOoYq-I&amp;list=PLS6tnpTr39sFVrHdTifzlyS9dsJjhEhsF">Abstraction, stretching, and validity</a></li>
+<li><a href="https://www.youtube.com/watch?v=kJQuH3nssfI&amp;list=PLS6tnpTr39sFVrHdTifzlyS9dsJjhEhsF">Causal models</a></li>
+<li><a href="https://www.youtube.com/watch?v=_qs_1B4ySWY&amp;list=PLS6tnpTr39sFVrHdTifzlyS9dsJjhEhsF">Paths, doors, and adjustment</a></li>
+</ul>
+<p>You can also watch the playlist (and skip around to different sections) here:</p>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/videoseries?list=PLS6tnpTr39sFVrHdTifzlyS9dsJjhEhsF" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
 </div>

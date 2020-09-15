@@ -11,16 +11,32 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "04-slides"
+slides: "04-slides"
 output:
   blogdown::html_page:
     toc: true
 ---
 
+```{r slides-videos, echo=FALSE, include=FALSE}
+source(here::here("R", "slide-tabs.R"))
+source(here::here("R", "youtube-playlist.R"))
+
+playlist_id <- "PLS6tnpTr39sFVrHdTifzlyS9dsJjhEhsF"
+
+slide_details <- tibble::tribble(
+  ~youtube_id,   ~title, ~slide, ~active,
+  "V9zIL7bI9WI", "Introduction", "1", TRUE,
+  "QkFhHOoYq-I", "Abstraction, stretching, and validity", "abstraction", FALSE,
+  "kJQuH3nssfI", "Causal models", "causal-models", FALSE,
+  "_qs_1B4ySWY", "Paths, doors, and adjustment", "paths-doors-adjustment", FALSE
+)
+```
+
 ## Readings
 
 ### Measurement
 
+- <i class="fab fa-youtube"></i> [The witch trial scene from *Monty Python and the Holy Grail*](https://www.youtube.com/watch?v=yp_l5ntikaU)
 - <i class="fas fa-book"></i> Chapter 5 in *Evaluation: A Systematic Approach* [@RossiLipseyHenry:2019]. This is available on iCollege.
 
 ### DAGs
@@ -29,12 +45,80 @@ output:
 - <i class="far fa-file-pdf"></i> Section 2 only (pp. 4–11) from Julian Schuessler and Peter Selb, "Graphical Causal Models for Survey Inference." [@SchuesslerSelb:2019] [The PDF is available at SocArXiv.](https://osf.io/preprints/socarxiv/hbg3m/)
 - <i class="fas fa-book"></i> "Directed acyclical graphs" in *Causal Inference: The Mixtape* [@mixtape]
 
+### DAG example page
+
+- The [example page on DAGs](/example/dags/) shows how to draw and analyze DAGs with both dagitty.net and R + **ggdag**
+
 
 ## Slides
 
-Slides go here.
+The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+`r blogdown::shortcode("slide-buttons")`
+
+```{r show-slide-tabs, echo=FALSE, results="asis"}
+slide_tabs(slide_details, "/slides/04-slides.html")
+```
+
+:::fyi
+**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.
+:::
 
 
 ## Videos
 
-Videos go here.
+```{r show-youtube-list, echo=FALSE, results="asis"}
+youtube_list(slide_details, playlist_id)
+```
+
+
+```{cat include=FALSE, eval=FALSE}
+Playlist: https://www.youtube.com/playlist?list=PLS6tnpTr39sFVrHdTifzlyS9dsJjhEhsF
+
+https://youtu.be/V9zIL7bI9WI
+PMAP 8521 • (4) Measurement and DAGs: (0) Introduction
+
+Introduction to the class session on outcome measurement and DAGs
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/04-content/
+
+
+https://youtu.be/QkFhHOoYq-I
+PMAP 8521 • (4) Measurement and DAGs: (1) Abstraction, stretching, and validity
+
+Discussion of how to measure abstract concepts like program outcomes using a ladder of abstraction
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/04-content/
+
+  
+https://youtu.be/kJQuH3nssfI
+PMAP 8521 • (4) Measurement and DAGs: (2) Causal models
+
+Introduction to causal models and DAGs
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/04-content/
+
+
+https://youtu.be/_qs_1B4ySWY
+PMAP 8521 • (4) Measurement and DAGs: (3) Paths, doors, and adjustment
+
+Discussion of how to identify associations, close backdoors, and isolate pathways in a DAG
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/04-content/
+
+  
+https://youtu.be/3euqrnD9w7c
+PMAP 8521 • Example: DAGs with Dagitty
+
+Demonstration of how to create and analyze DAGs with dagitty.net
+
+Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/dags/
+
+
+https://youtu.be/uoAjyyToUTE
+PMAP 8521 • Example: DAGs with R and ggdag
+
+Demonstration of how to create and analyze DAGs with R and the {ggdag} package
+
+Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/dags/
+```

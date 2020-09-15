@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Theories of change</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-09-03" />
+    <script src="libs/header-attrs-2.3/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# Theories&lt;br&gt;of change
+
+.class-info[
+
+**Session 3**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-1.medium.sp-after-half[Reproducibility]
+
+--
+
+.box-2.medium.sp-after-half[Program theories]
+
+--
+
+.box-6.medium[Logic models &amp; results chains]
+
+---
+
+name: reproducibility
+class: center middle section-title section-title-1 animated fadeIn
+
+# Reproducibility
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Why am I making you learn R?
+
+&amp;nbsp;
+
+--
+
+.box-inv-1.medium[More powerful]
+
+--
+
+.box-inv-1.medium[Free and open source]
+
+--
+
+.box-inv-1.medium.sp-after[Reproducibility]
+
+---
+
+# Austerity and Excel
+
+.pull-left[
+
+&lt;figure&gt;
+  &lt;img src="img/03/rr-abstract.png" alt="Reinhart and Rogoff abstract" title="Reinhart and Rogoff abstract" width="100%"&gt;
+&lt;/figure&gt;
+
+.box-inv-1[Debt:GDP ratio&lt;br&gt;90%+ → −0.1% growth]
+
+]
+
+--
+
+.pull-right.center[
+
+&lt;figure&gt;
+  &lt;img src="img/03/path-to-prosperity.jpg" alt="The Path to Prosperity 2013 house budget" title="The Path to Prosperity 2013 house budget" width="65%"&gt;
+  &lt;figcaption&gt;Paul Ryan's 2013 House budget resolution&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+]
+
+???
+
+[2013 House Budget Resolution](https://republicans-budget.house.gov/uploadedfiles/pathtoprosperity2013.pdf)
+
+---
+
+# Austerity and Excel
+
+.pull-left.center[
+
+&lt;figure&gt;
+  &lt;img src="img/03/thomas-herndon.jpg" alt="Thomas Herndon" title="Thomas Herndon" width="55%"&gt;
+  &lt;figcaption&gt;Thomas Herndon&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+]
+
+--
+
+.pull-right.center[
+
+&lt;figure&gt;
+  &lt;img src="img/03/krugman-allowed.png" alt="Paul Krugman on Excel and reproducibility" title="Paul Krugman on Excel and reproducibility" width="100%"&gt;
+  &lt;figcaption&gt;From &lt;a href="https://www.nytimes.com/2013/04/19/opinion/krugman-the-excel-depression.html" target="_blank"&gt;Paul Krugman, "The Excel Depression"&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+]
+
+???
+
+[Paul Krugman on the reproducibility crisis](https://www.nytimes.com/2013/04/19/opinion/krugman-the-excel-depression.html)
+
+---
+
+# Austerity and Excel
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/03/rr-table1.png" alt="Reinhart Rogoff Table 1" title="Reinhart Rogoff Table 1" width="47%"&gt;
+&lt;/figure&gt;
+]
+
+--
+
+.box-inv-1[Debt:GDP ratio = 90%+ → 2.2% growth (!!)]
+
+---
+
+# Genes and Excel
+
+.pull-left-3[
+.box-inv-1[Septin 2]
+]
+
+.pull-middle-3[
+.box-inv-1[Membrane-Associated Ring Finger (C3HC4) 1]
+]
+
+.pull-right-3[
+.box-inv-1[2310009E13]
+]
+
+--
+
+.center.sp-after[
+&lt;figure&gt;
+  &lt;img src="img/03/excel-numbers.png" alt="Numbers in Excel" title="Numbers in Excel" width="40%"&gt;
+&lt;/figure&gt;
+]
+
+--
+
+.center[
+.box-1[20% of genetics papers between 2005–2015 (!!!)]
+]
+
+---
+
+# General guidelines
+
+.box-inv-1.medium[Don't touch the raw data]
+
+.box-1[If you do, explain what you did!]
+
+--
+
+.box-inv-1.medium[Use self-documenting, reproducible code]
+
+.box-1[R Markdown!]
+
+--
+
+.box-inv-1.medium[Use open formats]
+
+.box-1[Use .csv, not .xlsx]
+
+---
+
+# R Markdown in real life
+
+.pull-left.center[
+
+&lt;figure&gt;
+  &lt;img src="img/03/airbnb.png" alt="Airbnb's data science tools" title="Airbnb's data science tools" width="100%"&gt;
+  &lt;figcaption&gt;&lt;a href="https://peerj.com/preprints/3182.pdf" target="_blank"&gt;Airbnb, ggplot, and rmarkdown&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+]
+
+--
+
+.pull-right.center[
+
+&amp;nbsp;
+
+&lt;figure&gt;
+  &lt;img src="img/03/uk-long.png" alt="UK Statistics pipeline" title="UK Statistics pipeline" width="100%"&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+  &lt;img src="img/03/uk-short.png" alt="UK Statistics pipeline, short" title="UK Statistics pipeline, short" width="55%"&gt;
+  &lt;figcaption&gt;&lt;a href="https://dataingovernment.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/" target="_blank"&gt;The UK's reproducible analysis pipeline&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+]
+
+???
+
+https://peerj.com/preprints/3182.pdf + https://gdsdata.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/ 
+
+---
+
+layout: false
+name: program-theories
+class: center middle section-title section-title-6 animated fadeIn
+
+# Program theories
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Elements of a program
+
+.pull-left[
+.box-inv-6[Inputs]
+
+.box-6.smaller.sp-after[Things that go into an activity; money, people, time, etc.]
+
+.box-inv-6[Activities]
+
+.box-6.smaller.sp-after[Actions that convert inputs to outputs; things that the program does]
+]
+
+--
+
+.pull-right[
+.box-inv-6[Outputs]
+
+.box-6.smaller.sp-after[Tangible goods and services produced by activities; you have control over these]
+
+.box-inv-6[Outcomes]
+
+.box-6.smaller.sp-after[What happens when the target population uses the outputs; you don't have control over these]
+]
+
+--
+
+.center[&lt;br&gt;**Inputs → Activities → Outputs → Outcomes**]
+
+
+---
+
+# Program theory
+
+.box-inv-6.medium[How and why an&lt;br&gt;intervention causes change]
+
+--
+
+.box-6[A sequence of events that connects inputs to&lt;br&gt;activities to outputs to outcomes]
+
+--
+
+.box-6[Why you think inputs → activities → outputs → outcomes]
+
+---
+
+# Impact theory
+
+.box-inv-6.medium.sp-after[Causes (activities) linked to effects (outcomes)]
+
+--
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/01/psd-impact-theory.png" alt="PSD impact theory" title="PSD impact theory" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# One Laptop Per Child (OLPC)
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/03/olpc.jpg" alt="OLPC XO" title="OLPC XO" width="50%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+Nicholas Negroponte from MIT, started the Media Lab there
+
+Draw impact theory: access to computers → 21st century skills, access to global marketplace, reduction of poverty, growth of local businesses
+
+https://www.theverge.com/2018/4/16/17233946/olpcs-100-laptop-education-where-is-it-now
+
+https://en.wikipedia.org/wiki/OLPC_XO#/media/File:XO-Beta1-mikemcgregor-2.jpg
+
+---
+
+# OLPC
+
+&amp;nbsp;
+
+.pull-left-narrow[
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/H4F_0sshG28?start=704" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+]
+
+--
+
+.pull-right-wide[
+&lt;figure&gt;
+  &lt;img src="img/03/olpc-screenshot.png" alt="The Verge on the OLPC project" title="The Verge on the OLPC project" width="100%"&gt;
+  &lt;figcaption&gt;&lt;small&gt;Adi Robertson, &lt;a href="https://www.theverge.com/2018/4/16/17233946/olpcs-100-laptop-education-where-is-it-now"&gt;"OLPC's $100 laptop was going to change the world—then it all went wrong"&lt;/a&gt;&lt;/small&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+]
+
+???
+
+Everything fell apart though. It wasn’t ready—it had unrealistic expectations and was too utopian. It also didn’t take local conditions into account
+
+https://www.youtube.com/watch?v=H4F_0sshG28
+
+---
+
+# PlayPumps
+
+.pull-left[
+&lt;figure&gt;
+  &lt;img src="img/03/playpump-diagram.jpg" alt="PlayPump diagram" title="PlayPump diagram" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right.center[
+&lt;figure&gt;
+  &lt;img src="img/03/playpump-photo.jpg" alt="PlayPump" title="PlayPump" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+Improved access to water → better health, better education, reduction in poverty
+
+&gt; The Guardian calculated in 2009 that children would have to "play" for 27 hours every day to meet PlayPumps' stated targets of providing 2,500 people per pump with their daily water needs. (https://en.wikipedia.org/wiki/Roundabout_PlayPump)
+
+Have kids play to get water out. Led to overuse – main problem in many areas isn’t access to water, but scarcity of water – only works in locations with lots of good water that’s not too deep and where infrastructure is lacking
+
+Is children playing is an appropriate source of energy for water? The line between work and play isn’t as clear-cut as one would think. – can lead to exploitation
+
+https://blogs.ei.columbia.edu/2010/07/01/the-playpump-what-went-wrong/
+
+http://docan.jp/idea-source/playpumps/?lang=en
+
+---
+
+# Why theorize?
+
+.pull-left[
+.box-6[Implicit theory]
+
+.box-inv-6.small[What program designers think or assume is going to happen, and why]
+
+.box-inv-6[Assumed]
+]
+
+--
+
+.pull-right[
+.box-6[Articulated theory]
+
+.box-inv-6.small[What program designers officially claim and predict, and why]
+
+.box-inv-6.sp-after[Written down]
+
+]
+
+--
+
+.box-inv-6.medium[Should all social programs be&lt;br&gt;rooted in explicit articulated theory?]
+
+
+???
+
+What difference does articulation make?
+
+---
+
+layout: false
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/03/lhi-map.jpg" alt="LHI locations" title="LHI locations" width="70%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-left.center[
+&lt;figure&gt;
+  &lt;img src="img/03/lhi-serres.jpg" alt="LHI Serres" title="LHI Serres" width="90%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right.center[
+&lt;figure&gt;
+  &lt;img src="img/03/lhi-serres-kids.jpg" alt="Kids at LHI Serres" title="Kids at LHI Serres" width="85%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/03/plot-dist-age-1.png" alt="Serres distribution preferences by age" title="Serres distribution preferences by age" width="80%"&gt;
+&lt;/figure&gt;
+]
+
+--
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/03/plot-programs-overall-1.png" alt="Serres program preferences" title="Serres program preferences" width="55%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: title title-6
+
+# Impact theory
+
+.box-inv-6[Ensure that the theory linking activities to the outcomes is sound!]
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/03/psd-impact-theory-arrow.png" alt="PSD impact theory" title="PSD impact theory" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+layout: false
+name: logic-models
+class: center middle section-title section-title-2 animated fadeIn
+
+# Logic models&lt;br&gt;&amp; results chains
+
+---
+
+class: bg-full
+background-image: url("img/03/wb-results-chain.png")
+
+???
+
+p. 39 in *Impact Evaluation in Practice*, The World Bank
+
+---
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/01/psd-logic-model.png" alt="PSD logic model" title="PSD logic model" width="70%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+layout: true
+class: title title-2
+
+---
+
+# Impact theory vs. logic model
+
+.pull-left[
+&amp;nbsp;
+
+&lt;figure&gt;
+  &lt;img src="img/01/psd-impact-theory.png" alt="PSD impact theory" title="PSD impact theory" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right[
+&lt;figure&gt;
+  &lt;img src="img/01/psd-logic-model.png" alt="PSD logic model" title="PSD logic model" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# MPA/MPP at GSU
+
+.pull-left[
+&lt;figure&gt;
+  &lt;img src="img/03/mpp-mission@4x.png" alt="MPP mission" title="MPP mission" width="130%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right[
+&lt;figure&gt;
+  &lt;img src="img/03/mpa-mission@4x.png" alt="MPA mission" title="MPA mission" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+Inputs:
+
+- Students
+- Curriculum
+- Money (grants, tuition)
+- AYSPS itself
+- Faculty, staff
+- Technology (iCollege, PAWS)
+- Infrastructure
+- Transportation
+- State regulations
+- National accreditation standards
+- Faculty research
+
+Activities:
+
+- Classes
+- Group work
+- Exams
+- Internships
+- Job fairs
+- Commencement
+- Studying
+- Tutoring
+- Office hours
+- Advising
+- Attendance
+
+Outputs:
+
+- Assignments and projects
+- Grades
+- Degree
+- Jobs
+- Awards
+- Network
+- Debt
+
+Outcomes:
+
+- Leadership
+- AYS national ranking
+- Public service motivation
+- Critical thinking
+- Efficient workforce
+- Income
+- Better society
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

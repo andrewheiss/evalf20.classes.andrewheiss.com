@@ -64,6 +64,16 @@ slide_tabs(slide_details, "/slides/01-slides.html")
 youtube_list(slide_details, playlist_id)
 ```
 
+## Optional lab
+
+Here are all the materials we used in the lab: 
+
+- [CSV of the cars dataset](/data/cars.csv)
+- [RStudio.cloud project](https://rstudio.cloud/spaces/82624/project/1556360)
+- [Slides](https://evalf20.classes.andrewheiss.com/projects/01_lab/slides/01_lab.html)
+- [Project `.zip` file](https://evalf20.classes.andrewheiss.com/projects/01_lab.zip) (the slides are in here too)
+
+
 ```{cat include=FALSE, eval=FALSE}
 Playlist: https://www.youtube.com/playlist?list=PLS6tnpTr39sHcnk9KcoQVzDywxWRzVWHC
 

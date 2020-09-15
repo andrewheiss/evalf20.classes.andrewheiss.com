@@ -1,0 +1,2789 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Overview of R and the tidyverse</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-09-15" />
+    <script src="libs/header-attrs-2.3/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# Overview of R&lt;br&gt;and the tidyverse
+
+.class-info[
+
+**Lab**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-6.medium.sp-after-half[Packages and data]
+
+--
+
+.box-1.medium.sp-after-half[Visualize data with ggplot2]
+
+--
+
+.box-2.medium.sp-after-half[Transform data with dplyr]
+
+---
+
+class: center middle main-title section-title-6
+
+# Packages and data
+
+---
+
+&lt;figure&gt;
+  &lt;img src="img/01/packages-base.png" alt="R packages, base" title="R packages, base" width="100%"&gt;
+&lt;/figure&gt;
+
+---
+
+&lt;figure&gt;
+  &lt;img src="img/01/packages-packages.png" alt="R packages, other" title="R packages, other" width="100%"&gt;
+&lt;/figure&gt;
+
+---
+
+class: title title-6
+
+# Using packages
+
+.pull-left[
+
+```r
+install.packages("name")
+```
+
+.box-inv-6[Downloads files&lt;br&gt;to your computer]
+
+.box-inv-6[Do this once per computer]
+]
+
+--
+
+.pull-right[
+
+```r
+library("name")
+```
+
+.box-inv-6[Loads the package]
+
+.box-inv-6[Do this once per R session]
+]
+
+---
+
+class: title title-6
+
+# The tidyverse
+
+.pull-left[
+.box-inv-6.small["The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures."]
+
+.box-inv-6[… the tidyverse makes data science faster, easier and more fun…]
+]
+
+.pull-right[
+&lt;figure&gt;
+  &lt;img src="img/01/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: title title-6
+
+# The tidyverse
+
+&lt;figure&gt;
+  &lt;img src="img/01/tidyverse-language.png" alt="tidyverse and language" title="tidyverse and language" width="100%"&gt;
+&lt;/figure&gt;
+
+???
+
+From "Master the Tidyverse" by RStudio
+
+---
+
+class: title title-6
+
+# The tidyverse package
+
+.center[
+
+```r
+library(tidyverse)
+```
+]
+
+.box-inv-6[The tidyverse package is a shortcut for&lt;br&gt;installing and loading all the key tidyverse packages]
+
+---
+
+.pull-left[
+
+```r
+install.packages("tidyverse")
+```
+
+.tiny[
+
+```r
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readr")
+install.packages("purrr")
+install.packages("tibble")
+install.packages("stringr")
+install.packages("forcats")
+install.packages("lubridate")
+install.packages("hms")
+install.packages("DBI")
+install.packages("haven")
+install.packages("httr")
+install.packages("jsonlite")
+install.packages("readxl")
+install.packages("rvest")
+install.packages("xml2")
+install.packages("modelr")
+install.packages("broom")
+```
+]
+]
+
+--
+
+.pull-right[
+
+```r
+library("tidyverse")
+```
+
+.tiny[
+
+```r
+library("ggplot2")
+library("dplyr")
+library("tidyr")
+library("readr")
+library("purrr")
+library("tibble")
+library("stringr")
+library("forcats")
+```
+]
+]
+
+---
+
+class: title title-6
+
+# Data frames and tibbles
+
+.box-inv-6.medium[Data frames are the most common kind of data objects; used for rectangular data (like spreadsheets)]
+
+--
+
+.box-6[Data frames: R's native data object]
+
+--
+
+.box-6[Tibbles (`tbl`): a fancier enhanced kind of data frame]
+
+--
+
+.box-6.small[(You really won't notice a difference in this class)]
+
+---
+
+class: title title-6
+
+# Vectors
+
+.box-inv-6[Vectors are a list of values of the same time&lt;br&gt;(all text, or all numbers, etc.)]
+
+.box-inv-6[Make them with `c()`:]
+
+
+```r
+c(1, 4, 2, 5, 7)
+```
+
+--
+
+.box-inv-6[You'll usually want to assign them to something:]
+
+
+```r
+neat_numbers &lt;- c(1, 4, 2, 5, 7)
+```
+
+---
+
+class: title title-6
+
+# Basic data types
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;Integer&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;Whole numbers&lt;/td&gt;
+    &lt;td&gt;&lt;code class="remark-inline-code"&gt;c(1, 2, 3, 4)&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;Double&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;Numbers&lt;/td&gt;
+    &lt;td&gt;&lt;code class="remark-inline-code"&gt;c(1, 2.4, 3.14, 4)&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;Character&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;Text&lt;/td&gt;
+    &lt;td&gt;&lt;code class="remark-inline-code"&gt;c("1", "blue", "fun", "monster")&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;Logical&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;True or false&lt;/td&gt;
+    &lt;td&gt;&lt;code class="remark-inline-code"&gt;c(TRUE, FALSE, TRUE, FALSE)&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;Factor&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;Category&lt;/td&gt;
+    &lt;td&gt;&lt;code class="remark-inline-code"&gt;c("Strongly disagree", "Agree", "Neutral")&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+class: title title-6
+
+# Packages for importing data
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;img src="img/01/readr.png" alt="readr" title="readr" width="150px"&gt;&lt;/td&gt;
+    &lt;td&gt;Work with plain text data&lt;/td&gt;
+    &lt;td&gt;&lt;code class="remark-inline-code"&gt;my_data &lt;- read_csv("file.csv")&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;img src="img/01/readxl.png" alt="readxl" title="readxl" width="150px"&gt;&lt;/td&gt;
+    &lt;td&gt;Work with Excel files&lt;/td&gt;
+    &lt;td&gt;&lt;code class="remark-inline-code"&gt;my_data &lt;- read_excel("file.xlsx")&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;img src="img/01/haven.png" alt="haven" title="haven" width="150px"&gt;&lt;/td&gt;
+    &lt;td&gt;Work with Stata, SPSS, and SAS data&lt;/td&gt;
+    &lt;td&gt;&lt;code class="remark-inline-code"&gt;my_data &lt;- read_stata("file.dta")&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+class: center middle main-title section-title-1
+
+# Visualize data&lt;br&gt;with ggplot2
+
+.class-info[
+&lt;figure&gt;
+  &lt;img src="img/01/ggplot-logo.png" alt="ggplot" title="ggplot" width="15%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+
+```r
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-10-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: bg-full bg-y-75
+background-image: url("img/01/napoleon-retreat.jpg")
+
+???
+
+Source: [Wikipedia](https://en.wikipedia.org/wiki/File:National_Museum_in_Poznan_-_Przej%C5%9Bcie_przez_Berezyn%C4%99.JPG)
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Long distance!
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/01/napoleon-google-maps.png" alt="Moscow to Vilnius" title="Moscow to Vilnius" width="80%"&gt;
+  &lt;figcaption&gt;Moscow to Vilnius&lt;/figcaption&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Very cold!
+
+&lt;img src="01_lab_files/figure-html/minard-temps-1.png" width="864" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Lots of people died!
+
+&lt;img src="01_lab_files/figure-html/minard-deaths-1.png" width="468" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: false
+class: bg-full
+background-image: url("img/01/minard.png")
+
+???
+
+Source: [Wikimedia Commons](https://upload.wikimedia.org/wikipedia/commons/2/29/Minard.png)
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Mapping data to aesthetics
+
+.pull-left.center[
+
+&lt;figure&gt;
+  &lt;img src="img/01/gg-book.jpg" alt="Grammar of Graphics book" title="Grammar of Graphics book" width="55%"&gt;
+&lt;/figure&gt;
+
+]
+
+.pull-right[
+
+.box-inv-1.medium[Aesthetic]
+
+.box-1[Visual property of a graph]
+
+.box-1.sp-after[Position, shape, color, etc.]
+
+.box-inv-1.medium[Data]
+
+.box-1[A column in a dataset]
+
+]
+
+---
+
+# Mapping data to aesthetics
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th class="cell-left"&gt;Data&lt;/th&gt;
+    &lt;th class="cell-left"&gt;Aesthetic&lt;/th&gt;
+    &lt;th class="cell-left"&gt;Graphic/Geometry&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Longitude&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Position (x-axis)&amp;emsp;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Point&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Latitude&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Position (y-axis)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Point&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Army size&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Size&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Path&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Army direction&amp;emsp;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Color&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Path&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Date&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Position (x-axis)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Line + text&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Temperature&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Position (y-axis)&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Line + text&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+# Mapping data to aesthetics
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th class="cell-left"&gt;Data&lt;/th&gt;
+    &lt;th class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;aes()&lt;/code&gt;&lt;/th&gt;
+    &lt;th class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom&lt;/code&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Longitude&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;x&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_point()&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Latitude&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;y&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_point()&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Army size&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;size&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_path()&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Army direction&amp;emsp;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;color&lt;/code&gt;&amp;emsp;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_path()&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Date&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;x&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_line() + geom_text()&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;Temperature&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;y&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_line() + geom_text()&lt;/code&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+# `ggplot()` template
+
+
+&lt;code class ='r hljs remark-code'&gt;ggplot(data = &lt;b&gt;&lt;span style='background-color:#CBB5FF'&gt;DATA&lt;/span&gt;&lt;/b&gt;) +&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;GEOM_FUNCTION&lt;/span&gt;&lt;/b&gt;(mapping = aes(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;AESTHETIC MAPPINGS&lt;/span&gt;&lt;/b&gt;))&lt;/code&gt;
+
+--
+
+
+&lt;code class ='r hljs remark-code'&gt;ggplot(data = &lt;b&gt;&lt;span style='background-color:#CBB5FF'&gt;troops&lt;/span&gt;&lt;/b&gt;) +&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;geom_path&lt;/span&gt;&lt;/b&gt;(mapping = aes(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;x = longitude&lt;/span&gt;&lt;/b&gt;,&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;y = latitude&lt;/span&gt;&lt;/b&gt;,&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;color = direction&lt;/span&gt;&lt;/b&gt;,&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;size = survivors&lt;/span&gt;&lt;/b&gt;))&lt;/code&gt;
+
+---
+
+layout: false
+
+
+
+.box-1[This is a dataset named `troops`:]
+
+.small[
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; longitude &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; latitude &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; direction &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; survivors &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 340000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 24.5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 55 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 340000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+--
+
+
+&lt;code class ='r hljs remark-code'&gt;ggplot(data = &lt;b&gt;&lt;span style='background-color:#CBB5FF'&gt;troops&lt;/span&gt;&lt;/b&gt;) +&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;geom_path&lt;/span&gt;&lt;/b&gt;(mapping = aes(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;x = longitude&lt;/span&gt;&lt;/b&gt;,&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;y = latitude&lt;/span&gt;&lt;/b&gt;,&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;color = direction&lt;/span&gt;&lt;/b&gt;,&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;size = survivors&lt;/span&gt;&lt;/b&gt;))&lt;/code&gt;
+
+---
+
+&lt;img src="01_lab_files/figure-html/show-basic-minard-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Heavy cars with better mileage?
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Aesthetics
+
+.pull-left-3[
+
+.box-inv-1.small[`color` (discrete)]
+
+&lt;img src="01_lab_files/figure-html/aes-color-discrete-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.box-inv-1.small[`color` (continuous)]
+
+&lt;img src="01_lab_files/figure-html/aes-color-continuous-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-middle-3[
+
+.box-inv-1.small[`size`]
+
+&lt;img src="01_lab_files/figure-html/aes-size-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.box-inv-1.small[`fill`]
+
+&lt;img src="01_lab_files/figure-html/aes-fill-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-3[
+
+.box-inv-1.small[`shape`]
+
+&lt;img src="01_lab_files/figure-html/aes-shape-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.box-inv-1.small[`alpha`]
+
+&lt;img src="01_lab_files/figure-html/aes-alpha-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Mapping columns to aesthetics
+
+.small[
+
+```r
+ggplot(mpg) + geom_point(aes(x = displ, y = hwy, color = class))
+ggplot(mpg) + geom_point(aes(x = displ, y = hwy, size = class))
+ggplot(mpg) + geom_point(aes(x = displ, y = hwy, shape = class))
+ggplot(mpg) + geom_point(aes(x = displ, y = hwy, alpha = class))
+```
+]
+
+---
+
+layout: false
+
+
+```r
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = class))
+```
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-1 section-title-inv-1
+
+# ggplot playground
+
+.box-1[Add color, size, alpha, and shape aesthetics to your graph.]
+
+.box-1[Experiment!]
+
+.box-1[Do different things happen when you map aesthetics to discrete and continuous variables?]
+
+.box-1[What happens when you use more than one aesthetic?]
+
+---
+
+class: title title-1
+
+# How would you make this plot?
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-15-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.left-code[
+
+```r
+ggplot(mpg) +
+  geom_point(aes(x = displ, y = hwy, 
+                 color = class))
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/color-aes-example-1.png)
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(mpg) +
+  geom_point(aes(x = displ, y = hwy), 
+             color = "blue")
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/color-set-example-1.png)
+]
+
+---
+
+.pull-left[
+.small[
+
+```r
+ggplot(mpg) +
+  geom_point(aes(x = displ, y = hwy, 
+                 color = "blue"))
+```
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+.pull-right[
+.small[
+
+```r
+ggplot(mpg) +
+  geom_point(aes(x = displ, y = hwy), 
+             color = "blue")
+```
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# What's the same? What's different?
+
+.pull-left[
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Geoms
+
+
+&lt;code class ='r hljs remark-code'&gt;ggplot(data = &lt;b&gt;&lt;span style='background-color:#CBB5FF'&gt;DATA&lt;/span&gt;&lt;/b&gt;) +&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;GEOM_FUNCTION&lt;/span&gt;&lt;/b&gt;(mapping = aes(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;AESTHETIC MAPPINGS&lt;/span&gt;&lt;/b&gt;))&lt;/code&gt;
+
+---
+
+# Possible geoms
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th class="cell-left"&gt;&lt;/th&gt;
+    &lt;th class="cell-left"&gt;Example geom&lt;/th&gt;
+    &lt;th class="cell-left"&gt;What it makes&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;&lt;img src="img/01/geom_bar.png"&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_col()&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Bar charts&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;&lt;img src="img/01/geom_text.png"&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_text()&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Text&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;&lt;img src="img/01/geom_point.png"&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_point()&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Points&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;&lt;img src="img/01/geom_boxplot.png"&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_boxplot()&lt;/code&gt;&amp;emsp;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Boxplots&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-left"&gt;&lt;img src="img/01/geom_sf.png"&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;&lt;code class="remark-inline-code"&gt;geom_sf()&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Maps&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+# Possible geoms
+
+.box-inv-1[There are dozens of possible geoms!]
+
+.box-1[See [the **ggplot2** documentation](https://ggplot2.tidyverse.org/reference/index.html#section-layer-geoms) for&lt;br&gt;complete examples of all the different geom layers]
+
+.box-1[Also see the ggplot cheatsheet]
+
+---
+
+class: title title-1
+
+# Complex graphs!
+
+
+```r
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+```
+
+---
+
+class: title title-1
+
+# Complex graphs!
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-1
+
+# Global vs. local
+
+.box-inv-1[Any aesthetics in `ggplot()` will show up in all `geom_` layers]
+
+.small[
+
+```r
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth()
+```
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-22-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: title title-1
+
+# Global vs. local
+
+.box-inv-1[Any aesthetics in `geom_` layers only apply to that layer]
+
+.small[
+
+```r
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(color = drv)) +
+  geom_smooth()
+```
+
+&lt;img src="01_lab_files/figure-html/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# So much more!
+
+.pull-left[
+.box-inv-1[There are many other layers we can use to make and enhance graphs!]
+
+.box-inv-1[We sequentially add layers onto the foundational `ggplot()` plot to create complex figures]
+]
+
+.pull-right[
+![](img/01/ggplot-layers@4x.png)
+]
+
+---
+
+# Putting it all together
+
+.box-inv-1.medium[We can build a plot sequentially&lt;br&gt;to see how each grammatical layer&lt;br&gt;changes the appearance]
+
+---
+
+layout: false
+
+.left-code[
+.box-1[Start with data and aesthetics]
+
+
+```r
+*ggplot(data = mpg,
+*      mapping = aes(x = displ,
+*                    y = hwy,
+*                    color = drv))
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-1-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Add a point geom]
+
+
+```r
+ggplot(data = mpg,
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+* geom_point()
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-2-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Add a smooth geom]
+
+
+```r
+ggplot(data = mpg,
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+  geom_point() +
+* geom_smooth()
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-3-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Make it straight]
+
+
+```r
+ggplot(data = mpg,
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+  geom_point() +
+* geom_smooth(method = "lm")
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-4-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Use a viridis color scale]
+
+
+```r
+ggplot(data = mpg,
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+* scale_color_viridis_d()
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-5-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Facet by drive]
+
+
+```r
+ggplot(data = mpg,
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  scale_color_viridis_d() +
+* facet_wrap(vars(drv), ncol = 1)
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-6-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Add labels]
+
+
+```r
+ggplot(data = mpg,
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  scale_color_viridis_d() +
+  facet_wrap(vars(drv), ncol = 1) +
+* labs(x = "Displacement", y = "Highway MPG",
+*      color = "Drive",
+*      title = "Heavier cars get lower mileage",
+*      subtitle = "Displacement indicates weight(?)",
+*      caption = "I know nothing about cars")
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-7-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Add a theme]
+
+
+```r
+ggplot(data = mpg,
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  scale_color_viridis_d() +
+  facet_wrap(vars(drv), ncol = 1) +
+  labs(x = "Displacement", y = "Highway MPG",
+       color = "Drive", 
+       title = "Heavier cars get lower mileage",
+       subtitle = "Displacement indicates weight(?)",
+       caption = "I know nothing about cars") +
+* theme_bw()
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-8-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Modify the theme]
+
+
+```r
+ggplot(data = mpg, 
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  scale_color_viridis_d() +
+  facet_wrap(vars(drv), ncol = 1) +
+  labs(x = "Displacement", y = "Highway MPG",
+       color = "Drive", 
+       title = "Heavier cars get lower mileage",
+       subtitle = "Displacement indicates weight(?)",
+       caption = "I know nothing about cars") +
+  theme_bw() +
+* theme(legend.position = "bottom",
+*       plot.title = element_text(face = "bold"))
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-9-1.png)
+]
+
+---
+
+.left-code[
+.box-1[Finished!]
+
+
+```r
+ggplot(data = mpg, 
+       mapping = aes(x = displ,
+                     y = hwy,
+                     color = drv)) +
+  geom_point() +
+  geom_smooth(method = "lm") + 
+  scale_color_viridis_d() +
+  facet_wrap(vars(drv), ncol = 1) +
+  labs(x = "Displacement", y = "Highway MPG",
+       color = "Drive", 
+       title = "Heavier cars get lower mileage",
+       subtitle = "Displacement indicates weight(?)",
+       caption = "I know nothing about cars") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"))
+```
+]
+
+.right-plot[
+![](01_lab_files/figure-html/mpg-layers-finished-1.png)
+]
+
+---
+
+class: center middle main-title section-title-2
+
+# Transform data&lt;br&gt;with dplyr
+
+.class-info[
+&lt;figure&gt;
+  &lt;img src="img/01/dplyr.png" alt="dplyr" title="dplyr" width="15%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+.small[
+
+```r
+gapminder
+```
+
+```
+## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.
+##  6 Afghanistan Asia       1977    38.4 14880372      786.
+##  7 Afghanistan Asia       1982    39.9 12881816      978.
+##  8 Afghanistan Asia       1987    40.8 13867957      852.
+##  9 Afghanistan Asia       1992    41.7 16317921      649.
+## 10 Afghanistan Asia       1997    41.8 22227415      635.
+## # … with 1,694 more rows
+```
+]
+
+---
+
+class: title title-2
+
+# The tidyverse
+
+&lt;figure&gt;
+  &lt;img src="img/01/tidyverse-language.png" alt="tidyverse and language" title="tidyverse and language" width="100%"&gt;
+&lt;/figure&gt;
+
+???
+
+From "Master the Tidyverse" by RStudio
+
+---
+
+class: title title-2
+
+# The tidyverse
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/01/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="50%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: title title-2
+
+# dplyr: verbs for manipulating data
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Extract rows with &lt;code&gt;filter()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/filter.png" alt="filter" title="filter" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Extract columns with &lt;code&gt;select()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/select.png" alt="select" title="select" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Arrange/sort rows with &lt;code&gt;arrange()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/arrange.png" alt="arrange" title="arrange" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Make new columns with &lt;code&gt;mutate()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/mutate.png" alt="mutate" title="mutate" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Make group summaries with&lt;br&gt;&lt;code&gt;group_by() %&gt;% summarize()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/summarize.png" alt="summarize" title="summarize" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+class: center middle section-title section-title-2
+
+# `filter()`
+
+---
+
+layout: false
+class: title title-2
+
+# `filter()`
+
+.box-inv-2[Extract rows that meet some sort of test]
+
+.pull-left[
+
+&lt;code class ='r hljs remark-code'&gt;filter(.data = &lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;DATA&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;...&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+
+.pull-right[
+- &lt;b&gt;&lt;span style="background: #FFDFD1"&gt;`DATA`&lt;/span&gt;&lt;/b&gt; = Data frame to transform
+- &lt;b&gt;&lt;span style="background: #FFD0CF"&gt;`...`&lt;/span&gt;&lt;/b&gt; = One or more tests &lt;br&gt;.small[`filter()` returns each row for which the test is TRUE]
+]
+
+---
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(.data = &lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;country == "Denmark"&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; continent &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; year &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1952 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1957 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1962 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1967 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1972 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; continent &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Denmark &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1952 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Denmark &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1957 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Denmark &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1962 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Denmark &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1967 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Denmark &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1972 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Denmark &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1977 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-2
+
+# `filter()`
+
+.pull-left[
+
+&lt;code class ='r hljs remark-code'&gt;filter(.data = &lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;country == "Denmark"&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+
+.pull-right[
+.box-inv-2[One `=` sets an argument]
+
+.box-inv-2[Two `==` tests if equal&lt;br&gt;.small[returns TRUE or FALSE)]]
+]
+
+---
+
+class: title title-2
+
+# Logical tests
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th class="cell-center"&gt;Test&lt;/th&gt;
+    &lt;th class="cell-left"&gt;Meaning&lt;/th&gt;
+    &lt;th class="cell-center"&gt;Test&lt;/th&gt;
+    &lt;th class="cell-left"&gt;Meaning&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;x &lt; y&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Less than&lt;/td&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;x %in% y&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;In (group membership)&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;x &gt; y&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Greater than&lt;/td&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;is.na(x)&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Is missing&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;==&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Equal to&lt;/td&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;!is.na(x)&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Is not missing&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;x &lt;= y&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Less than or equal to&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;x &gt;= y&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Greater than or equal to&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;x != y&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-left"&gt;Not equal to&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+class: title title-2 section-title-inv-2
+
+# Your turn #1: Filtering
+
+.box-2[Use `filter()` and logical tests to show…]
+
+1. The data for Canada
+2. All data for countries in Oceania
+3. Rows where the life expectancy is greater than 82
+
+---
+
+.medium[
+
+```r
+filter(gapminder, country == "Canada")
+```
+]
+
+--
+
+.medium[
+
+```r
+filter(gapminder, continent == "Oceania")
+```
+]
+
+--
+
+.medium[
+
+```r
+filter(gapminder, lifeExp &gt; 82)
+```
+]
+
+---
+
+class: title title-2
+
+# Common mistakes
+
+.pull-left[
+.box-inv-2[Using `=` instead of `==`]
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;country &lt;b&gt;&lt;span style='color:#FF4136'&gt;=&lt;/span&gt;&lt;/b&gt; "Canada")&lt;/code&gt;
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;country &lt;b&gt;&lt;span style='color:#2ECC40'&gt;==&lt;/span&gt;&lt;/b&gt; "Canada")&lt;/code&gt;
+]
+
+--
+
+.pull-right[
+.box-inv-2[Quote use]
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;country == &lt;b&gt;&lt;span style='color:#FF4136'&gt;Canada&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;country == &lt;b&gt;&lt;span style='color:#2ECC40'&gt;"Canada"&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+
+---
+
+class: title title-2
+
+# `filter()` with multiple conditions
+
+.box-inv-2[Extract rows that meet *every* test]
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;country == "Denmark", year &gt; 2000&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+---
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;country == "Denmark", year &gt; 2000&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; continent &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; year &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1952 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1957 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1962 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1967 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1972 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; continent &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Denmark &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Denmark &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-2
+
+# Boolean operators
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th class="cell-center"&gt;Operator&lt;/th&gt;
+    &lt;th class="cell-center"&gt;Meaning&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;a &amp; b&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-center"&gt;and&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;a | b&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-center"&gt;or&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="cell-center"&gt;&lt;code class="remark-inline-code"&gt;!a&lt;/code&gt;&lt;/td&gt;
+    &lt;td class="cell-center"&gt;not&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+class: title title-2
+
+# Default is "and"
+
+.box-inv-2[These do the same thing:]
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;country == "Denmark", year &gt; 2000&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;country == "Denmark" &amp; year &gt; 2000&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+---
+
+class: title title-2 section-title-inv-2
+
+# Your turn #2: Filtering
+
+.box-2[Use `filter()` and Boolean logical tests to show…]
+
+1. Canada before 1970
+2. Countries where life expectancy in 2007 is below 50
+3. Countries where life expectancy in 2007 is below 50 and are not in Africa
+
+---
+
+
+```r
+filter(gapminder, country == "Canada", year &lt; 1970)
+```
+
+--
+
+
+```r
+filter(gapminder, year == 2007, lifeExp &lt; 50)
+```
+
+--
+
+
+```r
+filter(gapminder, year == 2007, lifeExp &lt; 50, 
+       continent != "Africa")
+```
+
+---
+
+class: title title-2
+
+# Common mistakes
+
+.pull-left[
+.box-inv-2[Collapsing multiple tests&lt;br&gt;into one]
+
+.small-code[
+
+&lt;code class ='r hljs remark-code'&gt;filter(gapminder, &lt;b&gt;&lt;span style='color:#FF4136'&gt;1960 &amp;lt; year &amp;lt; 1980&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+
+.small-code[
+
+&lt;code class ='r hljs remark-code'&gt;filter(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='color:#2ECC40'&gt;year &gt; 1960, year &amp;lt; 1980&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+]
+
+--
+
+.pull-right[
+.box-inv-2[Using multiple tests&lt;br&gt;instead of `%in%`]
+
+.small-code[
+
+&lt;code class ='r hljs remark-code'&gt;filter(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='color:#FF4136'&gt;country == "Mexico", &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;country == "Canada", &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;country == "United States"&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+
+.small-code[
+
+&lt;code class ='r hljs remark-code'&gt;filter(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='color:#2ECC40'&gt;country %in% c("Mexico", "Canada", &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;"United States")&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+]
+
+---
+
+class: title title-2
+
+# Common syntax
+
+.box-inv-2[Every dplyr verb function follows the same pattern]
+
+.box-inv-2[First argument is a data frame; returns a data frame]
+
+.pull-left[
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#EFB3FF'&gt;VERB&lt;/span&gt;&lt;/b&gt;(&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;DATA&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;...&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+
+.pull-right[
+- &lt;b&gt;&lt;span style="background: #EFB3FF"&gt;`VERB`&lt;/span&gt;&lt;/b&gt; = dplyr function/verb
+- &lt;b&gt;&lt;span style="background: #FFDFD1"&gt;`DATA`&lt;/span&gt;&lt;/b&gt; = Data frame to transform
+- &lt;b&gt;&lt;span style="background: #FFD0CF"&gt;`...`&lt;/span&gt;&lt;/b&gt; = Stuff the verb does
+]
+
+---
+
+class: title title-2
+
+# `mutate()`
+
+.box-inv-2[Create new columns]
+
+.pull-left[
+
+&lt;code class ='r hljs remark-code'&gt;mutate(&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;.data&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;...&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+
+.pull-right[
+- &lt;b&gt;&lt;span style="background: #FFDFD1"&gt;`DATA`&lt;/span&gt;&lt;/b&gt; = Data frame to transform
+- &lt;b&gt;&lt;span style="background: #FFD0CF"&gt;`...`&lt;/span&gt;&lt;/b&gt; = Columns to make
+]
+
+---
+
+
+&lt;code class ='r hljs remark-code'&gt;mutate(&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;gdp = gdpPercap * pop&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; gdpPercap &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; pop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1952 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 779.4453145 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8425333 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 820.8530296 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9240934 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1962 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 853.10071 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10267083 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1967 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 836.1971382 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11537966 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1972 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 739.9811058 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13079460 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; … &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; gdp &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1952 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6567086330 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7585448670 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1962 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8758855797 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1967 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9648014150 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1972 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9678553274 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1977 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11697659231 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+
+&lt;code class ='r hljs remark-code'&gt;mutate(&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;gdp = gdpPercap * pop,&lt;/span&gt;&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;pop_mil = round(pop / 1000000)&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; gdpPercap &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; pop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1952 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 779.4453145 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8425333 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 820.8530296 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9240934 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1962 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 853.10071 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10267083 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1967 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 836.1971382 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11537966 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1972 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 739.9811058 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13079460 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; … &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; gdp &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; pop_mil &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1952 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6567086330 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7585448670 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1962 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8758855797 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1967 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9648014150 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1972 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9678553274 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1977 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11697659231 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-2
+
+# `ifelse()`
+
+.box-inv-2[Do conditional tests within `mutate()`]
+
+.pull-left[
+
+&lt;code class ='r hljs remark-code'&gt;ifelse(&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;TEST&lt;/span&gt;&lt;/b&gt;, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;VALUE_IF_TRUE&lt;/span&gt;&lt;/b&gt;, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#CBB5FF'&gt;VALUE_IF_FALSE&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+]
+
+.pull-right[
+- &lt;b&gt;&lt;span style="background: #FFC0DC"&gt;`TEST`&lt;/span&gt;&lt;/b&gt; = A logical test
+- &lt;b&gt;&lt;span style="background: #FFDFD1"&gt;`VALUE_IF_TRUE`&lt;/span&gt;&lt;/b&gt; = What happens if test is true
+- &lt;b&gt;&lt;span style="background: #CBB5FF"&gt;`VALUE_IF_FALSE`&lt;/span&gt;&lt;/b&gt; = What happens if test is false
+]
+
+---
+
+
+&lt;code class ='r hljs remark-code'&gt;mutate(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;after_1960 = ifelse(&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;year &gt; 1960&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;TRUE&lt;/span&gt;&lt;/b&gt;, &lt;b&gt;&lt;span style='background-color:#CBB5FF'&gt;FALSE&lt;/span&gt;&lt;/b&gt;))&lt;/code&gt;
+
+
+&lt;code class ='r hljs remark-code'&gt;mutate(gapminder, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;after_1960 = ifelse(&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;year &gt; 1960&lt;/span&gt;&lt;/b&gt;, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;"After 1960"&lt;/span&gt;&lt;/b&gt;, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#CBB5FF'&gt;"Before 1960"&lt;/span&gt;&lt;/b&gt;))&lt;/code&gt;
+
+---
+
+class: title title-2 section-title-inv-2
+
+# Your turn #3: Mutating
+
+.box-2[Use `mutate()` to…]
+
+1. Add an `africa` column that is TRUE if the country is on the African continent
+2. Add a column for logged GDP per capita (hint: use `log()`)
+3. Add an `africa_asia` column that says “Africa or Asia” if the country is in Africa or Asia, and “Not Africa or Asia” if it’s not
+
+---
+
+
+```r
+mutate(gapminder, africa = ifelse(continent == "Africa", 
+                                  TRUE, FALSE))
+```
+
+--
+
+
+```r
+mutate(gapminder, log_gdpPercap = log(gdpPercap))
+```
+
+--
+
+
+```r
+mutate(gapminder, 
+       africa_asia = 
+         ifelse(continent %in% c("Africa", "Asia"), 
+                "Africa or Asia", 
+                "Not Africa or Asia"))
+```
+
+---
+
+class: title title-2
+
+# What if you have multiple verbs?
+
+.box-inv-2.sp-after[Make a dataset for just 2002 *and* calculate logged GDP per capita]
+
+--
+
+.box-inv-2[Solution 1: Intermediate variables]
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;gapminder_2002&lt;/span&gt;&lt;/b&gt; &lt;- filter(gapminder, year == 2002)&lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;gapminder_2002&lt;/span&gt;&lt;/b&gt;_log &lt;- mutate(&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;gapminder_2002&lt;/span&gt;&lt;/b&gt;,&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;log_gdpPercap = log(gdpPercap))&lt;/code&gt;
+
+---
+
+class: title title-2
+
+# What if you have multiple verbs?
+
+.box-inv-2.sp-after[Make a dataset for just 2002 *and* calculate logged GDP per capita]
+
+.box-inv-2[Solution 2: Nested functions]
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;filter(&lt;/span&gt;&lt;/b&gt;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;mutate(gapminder_2002,&lt;/span&gt;&lt;/b&gt; &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;log_gdpPercap = log(gdpPercap))&lt;/span&gt;&lt;/b&gt;, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;year == 2002)&lt;/span&gt;&lt;/b&gt;&lt;/code&gt;
+
+---
+
+class: title title-2
+
+# What if you have multiple verbs?
+
+.box-inv-2.sp-after[Make a dataset for just 2002 *and* calculate logged GDP per capita]
+
+.box-inv-2[Solution 3: Pipes!]
+
+.box-inv-2[The `%&gt;%` operator (pipe) takes an object on the left&lt;br&gt;and passes it as the first argument of the function on the right]
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;gapminder&lt;/span&gt;&lt;/b&gt; %&gt;% filter(&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;_____&lt;/span&gt;&lt;/b&gt;, country == "Canada")&lt;/code&gt;
+
+---
+
+class: title title-2
+
+# What if you have multiple verbs?
+
+.box-inv-2[These do the same thing!]
+
+
+&lt;code class ='r hljs remark-code'&gt;filter(&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;gapminder&lt;/span&gt;&lt;/b&gt;, country == "Canada")&lt;/code&gt;
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFC0DC'&gt;gapminder&lt;/span&gt;&lt;/b&gt; %&gt;% filter(country == "Canada")&lt;/code&gt;
+
+---
+
+class: title title-2
+
+# What if you have multiple verbs?
+
+.box-inv-2.sp-after[Make a dataset for just 2002 *and* calculate logged GDP per capita]
+
+.box-inv-2[Solution 3: Pipes!]
+
+
+&lt;code class ='r hljs remark-code'&gt;gapminder %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;filter(year == 2002) %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;mutate(log_gdpPercap = log(gdpPercap))&lt;/code&gt;
+
+---
+
+class: title title-2
+
+# `%&gt;%`
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;leave_house&lt;/b&gt;(&lt;b&gt;get_dressed&lt;/b&gt;(&lt;b&gt;get_out_of_bed&lt;/b&gt;(&lt;b&gt;wake_up&lt;/b&gt;(&lt;span style='color:#E16462'&gt;me&lt;/span&gt;, &lt;span style='color:#0D0887'&gt;time&lt;/span&gt; = &lt;span style='color:#E16462'&gt;"8:00"&lt;/span&gt;), &lt;span style='color:#0D0887'&gt;side&lt;/span&gt; = &lt;span style='color:#E16462'&gt;"correct"&lt;/span&gt;), &lt;span style='color:#0D0887'&gt;pants&lt;/span&gt; = &lt;span style='color:#E16462'&gt;TRUE&lt;/span&gt;, &lt;span style='color:#0D0887'&gt;shirt&lt;/span&gt; = &lt;span style='color:#E16462'&gt;TRUE&lt;/span&gt;), &lt;span style='color:#0D0887'&gt;car&lt;/span&gt; = &lt;span style='color:#E16462'&gt;TRUE&lt;/span&gt;, &lt;span style='color:#0D0887'&gt;bike&lt;/span&gt; = &lt;span style='color:#E16462'&gt;FALSE&lt;/span&gt;)&lt;/code&gt;
+
+--
+
+
+&lt;code class ='r hljs remark-code'&gt;me %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;wake_up&lt;/b&gt;(&lt;span style='color:#0D0887'&gt;time&lt;/span&gt; = &lt;span style='color:#E16462'&gt;"8:00"&lt;/span&gt;) %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;get_out_of_bed&lt;/b&gt;(&lt;span style='color:#0D0887'&gt;side&lt;/span&gt; = &lt;span style='color:#E16462'&gt;"correct"&lt;/span&gt;) %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;get_dressed&lt;/b&gt;(&lt;span style='color:#0D0887'&gt;pants&lt;/span&gt; = &lt;span style='color:#E16462'&gt;TRUE&lt;/span&gt;, &lt;span style='color:#0D0887'&gt;shirt&lt;/span&gt; = &lt;span style='color:#E16462'&gt;TRUE&lt;/span&gt;) %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;leave_house&lt;/b&gt;(&lt;span style='color:#0D0887'&gt;car&lt;/span&gt; = &lt;span style='color:#E16462'&gt;TRUE&lt;/span&gt;, &lt;span style='color:#0D0887'&gt;bike&lt;/span&gt; = &lt;span style='color:#E16462'&gt;FALSE&lt;/span&gt;)&lt;/code&gt;
+
+---
+
+class: title title-2
+
+# `summarize()`
+
+.box-inv-2[Compute a table of summaries]
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt; %&gt;% summarize(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;mean_life = mean(lifeExp)&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; continent &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; lifeExp &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1952 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 28.801 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 30.332 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1962 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 31.997 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1967 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 34.02 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; mean_life &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 59.47444 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-2
+
+# `summarize()`
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt; %&gt;% summarize(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;mean_life = mean(lifeExp),&lt;/span&gt;&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;min_life = min(lifeExp)&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; continent &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; lifeExp &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1952 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 28.801 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 30.332 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1962 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 31.997 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1967 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 34.02 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1972 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.088 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; … &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; mean_life &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; min_life &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 59.47444 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.599 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-2 section-title-inv-2
+
+# Your turn #4: Summarizing
+
+.box-2[Use `summarize()` to calculate…]
+
+1. The first (minimum) year in the dataset
+2. The last (maximum) year in the dataset
+3. The number of rows in the dataset (use the cheatsheet)
+4. The number of distinct countries in the dataset (use the cheatsheet)
+
+---
+
+
+```r
+gapminder %&gt;% 
+  summarize(first = min(year),
+            last = max(year),
+            num_rows = n(),
+            num_unique = n_distinct(country))
+```
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; first &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; last &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; num_rows &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; num_unique &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1952 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1704 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 142 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-2 section-title-inv-2
+
+# Your turn #5: Summarizing
+
+.box-2[Use `filter()` and `summarize()` to calculate&lt;br&gt;(1) the number of unique countries and&lt;br&gt;(2) the median life expectancy on the&lt;br&gt;African continent in 2007]
+
+---
+
+
+```r
+gapminder %&gt;%
+  filter(continent == "Africa", year == 2007) %&gt;%
+  summarise(n_countries = n_distinct(country), 
+            med_le = median(lifeExp))
+```
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; n_countries &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; med_le &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 52 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52.9265 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-2
+
+# `group_by()`
+
+.box-inv-2[Put rows into groups based on values in a column]
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;gapminder&lt;/span&gt;&lt;/b&gt; %&gt;% group_by(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;continent&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+&amp;nbsp;
+
+--
+
+.box-inv-2[Nothing happens by itself!]
+
+--
+
+.box-inv-2[Powerful when combined with `summarize()`]
+
+---
+
+
+```r
+gapminder %&gt;% 
+  group_by(continent) %&gt;% 
+  summarize(n_countries = n_distinct(country)) 
+```
+
+--
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; continent &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n_countries &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Africa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Americas &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Asia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Europe &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Oceania &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;pollution&lt;/span&gt;&lt;/b&gt; %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;summarize(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;mean = mean(amount), sum = sum(amount), n = n()&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; city &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; particle_size &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; amount &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; New York &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; New York &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; London &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; London &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Beijing &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 121 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Beijing &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 56 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sum &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 42 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 252 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;pollution&lt;/span&gt;&lt;/b&gt; %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;group_by(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;city&lt;/span&gt;&lt;/b&gt;) %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;summarize(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;mean = mean(amount), sum = sum(amount), n = n()&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; city &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; particle_size &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; amount &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #B2B1F9 !important;"&gt; New York &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #B2B1F9 !important;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #B2B1F9 !important;"&gt; 23 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #B2B1F9 !important;"&gt; New York &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #B2B1F9 !important;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #B2B1F9 !important;"&gt; 14 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #EFB3FF !important;"&gt; London &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #EFB3FF !important;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #EFB3FF !important;"&gt; 22 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #EFB3FF !important;"&gt; London &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #EFB3FF !important;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #EFB3FF !important;"&gt; 16 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFD0CF !important;"&gt; Beijing &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #FFD0CF !important;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFD0CF !important;"&gt; 121 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFD0CF !important;"&gt; Beijing &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #FFD0CF !important;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFD0CF !important;"&gt; 56 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; city &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sum &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFD0CF !important;"&gt; Beijing &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFD0CF !important;"&gt; 88.5 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFD0CF !important;"&gt; 177 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFD0CF !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #EFB3FF !important;"&gt; London &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #EFB3FF !important;"&gt; 19.0 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #EFB3FF !important;"&gt; 38 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #EFB3FF !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #B2B1F9 !important;"&gt; New York &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #B2B1F9 !important;"&gt; 18.5 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #B2B1F9 !important;"&gt; 37 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #B2B1F9 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+
+&lt;code class ='r hljs remark-code'&gt;&lt;b&gt;&lt;span style='background-color:#FFDFD1'&gt;pollution&lt;/span&gt;&lt;/b&gt; %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;group_by(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;particle_size&lt;/span&gt;&lt;/b&gt;) %&gt;% &lt;br&gt;&amp;nbsp;&amp;nbsp;summarize(&lt;b&gt;&lt;span style='background-color:#FFD0CF'&gt;mean = mean(amount), sum = sum(amount), n = n()&lt;/span&gt;&lt;/b&gt;)&lt;/code&gt;
+
+.pull-left.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; city &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; particle_size &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; amount &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFDFD1 !important;"&gt; New York &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #FFDFD1 !important;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFDFD1 !important;"&gt; 23 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFF0D4 !important;"&gt; New York &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #FFF0D4 !important;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFF0D4 !important;"&gt; 14 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFDFD1 !important;"&gt; London &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #FFDFD1 !important;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFDFD1 !important;"&gt; 22 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFF0D4 !important;"&gt; London &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #FFF0D4 !important;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFF0D4 !important;"&gt; 16 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFDFD1 !important;"&gt; Beijing &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #FFDFD1 !important;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFDFD1 !important;"&gt; 121 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFF0D4 !important;"&gt; Beijing &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: #FFF0D4 !important;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFF0D4 !important;"&gt; 56 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.pull-right.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; particle_size &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sum &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFDFD1 !important;"&gt; Large &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFDFD1 !important;"&gt; 55.33333 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFDFD1 !important;"&gt; 166 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFDFD1 !important;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFF0D4 !important;"&gt; Small &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFF0D4 !important;"&gt; 28.66667 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFF0D4 !important;"&gt; 86 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: #FFF0D4 !important;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-2 section-title-inv-2
+
+# Your turn #6: Grouping and summarizing
+
+.box-2[Find the minimum, maximum, and median&lt;br&gt;life expectancy for each continent]
+
+.box-2[Find the minimum, maximum, and median&lt;br&gt;life expectancy for each continent in 2007 only]
+
+---
+
+
+```r
+gapminder %&gt;% 
+  group_by(continent) %&gt;% 
+  summarize(min_le = min(lifeExp),
+            max_le = max(lifeExp),
+            med_le = median(lifeExp))
+```
+
+--
+
+
+```r
+gapminder %&gt;% 
+  filter(year == 2007) %&gt;% 
+  group_by(continent) %&gt;% 
+  summarize(min_le = min(lifeExp),
+            max_le = max(lifeExp),
+            med_le = median(lifeExp))
+```
+
+---
+
+class: title title-2
+
+# dplyr: verbs for manipulating data
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Extract rows with &lt;code&gt;filter()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/filter.png" alt="filter" title="filter" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Extract columns with &lt;code&gt;select()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/select.png" alt="select" title="select" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Arrange/sort rows with &lt;code&gt;arrange()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/arrange.png" alt="arrange" title="arrange" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Make new columns with &lt;code&gt;mutate()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/mutate.png" alt="mutate" title="mutate" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Make group summaries with&lt;br&gt;&lt;code&gt;group_by() %&gt;% summarize()&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="img/01/summarize.png" alt="summarize" title="summarize" height="80px"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

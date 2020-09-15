@@ -26,7 +26,9 @@ You can also download a complete `.zip` file with a finished R Markdown file tha
 
 ## Live coding example
 
-Video will go here shortly
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/E-Zz5S5NOUo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 
 ## Complete code
