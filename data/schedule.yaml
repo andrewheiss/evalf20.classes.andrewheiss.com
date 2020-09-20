@@ -58,6 +58,7 @@ lessons:
     session: "Session 4"
     date: "September 14–18"
     content: "04-content"
+    example: "dags"
     bg: 2
 
   - title: 'Weekly check-in 4'
@@ -75,6 +76,7 @@ lessons:
     session: "Session 5"
     date: "September 21–25"
     content: "05-content"
+    example: "po-ate-cate"
     bg: 1
 
   - title: 'Weekly check-in 5'

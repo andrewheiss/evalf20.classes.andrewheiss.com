@@ -1,0 +1,172 @@
+---
+title: "Potential outcomes, ATEs, and CATEs"
+linktitle: "Potential outcomes, ATEs, and CATEs"
+date: "2020-09-19"
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 4
+menu:
+  example:
+    parent: Examples
+    weight: 4
+type: docs
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#theory">Theory</a></li>
+<li><a href="#effect-of-private-school-on-earnings-no-controls">Effect of private school on earnings, no controls</a></li>
+<li><a href="#effect-of-private-school-on-earnings-with-regression-and-controls">Effect of private school on earnings, with regression and controls</a></li>
+</ul>
+</div>
+
+<pre class="r"><code>library(tidyverse)     # ggplot, dplyr, and friends
+library(broom)         # Convert models to data frames
+library(scales)        # This makes it easy to format numbers with dollar(), comma(), etc.
+library(ggdag)         # Draw causal diagrams with R
+library(modelsummary)  # Fancy regression tables</code></pre>
+<div id="theory" class="section level2">
+<h2>Theory</h2>
+<p>According to the theory explained in chapter 2 of <em>Mastering ’Metrics</em>, attending a private university should be causally linked to earnings and income—that is, going to a private school should make you earn more money. The type of education you receive, however, is not the only factor that influences earnings. People self-select into different types of universities and choose where to apply and which offers to accept. They also choose to not apply to some schools and are also rejected from other schools. Unmeasured characteristics help determine both acceptance to schools and earnings.</p>
+<p>We can draw a simplified version of this causal story with a directed acyclic graph (DAG) or causal model:</p>
+<pre class="r"><code>dag &lt;- dagify(Y ~ P + G,
+              P ~ G,
+              exposure = &quot;P&quot;,
+              outcome = &quot;Y&quot;,
+              labels = c(Y = &quot;Earnings&quot;, P = &quot;Private university&quot;, 
+                         G = &quot;Student characteristics (group)&quot;),
+              coords = list(x = c(Y = 3, P = 1, G = 2),
+                            y = c(Y = 1, P = 1, G = 2)))
+
+ggdag_status(dag, use_labels = &quot;label&quot;) + 
+  guides(color = FALSE) +  # Remove legend
+  theme_dag()</code></pre>
+<p><img src="/example/po-ate-cate_files/figure-html/earnings-dag-1.png" width="75%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="effect-of-private-school-on-earnings-no-controls" class="section level2">
+<h2>Effect of private school on earnings, no controls</h2>
+<p>Because we don’t have a time machine, we can’t look at individual-level counterfactuals—we can’t send Person 1 to a private school, watch them for 40 years after, and then go back and send Person 1 to a public school and watch them for 40 years. To get around this, we can instead calculated the <em>average</em> treatment effect, or ATE, and find the average of all individual-level causal effects. We can use the information from our theory’s DAG to calculate a (hopefully!) accurate ATE.</p>
+<p>First we load the data from this CSV file (typed from the table in <em>Mastering ’Metrics</em>):</p>
+<ul>
+<li><a href="/data/public_private_earnings.csv"><i class="fas fa-table"></i> <code>public_private_earnings.csv</code></a></li>
+</ul>
+<pre class="r"><code># The data doesn&#39;t come with an indicator variable marking if students went to a
+# private school, so we create one here. If the string &quot;ivy&quot; is found in the
+# enrolled column, mark it as true, otherwise mark it as false.
+# 
+# We also create a variable that indicates if someone is in group A or not that
+# we&#39;ll use in the regression models. We could technically just include the
+# group variable in the model, where it would be treated as a dummy variable,
+# but the reference category would be A, not B, so this is a little trick to
+# force it to show results for group A.
+schools &lt;- read_csv(&quot;data/public_private_earnings.csv&quot;) %&gt;% 
+  mutate(private = ifelse(str_detect(enrolled, &quot;ivy&quot;), TRUE, FALSE)) %&gt;% 
+  mutate(group_A = ifelse(group == &quot;A&quot;, TRUE, FALSE))
+
+# Only look at groups A and B, since C and D don&#39;t have people in both public
+# and private schools. | means &quot;or&quot;
+schools_small &lt;- schools %&gt;% 
+  filter(group == &quot;A&quot; | group == &quot;B&quot;)</code></pre>
+<p>It’s really tempting to just find the average income for private school and subtract it from public school, like so:</p>
+<pre class="r"><code>schools_small %&gt;% 
+  group_by(private) %&gt;% 
+  summarize(avg_earnings = mean(earnings))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   private avg_earnings
+##   &lt;lgl&gt;          &lt;dbl&gt;
+## 1 FALSE          70000
+## 2 TRUE           90000</code></pre>
+<p>It looks like those who went to private school have $20,000 more in earnings! That’s a ton! It’s also <strong><em>incredibly wrong</em></strong>. <strong><em>Don’t do this!</em></strong> This does not account for any confounding or selection bias. According to our DAG, student characteristics are a huge confounder. We need to account for those.</p>
+<p>Following the potential outcomes framework, we can find the ATE by combining the conditional ATEs (or CATEs) for subgroups that are likely to predict outcomes or that bunch up similar observations. Let’s use the Group A and B distinction as our subgroups here.</p>
+<p>First we can look at the average income for people in each group, divided by whether they went to a private or public school:</p>
+<pre class="r"><code>avg_earnings &lt;- schools_small %&gt;% 
+  group_by(group, private) %&gt;% 
+  summarize(avg_earnings = mean(earnings))
+
+avg_earnings</code></pre>
+<pre><code>## # A tibble: 4 x 3
+## # Groups:   group [2]
+##   group private avg_earnings
+##   &lt;chr&gt; &lt;lgl&gt;          &lt;dbl&gt;
+## 1 A     FALSE         110000
+## 2 A     TRUE          105000
+## 3 B     FALSE          30000
+## 4 B     TRUE           60000</code></pre>
+<p>Here we see that group A has higher income on average than group B, regardless of whether they went to a private school. Everyone in group A earns roughly $100,000, while those in group B earn a lot less.</p>
+<p>We can find the exact differences in earnings for public vs. private within each group by pulling the values out of the table and taking their differences</p>
+<pre class="r"><code># Pulling out each of the numbers is tedious and a good example of why we use
+# regression instead. filter() selects rows that match the specified conditions
+# (here where group and private both equal something) and pull extracts a column
+# from the dataset. Because we&#39;re filtering this data in a way that makes it
+# only have one row, pull() will extract a single number.
+
+# Group A
+income_private_A &lt;- avg_earnings %&gt;% 
+  filter(group == &quot;A&quot; &amp; private == TRUE) %&gt;% 
+  pull(avg_earnings)
+
+income_public_A &lt;- avg_earnings %&gt;% 
+  filter(group == &quot;A&quot; &amp; private == FALSE) %&gt;% 
+  pull(avg_earnings)
+
+cate_a &lt;- income_private_A - income_public_A
+cate_a</code></pre>
+<pre><code>## [1] -5000</code></pre>
+<pre class="r"><code># Group B
+income_private_B &lt;- avg_earnings %&gt;% 
+  filter(group == &quot;B&quot; &amp; private == TRUE) %&gt;% 
+  pull(avg_earnings)
+
+income_public_B &lt;- avg_earnings %&gt;% 
+  filter(group == &quot;B&quot; &amp; private == FALSE) %&gt;% 
+  pull(avg_earnings)
+
+cate_b &lt;- income_private_B - income_public_B
+cate_b</code></pre>
+<pre><code>## [1] 30000</code></pre>
+<p>The private-public earnings gap for people in Group A (or <span class="math inline">\(\text{CATE}_\text{Group A}\)</span>) is -$5,000, while for Group B (or <span class="math inline">\(\text{CATE}_\text{Group B}\)</span>) it is $30,000. It seems that there’s a big effect for Group B, but a small reversed effect for A.</p>
+<p>We want to account for how many people are in each group, though, since A has more people than B, so we calculate the proportion of each group in the same and multiply the group differences by those proportions.</p>
+<p><span class="math display">\[
+\text{ATE} = \pi_\text{Group A} \text{CATE}_\text{Group A} + \pi_\text{Group B} \text{CATE}_\text{Group B}
+\]</span></p>
+<pre class="r"><code># We need to find the proportion of people in each group
+prop_in_groups &lt;- schools_small %&gt;% 
+  group_by(group) %&gt;% 
+  summarize(n = n()) %&gt;% 
+  mutate(prop = n / nrow(schools_small))
+prop_in_groups</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   group     n  prop
+##   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
+## 1 A         3   0.6
+## 2 B         2   0.4</code></pre>
+<pre class="r"><code>prop_A &lt;- prop_in_groups %&gt;% filter(group == &quot;A&quot;) %&gt;% pull(prop)
+prop_B &lt;- prop_in_groups %&gt;% filter(group == &quot;B&quot;) %&gt;% pull(prop)
+
+# With those proportions, we can weight the differences in groups correctly
+weighted_effect &lt;- (cate_a * prop_A) + (cate_b * prop_B)
+weighted_effect</code></pre>
+<pre><code>## [1] 9000</code></pre>
+<p>From this it looks like attending a private university causes a bump in earnings of $9,000. This is the average treatment effect (ATE).</p>
+</div>
+<div id="effect-of-private-school-on-earnings-with-regression-and-controls" class="section level2">
+<h2>Effect of private school on earnings, with regression and controls</h2>
+<p>Instead of looking at weighted averages (since that’s tedious with just two groups—imagine doing all that with 3+ groups!), we can use a regression model that accounts for differences between groups A and B, since something about group A made them way wealthier than group B regardless of school type.</p>
+<p>We do that by predicting earnings based on private/public school attendance while also controlling for group:</p>
+<pre class="r"><code>model_earnings &lt;- lm(earnings ~ private + group_A, data = schools_small)</code></pre>
+<pre class="r"><code>tidy(model_earnings)</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   term        estimate std.error statistic p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)   40000.    11952.     3.35   0.0789
+## 2 privateTRUE   10000.    13093.     0.764  0.525 
+## 3 group_ATRUE   60000.    13093.     4.58   0.0445</code></pre>
+<p>There are three important numbers here. The intercept (or <span class="math inline">\(\alpha\)</span> in <em>Mastering ’Metrics</em>, or <span class="math inline">\(\beta_0\)</span>) is $40,000. This represents the earnings for someone with all the switches and sliders in the model set to 0 or turned off—in this case, someone who went to a public school in group B.</p>
+<p>The <code>group_A</code> coefficient shows the effect of just being in that group. For whatever reason, Group A earns an average of $60,000 more than Group B—<em>for reasons other than education</em>. This allows us to control for the effect of selection.</p>
+<p>The coefficient for <code>private</code> is the one we care about the most—this is the causal effect of private schools on earnings (assuming we can justify all the controls and the matching into groups). It is <span>$</span>10,000, which means that attending a private school gives you that much of a bump in income. This is larger than the <span>$</span>9,000 we found earlier, but is probably more accurate since we’re accounting for other weighted differences between groups.</p>
+</div>
