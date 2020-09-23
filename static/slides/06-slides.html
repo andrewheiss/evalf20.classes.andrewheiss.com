@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Threats to validity</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-09-22" />
+    <script src="libs/header-attrs-2.3/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# The Four Horsemen&lt;br&gt;of Validity
+
+.class-info[
+
+**Session 6**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-3.medium.sp-after-half[Construct validity]
+
+--
+
+.box-1.medium.sp-after-half[Statistical conclusion validity]
+
+--
+
+.box-5.medium.sp-after-half[Internal validity]
+
+--
+
+.box-6.medium.sp-after-half[External validity]
+
+---
+
+name: construct-validity
+class: center middle section-title section-title-3 animated fadeIn
+
+# Construct validity
+
+---
+
+
+.box-inv-3.medium[A new program hopes to&lt;br&gt;improve student commitment to school]
+
+--
+
+.box-inv-3.medium.sp-after[Participants score 200 points higher on the SAT and have a 0.3 higher GPA, on average]
+
+--
+
+.center.float-left[
+.box-3.medium[Success!]&amp;ensp;&amp;ensp;.box-3.medium[Success?]
+]
+
+---
+
+layout: true
+class: title title-3
+
+---
+
+# The Streetlight Effect
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/06/streetlight.jpg" alt="Streetlight" title="Streetlight" width="70%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+Drunk guy looking for keys in the light of the lamppost instead of over in the bushes where they lost them
+
+Source: &lt;https://pxhere.com/en/photo/488829&gt;
+
+---
+
+# Construct validity
+
+.box-inv-3.medium[Are you measuring what you want to measure?]
+
+--
+
+.box-3[Do test scores measure commitment to school?&lt;br&gt;Teacher performance? Principal skill?]
+
+--
+
+.box-3.sp-after[Test scores measure how good kids are at taking tests]
+
+--
+
+.box-inv-3.medium[This is why we spend so much time&lt;br&gt;on outcome measurement construction!]
+
+---
+
+layout: false
+name: statistical-conclusion-validity
+class: center middle section-title section-title-1 animated fadeIn
+
+# Statistical conclusion&lt;br&gt;validity
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Statistical conclusion validity
+
+--
+
+.box-inv-1.medium[Are your statistics correct?]
+
+--
+
+.box-1[Statistical power]
+
+--
+
+.box-1[Violated assumptions of statistical tests]
+
+--
+
+.box-1[Fishing and p-hacking]
+
+--
+
+.box-1[Spurious statistical significance]
+
+---
+
+# Power
+
+
+
+
+.box-inv-1[A training program causes incomes to rise by $40]
+
+.center.small[
+
+|Person |Group     | Before | After  | Difference |
+|:------|:---------|:------:|:------:|:----------:|
+|295    |Control   | 122.09 | 229.04 |   106.95   |
+|126    |Treatment | 205.60 | 199.84 |   -5.76    |
+|400    |Control   | 133.25 | 130.40 |   -2.85    |
+|94     |Treatment | 270.11 | 206.56 |   -63.54   |
+|250    |Control   | 344.37 | 222.89 |  -121.49   |
+|59     |Treatment | 312.41 | 268.06 |   -44.35   |
+]
+
+---
+
+# Power
+
+.pull-left[
+.box-1.small[Survey 10 participants]
+
+&lt;img src="06-slides_files/figure-html/power-small-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+.box-1.small[Survey 200 participants]
+
+&lt;img src="06-slides_files/figure-html/power-big-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# What's the right sample size?
+
+.box-inv-1[Use a statistical power calculator to&lt;br&gt;make sure you can potentially detect an effect]
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/06/power-search.png" alt="Google power calculator" title="Google power calculator" width="50%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Test assumptions
+
+.box-inv-1[Every statistical test has certain assumptions]
+
+--
+
+.box-1.smaller[For instance, for OLS:]
+
+.center.float-left.smaller[
+.box-1[Linearity]&amp;ensp;.box-1[Homoscedasticity]&amp;ensp;.box-1[Independence]&amp;ensp;.box-1[Normality]
+]
+
+--
+
+.box-inv-1.medium.sp-before[Make sure you're doing the stats correctly]
+
+---
+
+# Fishing and p-hacking
+
+.box-inv-1[Wouldn't it be awesome to run thousands of models&lt;br&gt;with different combinations of variables&lt;br&gt;until you find coefficients that are statistically significant?]
+
+--
+
+.box-1.large[Don't!]
+
+--
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/06/p-hacking.png" alt="p-hacking" title="p-hacking" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://projects.fivethirtyeight.com/p-hacking/&gt;
+
+---
+
+# Spurious statistical significance
+
+.box-inv-1.sp-after[If *p* threshold is 0.05 and you measure 20 outcomes,&lt;br&gt;1 will likely show correlation by chance]
+
+--
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/06/xkcd.png" alt="xkcd: significance" title="xkcd: significance" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://xkcd.com/882/&gt;
+
+---
+
+layout: false
+name: internal-validity
+class: center middle section-title section-title-5 animated fadeIn
+
+# Internal validity
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Internal validity
+
+--
+
+.box-5[Omitted variable bias]
+
+.center.float-left[
+.box-inv-5[Selection] .box-inv-5[Attrition]
+]
+
+--
+
+.box-5[Trends]
+
+.center.float-left[
+.box-inv-5[Maturation] .box-inv-5[Secular trends] .box-inv-5[Seasonality] .box-inv-5[Testing] .box-inv-5[Regression]
+]
+
+--
+
+.pull-left-narrow[
+.box-5[Study calibration]
+
+.center.float-left[
+.box-inv-5[Measurement error]
+
+.box-inv-5[Time frame]
+]
+]
+
+--
+
+.pull-right-wide[
+.box-5[Contamination]
+
+.center.float-left[
+.box-inv-5[Hawthorne] .box-inv-5[John Henry]
+]
+
+.center.float-left[
+.box-inv-5[Spillovers] .box-inv-5[Intervening events]
+]
+]
+
+---
+
+# Selection
+
+.box-inv-5.less-medium.sp-after[If people can choose to enroll in a&lt;br&gt;program, those who enroll will be&lt;br&gt;different from those who do not]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Randomization into&lt;br&gt;treatment and control groups]
+
+---
+
+# Selection
+
+.box-inv-5.less-medium.sp-after[If people can choose when to&lt;br&gt;enroll in a program, time might&lt;br&gt;influence the result]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Shift time around]
+
+---
+
+layout: false
+class: bg-full
+background-image: url("img/06/marriage-title.png")
+
+???
+
+(happier people more likely to get married, so without randomly assigning marriage how would you study the impact of marriage on happiness?). They use a simple approach - since happiness varies over time set marriage equal to time zero and build a pre-post design around it. You essentially leverage the within-group variance and iron out across-age differences because of the varying ages of marriage. The whole insight it to change the time-line from calendar years to program years.
+
+&lt;https://doi.org/10.1016/j.socec.2005.11.043&gt;
+
+---
+
+class: bg-full
+background-image: url("img/06/marriage-graph1.png")
+
+---
+
+class: bg-full
+background-image: url("img/06/marriage-graph2.png")
+
+---
+
+class: bg-full
+background-image: url("img/06/marriage-graph3.png")
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Attrition
+
+.box-inv-5.less-medium.sp-after[If the people who leave a program or&lt;br&gt;study are different than those who stay,&lt;br&gt;the effects will be biased]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Check characteristics of those&lt;br&gt;who stay and those who leave]
+
+---
+
+# Fake microfinance program results
+
+.small.sp-after[
+
+| ID | Increase in income | Remained in program |
+|:--:|:------------------:|:-------------------:|
+| 1  |       $3.00        |         Yes         |
+| 2  |       $3.50        |         Yes         |
+| 3  |       $2.00        |         Yes         |
+| 4  |       $1.50        |         No          |
+| 5  |       $1.00        |         No          |
+]
+
+.pull-left[
+.box-inv-5[ATE with&lt;br&gt;attriters = $2.20]
+]
+
+--
+
+.pull-right[
+.box-inv-5[ATE without&lt;br&gt;attriters = $2.83]
+]
+
+---
+
+# Maturation
+
+.box-inv-5.less-medium[Growth is expected naturally]
+
+.box-inv-5.sp-after[e.g. programs targeted at childhood development&lt;br&gt;contend with the fact that children develop on their own too]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Use a comparison group to remove the trend]
+
+---
+
+layout: false
+class: bg-full
+background-image: url("img/06/sesame-street.png")
+
+???
+
+https://www.wellesley.edu/sites/default/files/assets/dailyshot/2015/wellesleystudy_sesamestreet.pdf
+
+https://umdrightnow.umd.edu/news/new-study-finds-sesame-street-improves-school-readiness
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Secular trends
+
+.box-inv-5.less-medium[Patterns in data happen&lt;br&gt;because of larger global processes]
+
+.center.float-left.sp-after[
+.box-5[Recessions]&amp;ensp;.box-5[Cultural shifts]&amp;ensp;.box-5[Marriage equality]
+]
+
+--
+
+.box-7.medium.sp-before[How to fix]
+
+.box-inv-5.less-medium[Use a comparison group to remove the trend]
+
+---
+
+# Seasonal trends
+
+.box-inv-5.less-medium.sp-after[Patterns in data happen because of&lt;br&gt;regular time-based trends]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Compare observations from same time period&lt;br&gt;or use yearly/monthly averages]
+
+---
+
+layout: false
+
+.center[
+&lt;img src="06-slides_files/figure-html/giving-2017-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Testing
+
+.box-inv-5.less-medium.sp-after[Repeated exposure to questions or tasks&lt;br&gt;will make people improve naturally]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Change tests, maybe don't offer pre-tests,&lt;br&gt;use a control group that receives the test]
+
+---
+
+# Regression to the mean
+
+.box-inv-5.less-medium[People in the extreme have a tendency to&lt;br&gt;become less extreme over time]
+
+.center.float-left.sp-after[
+.box-5[Luck]&amp;ensp;.box-5[Crime and terrorism]&amp;ensp;.box-5[Hot hand effect]
+]
+
+--
+
+.box-7.medium.sp-before[How to fix]
+
+.box-inv-5.less-medium[Don't select super high or&lt;br&gt;super low performers]
+
+???
+
+This isn’t because the universe trends toward some average; an extreme value is because of systematic and random extremes, which are rare. Luck goes away
+
+---
+
+# Measurement error
+
+.box-inv-5.less-medium.sp-after[Measuring the outcome incorrectly&lt;br&gt;will bias the effect]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Measure the outcome well]
+
+---
+
+# Time frame
+
+.box-inv-5.less-medium.sp-after[If the study is too short, the effect might not&lt;br&gt;be detectable yet; if the study is too long,&lt;br&gt;attrition becomes a problem]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Use prior knowledge about the thing&lt;br&gt;you're studying to choose the right length]
+
+---
+
+# Hawthorne effect
+
+.box-inv-5.less-medium.sp-after[Observing people makes them behave differently]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Hide? Use completely unobserved control groups]
+
+???
+
+Experiments in 1924-1932 at Hawthorne Works
+
+---
+
+# John Henry effect
+
+.box-inv-5.less-medium.sp-after[Control group works hard to prove&lt;br&gt;they're as good as the treatment group]
+
+--
+
+.box-7.medium[How to fix]
+
+.box-inv-5.less-medium[Keep two groups separate]
+
+---
+
+# Spillover effect
+
+.box-inv-5.less-medium[Control groups naturally pick up&lt;br&gt;what the treatment group is getting]
+
+.center.float-left.sp-after[
+.box-5[Externalities]&amp;ensp;.box-5[Social interaction]&amp;ensp;.box-5[Equilibrium effects]
+]
+
+--
+
+.box-7.medium.sp-before[How to fix]
+
+.box-inv-5.less-medium[Keep two groups separate;&lt;br&gt;use distant control groups]
+
+---
+
+# Intervening events
+
+.box-inv-5.less-medium.sp-after[Something happens that affects one of&lt;br&gt;the groups and not the other]
+
+--
+
+.box-7.medium[How to fix]
+
+.center.huge[🤷‍♂️]
+
+---
+
+# Internal validity
+
+.box-5[Omitted variable bias]
+
+.center.float-left[
+.box-inv-5[Selection] .box-inv-5[Attrition]
+]
+
+.box-5[Trends]
+
+.center.float-left[
+.box-inv-5[Maturation] .box-inv-5[Secular trends] .box-inv-5[Seasonality] .box-inv-5[Testing] .box-inv-5[Regression]
+]
+
+.pull-left-narrow[
+.box-5[Study calibration]
+
+.center.float-left[
+.box-inv-5[Measurement error]
+
+.box-inv-5[Time frame]
+]
+]
+
+.pull-right-wide[
+.box-5[Contamination]
+
+.center.float-left[
+.box-inv-5[Hawthorne] .box-inv-5[John Henry]
+]
+
+.center.float-left[
+.box-inv-5[Spillovers] .box-inv-5[Intervening events]
+]
+]
+
+---
+
+# Fixing internal validity
+
+.box-inv-5.medium[Randomization fixes a host of issues]
+
+.center.float-left.sp-after[
+.box-5[Selection]&amp;ensp;.box-5[Maturation]&amp;ensp;.box-5[Regression to the mean]
+]
+
+--
+
+.box-inv-5.medium.sp-before[Randomization doesn't fix everything!]
+
+.center.float-left[
+.box-5[Attrition]&amp;ensp;.box-5[Contamination]&amp;ensp;.box-5[Measurement]
+]
+
+---
+
+layout: false
+name: external-validity
+class: center middle section-title section-title-6 animated fadeIn
+
+# External validity
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Generalizability
+
+.box-inv-6.less-medium[Are your findings generalizable&lt;br&gt;to the whole population?]
+
+--
+
+.pull-left.right[
+&lt;figure&gt;
+  &lt;img src="img/06/external-validity1.png" alt="Hospital lights increase risk of dying" title="Hospital lights increase risk of dying" width="80%"&gt;
+&lt;/figure&gt;
+]
+
+--
+
+.pull-right.left[
+&lt;figure&gt;
+  &lt;img src="img/06/external-validity2.png" alt="…in mice" title="…in mice" width="70%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Lab conditions vs. real world
+
+.box-inv-6.medium[Study volunteers are weird]
+
+--
+
+.box-6[&lt;span style="color: #F6D645"&gt;W&lt;/span&gt;estern, &lt;span style="color: #F6D645"&gt;e&lt;/span&gt;ducated, from &lt;span style="color: #F6D645"&gt;i&lt;/span&gt;ndustrialized,&lt;br&gt;&lt;span style="color: #F6D645"&gt;r&lt;/span&gt;ich, and &lt;span style="color: #F6D645"&gt;d&lt;/span&gt;emocratic countries]
+
+--
+
+.box-inv-6.medium.sp-before[Not everyone takes surveys]
+
+--
+
+.float-left.center[
+.box-6[Online surveys]&amp;ensp;.box-6[Amazon Mechanical Turk]&amp;ensp;.box-6[Random digit dialing]
+]
+
+---
+
+# Different settings and circumstances
+
+--
+
+.box-inv-6.medium.sp-after[Does a study in one state&lt;br&gt;apply to other states?]
+
+--
+
+.box-inv-6.medium[Does the effect from a mosquito net trial&lt;br&gt;in Eritrea transfer to Bolivia?]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

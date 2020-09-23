@@ -11,22 +11,98 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "06-slides"
+slides: "06-slides"
 output:
   blogdown::html_page:
     toc: true
 ---
 
+```{r slides-videos, echo=FALSE, include=FALSE}
+source(here::here("R", "slide-tabs.R"))
+source(here::here("R", "youtube-playlist.R"))
+
+playlist_id <- "PLS6tnpTr39sFJtz7egfUASfhhz6zuj7GZ"
+
+slide_details <- tibble::tribble(
+  ~youtube_id,   ~title, ~slide, ~active,
+  "46v8l60nQnI", "Introduction", "1", TRUE,
+  "N4XYXuw_IA0", "Construct validity", "construct-validity", FALSE,
+  "IziQBDzUJ6E", "Statistical conclusion validity", "statistical-conclusion-validity", FALSE,
+  "ssz2DTfrGhw", "Internal validity", "internal-validity", FALSE,
+  "uK7YN6KTRT4", "External validity", "external-validity", FALSE
+)
+```
+
+
 ## Readings
 
+- <i class="fas fa-external-link-square-alt"></i> Randall Munroe, ["Significant"](https://xkcd.com/882/)
+- <i class="fas fa-external-link-square-alt"></i> Alexander Coppock, ["10 Things to Know About Statistical Power"](https://egap.org/resource/10-things-to-know-about-statistical-power/)
+- <i class="fas fa-trophy"></i> Play around with FiveThirtyEight, ["Hack Your Way To Scientific Glory"](https://projects.fivethirtyeight.com/p-hacking/)
 - <i class="fas fa-book"></i> Chapter 9 in *Impact Evaluation in Practice* [@wb-eval]
 
 
 ## Slides
 
-Slides go here.
+The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+`r blogdown::shortcode("slide-buttons")`
+
+```{r show-slide-tabs, echo=FALSE, results="asis"}
+slide_tabs(slide_details, "/slides/06-slides.html")
+```
+
+:::fyi
+**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.
+:::
 
 
 ## Videos
 
-Videos go here.
+```{r show-youtube-list, echo=FALSE, results="asis"}
+youtube_list(slide_details, playlist_id)
+```
+
+
+```{cat include=FALSE, eval=FALSE}
+Playlist: https://www.youtube.com/playlist?list=PLS6tnpTr39sFJtz7egfUASfhhz6zuj7GZ
+
+https://youtu.be/46v8l60nQnI
+PMAP 8521 • (6) Threats to validity: (0) Introduction
+
+Introduction to the class session on threats to validity
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/06-content/
+
+
+https://youtu.be/N4XYXuw_IA0
+PMAP 8521 • (6) Threats to validity: (1) Construct validity
+
+Discussion of threats to construct validity
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/06-content/
+
+  
+https://youtu.be/IziQBDzUJ6E
+PMAP 8521 • (6) Threats to validity: (2) Statistical conclusion validity
+
+Discussion of threats to statistical conclusion validity
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/06-content/
+  
+  
+https://youtu.be/ssz2DTfrGhw
+PMAP 8521 • (6) Threats to validity: (3) Internal validity
+
+Discussion of threats to internal validity
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/06-content/
+  
+  
+https://youtu.be/uK7YN6KTRT4
+PMAP 8521 • (6) Threats to validity: (4) External validity
+
+Discussion of threats to external validity
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/06-content/
+```
