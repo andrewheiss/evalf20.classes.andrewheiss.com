@@ -179,6 +179,61 @@ ggdag_adjustment_set(simple_dag_with_coords, shadow = TRUE) +
 
 R will find minimally sufficient adjustment sets, which includes the fewest number of adjustments needed to close all backdoors between `x` and `y`. In this example DAG there was only one set of variables (`a` and `b`), but in other situations there could be many possible sets, or none if the causal effect is not identifiable.
 
+### Plot DAG from dagitty.net with `ggdag()`
+
+If you use [dagitty.net](http://dagitty.net/) to draw a DAG, you'll notice that it generates some code for you in the model code section:
+
+```{r dagitty-model-code-example, echo=FALSE}
+knitr::include_graphics("/img/example/dagitty-code.png", error = FALSE)
+```
+
+You can copy that `dag{ ... }` code and paste it into R to define a DAG object rather than use the `dagify()` function. To do this, use the `dagitty()` function from the **dagitty** library and include the whole generated model code in single quotes (`''`):
+
+```{r code-from-dagitty}
+model_from_dagitty <- dagitty('dag {
+bb="0,0,1,1"
+"A confounder" [pos="0.809,0.306"]
+"Another confounder" [pos="0.810,0.529"]
+"Some outcome" [outcome,pos="0.918,0.432"]
+"Some treatment" [exposure,pos="0.681,0.426"]
+"A confounder" -> "Some outcome"
+"A confounder" -> "Some treatment"
+"Another confounder" -> "Some outcome"
+"Another confounder" -> "Some treatment"
+"Some treatment" -> "Some outcome"
+}
+')
+
+ggdag(model_from_dagitty) +
+  theme_dag()
+```
+
+By default it's going to look ugly because (1) the node labels don't fit, and (2) slight differences in the coordinates make it so the nodes don't perfectly align with each other. To fix coordinate alignment, you can modify the numbers in the generated DAG code. Here I rounded the numbers so that they're all 0.3, 0.8, etc.
+
+To fix the label issue, you can add the `use_labels` argument like normally. Only here, you can't specify `use_labels = "label"`. Instead, when you specify a DAG using dagitty's code like this, the column in the underlying dataset that contains the labels is named `name`, so you need to use `use_labels = "name"`.
+
+Other `ggdag()` variations like `ggdag_status()` will still work fine.
+
+```{r code-from-dagitty-better}
+model_from_dagitty_rounded <- dagitty('dag {
+bb="0,0,1,1"
+"A confounder" [pos="0.8,0.3"]
+"Another confounder" [pos="0.8,0.5"]
+"Some outcome" [outcome,pos="0.9,0.4"]
+"Some treatment" [exposure,pos="0.7,0.4"]
+"A confounder" -> "Some outcome"
+"A confounder" -> "Some treatment"
+"Another confounder" -> "Some outcome"
+"Another confounder" -> "Some treatment"
+"Some treatment" -> "Some outcome"
+}
+')
+
+ggdag_status(model_from_dagitty_rounded, text = FALSE, use_labels = "name") +
+  guides(color = FALSE) +  # Turn off legend
+  theme_dag()
+```
+
 
 ## Mosquito net example
 

@@ -27,6 +27,7 @@ editor_options:
 <li><a href="#layouts-and-manual-coordinates">Layouts and manual coordinates</a></li>
 <li><a href="#node-names-and-labels">Node names and labels</a></li>
 <li><a href="#paths-and-adjustment-sets">Paths and adjustment sets</a></li>
+<li><a href="#plot-dag-from-dagitty.net-with-ggdag">Plot DAG from dagitty.net with <code>ggdag()</code></a></li>
 </ul></li>
 <li><a href="#mosquito-net-example">Mosquito net example</a>
 <ul>
@@ -160,6 +161,50 @@ ggdag_status(simple_dag_with_coords_and_labels,
   theme_dag()</code></pre>
 <p><img src="/example/dags_files/figure-html/plot-adjustment-sets-1.png" width="75%" style="display: block; margin: auto;" /></p>
 <p>R will find minimally sufficient adjustment sets, which includes the fewest number of adjustments needed to close all backdoors between <code>x</code> and <code>y</code>. In this example DAG there was only one set of variables (<code>a</code> and <code>b</code>), but in other situations there could be many possible sets, or none if the causal effect is not identifiable.</p>
+</div>
+<div id="plot-dag-from-dagitty.net-with-ggdag" class="section level3">
+<h3>Plot DAG from dagitty.net with <code>ggdag()</code></h3>
+<p>If you use <a href="http://dagitty.net/">dagitty.net</a> to draw a DAG, you’ll notice that it generates some code for you in the model code section:</p>
+<p><img src="/img/example/dagitty-code.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>You can copy that <code>dag{ ... }</code> code and paste it into R to define a DAG object rather than use the <code>dagify()</code> function. To do this, use the <code>dagitty()</code> function from the <strong>dagitty</strong> library and include the whole generated model code in single quotes (<code>''</code>):</p>
+<pre class="r"><code>model_from_dagitty &lt;- dagitty(&#39;dag {
+bb=&quot;0,0,1,1&quot;
+&quot;A confounder&quot; [pos=&quot;0.809,0.306&quot;]
+&quot;Another confounder&quot; [pos=&quot;0.810,0.529&quot;]
+&quot;Some outcome&quot; [outcome,pos=&quot;0.918,0.432&quot;]
+&quot;Some treatment&quot; [exposure,pos=&quot;0.681,0.426&quot;]
+&quot;A confounder&quot; -&gt; &quot;Some outcome&quot;
+&quot;A confounder&quot; -&gt; &quot;Some treatment&quot;
+&quot;Another confounder&quot; -&gt; &quot;Some outcome&quot;
+&quot;Another confounder&quot; -&gt; &quot;Some treatment&quot;
+&quot;Some treatment&quot; -&gt; &quot;Some outcome&quot;
+}
+&#39;)
+
+ggdag(model_from_dagitty) +
+  theme_dag()</code></pre>
+<p><img src="/example/dags_files/figure-html/code-from-dagitty-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>By default it’s going to look ugly because (1) the node labels don’t fit, and (2) slight differences in the coordinates make it so the nodes don’t perfectly align with each other. To fix coordinate alignment, you can modify the numbers in the generated DAG code. Here I rounded the numbers so that they’re all 0.3, 0.8, etc.</p>
+<p>To fix the label issue, you can add the <code>use_labels</code> argument like normally. Only here, you can’t specify <code>use_labels = "label"</code>. Instead, when you specify a DAG using dagitty’s code like this, the column in the underlying dataset that contains the labels is named <code>name</code>, so you need to use <code>use_labels = "name"</code>.</p>
+<p>Other <code>ggdag()</code> variations like <code>ggdag_status()</code> will still work fine.</p>
+<pre class="r"><code>model_from_dagitty_rounded &lt;- dagitty(&#39;dag {
+bb=&quot;0,0,1,1&quot;
+&quot;A confounder&quot; [pos=&quot;0.8,0.3&quot;]
+&quot;Another confounder&quot; [pos=&quot;0.8,0.5&quot;]
+&quot;Some outcome&quot; [outcome,pos=&quot;0.9,0.4&quot;]
+&quot;Some treatment&quot; [exposure,pos=&quot;0.7,0.4&quot;]
+&quot;A confounder&quot; -&gt; &quot;Some outcome&quot;
+&quot;A confounder&quot; -&gt; &quot;Some treatment&quot;
+&quot;Another confounder&quot; -&gt; &quot;Some outcome&quot;
+&quot;Another confounder&quot; -&gt; &quot;Some treatment&quot;
+&quot;Some treatment&quot; -&gt; &quot;Some outcome&quot;
+}
+&#39;)
+
+ggdag_status(model_from_dagitty_rounded, text = FALSE, use_labels = &quot;name&quot;) +
+  guides(color = FALSE) +  # Turn off legend
+  theme_dag()</code></pre>
+<p><img src="/example/dags_files/figure-html/code-from-dagitty-better-1.png" width="75%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="mosquito-net-example" class="section level2">
