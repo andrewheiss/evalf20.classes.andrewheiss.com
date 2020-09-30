@@ -46,5 +46,7 @@ assignment:
 resource:
   - name: Resources
     weight: 1
-  - name: Guides
+  - name: Study guides
     weight: 2
+  - name: Guides
+    weight: 3

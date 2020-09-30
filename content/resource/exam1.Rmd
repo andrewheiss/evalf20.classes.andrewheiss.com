@@ -1,12 +1,12 @@
 ---
-title: Things you should know for Exam 1
-date: "2019-11-18"
+title: "Things you should know for Exam 1"
+date: "2020-09-30"
 menu:
-  reference:
-    parent: Resources
-    weight: 4
+  resource:
+    parent: Study guides
+    weight: 1
 type: docs
-weight: 4
+weight: 1
 output:
   blogdown::html_page:
       toc: TRUE
