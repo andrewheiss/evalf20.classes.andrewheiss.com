@@ -11,7 +11,7 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "07-slides"
+slides: "07-slides"
 output:
   blogdown::html_page:
     toc: true
@@ -21,7 +21,10 @@ output:
 
 <div id="TOC">
 <ul>
-<li><a href="#readings">Readings</a></li>
+<li><a href="#readings">Readings</a>
+<ul>
+<li><a href="#matching-and-inverse-probability-weighting">Matching and inverse probability weighting</a></li>
+</ul></li>
 <li><a href="#slides">Slides</a></li>
 <li><a href="#videos">Videos</a></li>
 </ul>
@@ -36,12 +39,83 @@ output:
 <li><i class="fas fa-podcast"></i> Planet Money, <a href="https://www.npr.org/2019/08/30/756028025/episode-937-moving-to-opportunity">“Moving To Opportunity?,”</a> episode 937</li>
 <li><i class="fas fa-external-link-square-alt"></i> Aaron Carroll, <a href="https://www.nytimes.com/2018/08/06/upshot/employer-wellness-programs-randomized-trials.html">“Workplace Wellness Programs Don’t Work Well. Why Some Studies Show Otherwise,”</a> <em>The Upshot</em>, August 6, 2018</li>
 </ul>
+<div id="matching-and-inverse-probability-weighting" class="section level3">
+<h3>Matching and inverse probability weighting</h3>
+<ul>
+<li>The <a href="/example/matching-ipw/">example page on matching and inverse probability weighting</a> shows how to use R to close backdoors, make adjustments, and find causal effects from observational data using matching and inverse probability weighting</li>
+</ul>
+</div>
 </div>
 <div id="slides" class="section level2">
 <h2>Slides</h2>
-<p>Slides go here.</p>
+<p>The slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.</p>
+{{% slide-buttons %}}
+<ul class="nav nav-tabs" id="slide-tabs" role="tablist">
+<li class="nav-item">
+<a class="nav-link active" id="introduction-tab" data-toggle="tab" href="#introduction" role="tab" aria-controls="introduction" aria-selected="true">Introduction</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="the-magic-of-randomization-tab" data-toggle="tab" href="#the-magic-of-randomization" role="tab" aria-controls="the-magic-of-randomization" aria-selected="false">The magic of randomization</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="how-to-analyze-rcts-tab" data-toggle="tab" href="#how-to-analyze-rcts" role="tab" aria-controls="how-to-analyze-rcts" aria-selected="false">How to analyze RCTs</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="the-gold-standard-tab" data-toggle="tab" href="#the-gold-standard" role="tab" aria-controls="the-gold-standard" aria-selected="false">The “gold” standard</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="adjustment-with-matching-tab" data-toggle="tab" href="#adjustment-with-matching" role="tab" aria-controls="adjustment-with-matching" aria-selected="false">Adjustment with matching</a>
+</li>
+</ul>
+<div id="slide-tabs" class="tab-content">
+<div id="introduction" class="tab-pane fade show active" role="tabpanel" aria-labelledby="introduction-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/07-slides.html#1">
+</iframe>
+</div>
+</div>
+<div id="the-magic-of-randomization" class="tab-pane fade" role="tabpanel" aria-labelledby="the-magic-of-randomization-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/07-slides.html#magic-randomization">
+</iframe>
+</div>
+</div>
+<div id="how-to-analyze-rcts" class="tab-pane fade" role="tabpanel" aria-labelledby="how-to-analyze-rcts-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/07-slides.html#rct-how">
+</iframe>
+</div>
+</div>
+<div id="the-gold-standard" class="tab-pane fade" role="tabpanel" aria-labelledby="the-gold-standard-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/07-slides.html#gold-standard">
+</iframe>
+</div>
+</div>
+<div id="adjustment-with-matching" class="tab-pane fade" role="tabpanel" aria-labelledby="adjustment-with-matching-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/07-slides.html#matching">
+</iframe>
+</div>
+</div>
+</div>
+<div class="fyi">
+<p><strong>Fun fact</strong>: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.</p>
+</div>
 </div>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
-<p>Videos go here.</p>
+<p>Videos for each section of the lecture are <a href="https://www.youtube.com/playlist?list=PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz">available at this YouTube playlist</a>.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=m4nKVJ-2K3I&amp;list=PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz">Introduction</a></li>
+<li><a href="https://www.youtube.com/watch?v=-zjSixOybQE&amp;list=PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz">The magic of randomization</a></li>
+<li><a href="https://www.youtube.com/watch?v=W0NyALrjLA4&amp;list=PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz">How to analyze RCTs</a></li>
+<li><a href="https://www.youtube.com/watch?v=vHb2TYAze74&amp;list=PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz">The “gold” standard</a></li>
+<li><a href="https://www.youtube.com/watch?v=jECz-SS-sqc&amp;list=PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz">Adjustment with matching</a></li>
+</ul>
+<p>You can also watch the playlist (and skip around to different sections) here:</p>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/videoseries?list=PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
 </div>

@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Randomization and matching</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-10-01" />
+    <script src="libs/header-attrs-2.3/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# Randomization&lt;br&gt;and matching
+
+.class-info[
+
+**Session 7**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-4.medium.sp-after-half[The magic of randomization]
+
+--
+
+.box-5.medium.sp-after-half[How to analyze RCTs]
+
+--
+
+.box-6.medium.sp-after-half[The "gold" standard]
+
+--
+
+.box-1.medium.sp-after-half[Adjustment with matching]
+
+---
+
+name: magic-randomization
+class: center middle section-title section-title-4 animated fadeIn
+
+# The magic&lt;br&gt;of randomization
+
+---
+
+layout: true
+class: title title-4
+
+---
+
+# Why randomize?
+
+.box-4.large[Fundamental problem&lt;br&gt;of causal inference]
+
+$$
+\delta_i = Y_i^1 - Y_i^0 \quad \text{in real life is} \quad \delta_i = Y_i^1 - ???
+$$
+
+.box-inv-4[Individual-level effects are impossible to observe!]
+
+.box-inv-4[There are no individual counterfactuals!]
+
+---
+
+# Why randomize?
+
+.medium[
+$$
+\delta = (\bar{Y}\ |\ P = 1) - (\bar{Y}\ |\ P = 0)
+$$
+]
+
+--
+
+.box-inv-4.medium[Comparing average outcomes only works&lt;br&gt;if groups that received/didn't receive&lt;br&gt;treatment look the same]
+
+---
+
+# Why randomize?
+
+.box-inv-4[With big enough samples, the magic of randomization&lt;br&gt;helps make comparison groups comparable]
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/07/wb-4-1.png" alt="Figure 4.1 from WB book" title="Figure 4.1 from WB book" width="80%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# RCTs and DAGs
+
+$$
+E[\text{Malaria infection rate}\ |\ do(\text{Mosquito net})]
+$$
+
+--
+
+.pull-left[
+.box-4.smaller[Observational DAG]
+&lt;img src="07-slides_files/figure-html/observational-dag-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+.box-4.smaller[Experimental DAG]
+&lt;img src="07-slides_files/figure-html/experimental-dag-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.box-inv-4.small[When you *do*() X, delete all arrows into X; **confounders don't influence treatment!**]
+
+---
+
+# How to randomize?
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/07/wb-4-4.png" alt="Figure 4.4 from WB book" title="Figure 4.4 from WB book" width="75%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Random assignment
+
+.box-inv-4.medium[Coins]
+
+--
+
+.box-inv-4.medium[Dice]
+
+--
+
+.box-inv-4.medium[Unbiased lottery]
+
+--
+
+.box-inv-4.medium[Random numbers + threshold]
+
+--
+
+.box-inv-4.medium[Atmospheric noise]
+
+.box-4.tiny[random.org]
+
+---
+
+# How big of a sample?
+
+
+
+
+.box-inv-4[A training program causes incomes to rise by $40]
+
+.center.small[
+
+|Person |Group     | Before | After  | Difference |
+|:------|:---------|:------:|:------:|:----------:|
+|295    |Control   | 122.09 | 229.04 |   106.95   |
+|126    |Treatment | 205.60 | 199.84 |   -5.76    |
+|400    |Control   | 133.25 | 130.40 |   -2.85    |
+|94     |Treatment | 270.11 | 206.56 |   -63.54   |
+|250    |Control   | 344.37 | 222.89 |  -121.49   |
+|59     |Treatment | 312.41 | 268.06 |   -44.35   |
+]
+
+---
+
+# Power
+
+.pull-left[
+.box-4.small[Enroll 10 participants]
+
+&lt;img src="07-slides_files/figure-html/power-small-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+.box-4.small[Enroll 200 participants]
+
+&lt;img src="07-slides_files/figure-html/power-big-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# What's the right sample size?
+
+.box-inv-4[Use a statistical power calculator to&lt;br&gt;make sure you can potentially detect an effect]
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/06/power-search.png" alt="Google power calculator" title="Google power calculator" width="50%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+layout: false
+name: rct-how
+class: center middle section-title section-title-5 animated fadeIn
+
+# How to analyze RCTs
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# How to analyze RCTs
+
+.box-inv-5.sp-after[Surprisingly easy, statistically!]
+
+--
+
+.box-5[Step 1: Check that key demographics&lt;br&gt;and other confounders are balanced]
+
+--
+
+.box-5[Step 2: Find difference in average outcome&lt;br&gt;in treatment and control groups]
+
+---
+
+# Example RCT
+
+
+
+.small-code[
+
+```r
+imaginary_program
+```
+
+```
+## # A tibble: 800 x 6
+##    person treatment   age sex    income_after male_num
+##     &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;
+##  1    498 Control      45 Female         179.        0
+##  2    308 Treatment    37 Male           247.        1
+##  3    677 Control      35 Female         369.        0
+##  4     31 Treatment    39 Female         203.        0
+##  5    543 Control      36 Female         190.        0
+##  6    434 Control      30 Female         278.        0
+##  7    234 Treatment    28 Male           356.        1
+##  8    272 Treatment    45 Male           260.        1
+##  9    523 Control      49 Female         174.        0
+## 10    649 Control      49 Male           224.        1
+## # … with 790 more rows
+```
+]
+
+---
+
+# 1. Check balance
+
+
+```r
+imaginary_program %&gt;% 
+  group_by(treatment) %&gt;% 
+  summarize(avg_age = mean(age),
+            prop_male = mean(sex == "Male"))
+```
+
+```
+## # A tibble: 2 x 3
+##   treatment avg_age prop_male
+##   &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Control      35.1     0.562
+## 2 Treatment    35.1     0.512
+```
+
+---
+
+# 1. Check balance
+
+.left-code[
+
+```r
+ggplot(imaginary_program, 
+       aes(x = treatment, y = age, 
+           color = treatment)) +
+  stat_summary(geom = "pointrange", 
+               fun.data = "mean_se", 
+               fun.args = list(mult=1.96)) +
+  guides(color = FALSE) +
+  labs(x = NULL, y = "Age")
+```
+]
+
+.right-plot[
+![](07-slides_files/figure-html/balance-age-1.png)
+]
+
+---
+
+# 1. Check balance
+
+.left-code[
+
+```r
+ggplot(imaginary_program, 
+       aes(x = treatment, y = male_num, 
+           color = treatment)) +
+  stat_summary(geom = "pointrange", 
+               fun.data = "mean_se", 
+               fun.args = list(mult=1.96)) +
+  guides(color = FALSE) +
+  labs(x = NULL, y = "Proportion male")
+```
+]
+
+.right-plot[
+![](07-slides_files/figure-html/balance-sex-1.png)
+]
+
+---
+
+# 2. Calculate difference
+
+
+.left-code[
+.box-inv-5.small[Group means]
+
+
+```r
+imaginary_program %&gt;% 
+  group_by(treatment) %&gt;% 
+  summarize(avg_outcome = mean(income_after))
+```
+
+```
+## # A tibble: 2 x 2
+##   treatment avg_outcome
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 Control          205.
+## 2 Treatment        251.
+```
+
+```r
+251 - 205
+```
+
+```
+## [1] 46
+```
+]
+
+--
+
+.right-code[
+.box-inv-5.small[Regression]
+
+
+```r
+rct_model &lt;- lm(income_after ~ treatment, 
+                data = imaginary_program)
+tidy(rct_model)
+```
+
+
+```
+## # A tibble: 2 x 3
+##   term               estimate std.error
+##   &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)           205.       3.66
+## 2 treatmentTreatment     46.0      5.17
+```
+]
+
+---
+
+# 2a. Show difference
+
+.left-code[
+
+```r
+ggplot(imaginary_program, 
+       aes(x = treatment, 
+           y = income_after, 
+           color = treatment)) +
+  stat_summary(geom = "pointrange", 
+               fun.data = "mean_se", 
+               fun.args = list(mult=1.96)) +
+  guides(color = FALSE) +
+  labs(x = NULL, y = "Income")
+```
+]
+
+.right-plot[
+![](07-slides_files/figure-html/rct-diff-1.png)
+]
+
+---
+
+# Should you control for stuff?
+
+--
+
+.box-inv-5.large[No!]
+
+--
+
+.box-inv-5[All arrows into the treatment node are removed;&lt;br&gt;there's theoretically no confounding!]
+
+---
+
+layout: false
+name: gold-standard
+class: center middle section-title section-title-6 animated fadeIn
+
+# The "gold" standard
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Types of research
+
+.box-inv-6.medium.sp-after[Experimental studies vs.&lt;br&gt;observational studies]
+
+.box-inv-6.medium[Which is better?]
+
+---
+
+layout: false
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/07/nyt-wellness-program.png" alt="NYT wellness program report" title="NYT wellness program report" width="75%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+https://www.nytimes.com/2018/08/06/upshot/employer-wellness-programs-randomized-trials.html
+
+---
+
+class: bg-full
+background-image: url("img/07/gold-standard.png")
+
+---
+
+class: bg-full
+background-image: url("img/07/jpal-nobel.png")
+
+???
+
+https://twitter.com/MIT/status/1183752282988564480
+
+---
+
+&amp;nbsp;
+
+.box-6.large.sp-after[RCTs are great!]
+
+--
+
+.box-6.large[Super impractical to do&lt;br&gt;all the time though!]
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# "Gold standard"
+
+.box-inv-6.medium.sp-after["Gold standard" implies that all&lt;br&gt;causal inferences will be valid it&lt;br&gt;you do the experiment right]
+
+--
+
+.box-6[We don't care if studies are experimental or not]
+
+--
+
+.box-6[We care if our causal inferences are valid]
+
+--
+
+.box-6[RCTs are a helpful baseline/rubric for other methods]
+
+---
+
+# Moving to Opportunity
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/07/hud.jpg" alt="HUD HQ in DC" title="HUD HQ in DC" width="70%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+**MTO** - main question = does your neighborhood matter?
+
+Subtext = kids who grow up in poor neighborhood do worse - lots of theories about that. Problems reside in the family vs. something inherent in the neighborhood / social capital or other benefits inherent in the community (be in the network of people who know where the jobs for people with low education are)
+
+Alternative explanations:
+
+- Poor parents don't do well in the labor market, so they live in cheap neighborhoods, where they're surrounded by the same type of people
+- Racism and discrimination
+
+Randomly assign people to where they live - ideally from birth or even pre-birth - but families that we can possibly randomly assign already have kids (required for receiving public housing assistance)
+
+So they randomly assign families in public housing who are willing to move and accept risk of having that move controlled - no other way to really do this - you'd have to pay middle-class and higher people a ton of money to get them to move
+
+Then randomly assign them to (1) stay, (2) move to anywhere that would take voucher, (3) anywhere with less than 10% poverty rate + get relocation counseling
+
+People were hoping to get option 2, since people already weren't choosing 3 - it's uncomfortable to move to a neighborhood where you don't fit in
+
+
+https://commons.wikimedia.org/wiki/File:Housing_and_Urban_Development_headquarters.jpg
+
+---
+
+# RCTs and validity
+
+.box-inv-6.medium[Randomization fixes a ton of&lt;br&gt;internal validity issues]
+
+--
+
+.pull-left[
+.box-6[**Selection**&lt;br&gt;Treatment and control&lt;br&gt;groups are comparable;&lt;br&gt;people don't self-select]
+]
+
+--
+
+.pull-right[
+.box-6[**Trends**&lt;br&gt;Maturation, secular&lt;br&gt;trends, seasonality,&lt;br&gt;regression to the mean&lt;br&gt;all generally average out]
+]
+
+---
+
+# RCTs and validity
+
+--
+
+.box-inv-6.medium[RCTs don't fix attrition!]
+
+.box-6[Worst threat to internal validity for RCTs]
+
+--
+
+.box-inv-6.medium.sp-before[If attrition is correlated&lt;br&gt;with treatment, that's bad]
+
+--
+
+.box-6[People might drop out because of the treatment,&lt;br&gt;or because they got/didn't get into the control group]
+
+???
+
+You don't have data on them. NA values. Even if people don't comply (like move to a private school), you can still get data on them, so that's okay. People might drop out randomly, and that would be fine. But if attrition is correlated with the treatment, then it's bad. People might drop because of the treatment, or because they didn't get the control group. Impossible to sign the bias—could be tons of different reasons.
+
+---
+
+# Addressing attrition
+
+--
+
+.box-inv-6.less-medium[Recruit as effectively as possible]
+
+.box-6.sp-after[You don't just want weird/WEIRD participants]
+
+--
+
+.box-inv-6.less-medium[Get people on board]
+
+.box-6.sp-after[Get participants invested in the experiment]
+
+--
+
+.box-inv-6.less-medium[Collect as much baseline information as possible]
+
+.box-6[Check for randomization of attrition]
+
+???
+
+- Recruit as effectively as possible (so you don't get volunteers that routinely sign up for randomized experiments). Use money for recruitment
+
+- Get people on board. Treatment might be less/more enjoyable than the control group, so people will feel lucky or unlucky to be in the treatment group - explain why the experiment itself is important. Make them invested in getting the experiment to work. Science! Why you want the right answer beyond whether or not the treatment works
+
+- Collect as much baseline information as possible before assigning to treatment and control groups - doesn't help reduce attrition like getting people on board, but it lets us see if attrition is random with respect to preexisting characteristics - checks for randomization failures. Don't rerandomize. Randomize and then suck it up.
+
+
+---
+
+# RCTs and validity
+
+.box-inv-6.less-medium[Randomization failures]
+
+.box-6[Check baseline pre-data]
+
+--
+
+.box-inv-6.less-medium[Noncompliance]
+
+.box-6[Some people assigned to treatment won't take it;&lt;br&gt;some people assigned to control will take it]
+
+.box-6[Intent-to-treat (ITT) vs. Treatment-on-the-treated (TTE)]
+
+???
+
+ITT is probably the most policy-related measure - if there's a low compliance rate but a good ITT effect, you can try to make the program nicer, better
+
+---
+
+# Other limitations
+
+.box-inv-6.medium.sp-after[RCTs don't magically fix construct validity&lt;br&gt;or statistical conclusion validity]
+
+--
+
+.box-inv-6.medium.sp-after[RCTs **definitely** don't&lt;br&gt;magically fix external validity]
+
+???
+
+MTO varied income, not race, since it's illegal to tell people they can only move to a white neighborhood. So they used income instead of race. Keys under the light issue, since the original issue was about race
+
+Scalability issue with STAR. It wasn't hard to hire 40 more teachers in TN. California couldn't find enough teachers, so they emergency certified "a bunch of morons," which messed up the program effect
+
+---
+
+layout: false
+class: bg-full
+background-image: url("img/07/vox-nobel.png")
+
+???
+
+https://www.vox.com/future-perfect/2019/10/14/20913928/nobel-prize-economics-duflo-banerjee-kremer
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# When to randomly assign
+
+--
+
+.box-inv-6[Demand for treatment exceeds supply]
+
+--
+
+.box-inv-6[Treatment will be phased in over time]
+
+--
+
+.box-inv-6[Treatment is in equipoise (genuine uncertainty)]
+
+--
+
+.box-inv-6[Local culture open to randomization]
+
+--
+
+.box-inv-6[When you're a nondemocratic monopolist]
+
+--
+
+.box-inv-6[When people won't know (and it's ethical!)]
+
+--
+
+.box-inv-6[When lotteries are going to happen anyway]
+
+???
+
+- When demand for treatment exceeds supply or treatment must be phased in over time (instead of doing the closest place first, etc.)
+- When people don't know what they want to do = equipoise (medical trials have to be in equipoise - unethical to use a treatment that's clearly beneficial)
+- When the local culture is favorable to random assignment - prime people to be more comfortable with it
+- When you are a nondemocratic monopoly provider - if you're the only one with the treatment, you decide who gets it - like Google and Facebook and A/B testing
+- When people won't know (as long as it's ethical) - resume name experiments, e-mails to politicians
+- When lotteries are going to happen anyway
+
+
+---
+
+# When to &lt;span style="color: #F6D645;"&gt;not&lt;/span&gt; randomly assign
+
+--
+
+.box-inv-6[When you need immediate results]
+
+--
+
+.box-inv-6[When it's unethical or illegal]
+
+--
+
+.box-inv-6[When it's something that happened in the past]
+
+--
+
+.box-inv-6[When it involves universal ongoing phenomena]
+
+
+???
+
+Past: effects of city segregation or political regime type
+
+Universal phenomena: climate change, social norms
+
+---
+
+layout: false
+name: matching
+class: center middle section-title section-title-1 animated fadeIn
+
+# Adjustment&lt;br&gt;with matching
+
+---
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/05/mm-matching.png" alt="Matching table from Mastering 'Metrics" title="Matching table from Mastering 'Metrics" width="70%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: title title-1
+
+# Why match?
+
+--
+
+.box-inv-1.medium[Reduce model dependence]
+
+.box-1.sp-after[Imbalance → model dependence → researcher discretion → bias]
+
+--
+
+.box-inv-1.medium.sp-after[Compare apples to apples]
+
+--
+
+.box-inv-1.medium[It's a way to adjust for backdoors!]
+
+---
+
+
+
+.smaller[
+$$
+\color{white}{\beta_0 \text{E}^2}
+$$
+]
+
+&lt;img src="07-slides_files/figure-html/matching-general-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.smaller[
+$$
+\color{white}{\beta_0 \text{E}^2} \text{Outcome} = \beta_0 + \beta_1 \text{Education} + \beta_2 \text{Treatment} \color{white}{\beta_0 \text{E}^2}
+$$
+]
+
+&lt;img src="07-slides_files/figure-html/matching-dependency1-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.smaller[
+$$
+\text{Outcome} = \beta_0 + \beta_1 \text{Education} + \beta_2 \text{Education}^2 + \beta_3 \text{Treatment}
+$$
+]
+
+&lt;img src="07-slides_files/figure-html/dependency2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.smaller[
+$$
+\color{white}{\beta_0 \text{E}^2}
+$$
+]
+
+&lt;img src="07-slides_files/figure-html/reduced-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.smaller[
+$$
+\color{white}{\beta_0 \text{E}^2} \text{Outcome} = \beta_0 + \beta_1 \text{Education} + \beta_2 \text{Treatment} \color{white}{\beta_0 \text{E}^2}
+$$
+]
+
+&lt;img src="07-slides_files/figure-html/reduced-dependency1-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.smaller[
+$$
+\text{Outcome} = \beta_0 + \beta_1 \text{Education} + \beta_2 \text{Education}^2 + \beta_3 \text{Treatment}
+$$
+]
+
+&lt;img src="07-slides_files/figure-html/reduced-dependency2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.box-1[How do we know that we can remove these points?]
+
+&lt;img src="07-slides_files/figure-html/reduced-again-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-1
+
+# General process for matching
+
+--
+
+.box-inv-1.medium[Step 1. Preprocessing]
+
+.box-1[Do something to guess or model the assignment to treatment]
+
+.box-1.sp-after[Use what you know about the DAG to inform this guessing!]
+
+--
+
+.box-inv-1.medium[Step 2. Estimation]
+
+.box-1[Use the new trimmed/preprocessed data to build a model,&lt;br&gt;calculate difference in means, etc.]
+
+---
+
+&lt;img src="07-slides_files/figure-html/reduced-dependency-taller-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-1
+
+# Different methods
+
+.box-inv-1.medium[Nearest neighbor matching (NN)]
+
+.box-1.small.sp-after[Mahalanobis distance / Euclidean distance]
+
+--
+
+.box-inv-1.medium.sp-after-half[~~Propensity score matching (PSM)~~]
+
+--
+
+.box-inv-1.medium.sp-after-half[Inverse probability weighting (IPW)]
+
+--
+
+.box-inv-1.small[(and lots of other methods we're not covering!)]
+
+---
+
+class: title title-1
+
+# Nearest neighbor matching
+
+.box-inv-1.medium.sp-after[Find untreated observations that are&lt;br&gt;very close/similar to treated&lt;br&gt;observations based on confounders]
+
+--
+
+.box-inv-1.medium[Lots of mathy ways to measure distance]
+
+.box-1[Mahalanobis and Euclidean distance are fairly common]
+
+---
+
+class: bg-full
+background-image: url("img/07/recession1.png")
+
+???
+
+https://www.cnbc.com/2020/02/05/70percent-chance-of-recession-in-next-six-months-study-from-mit-and-state-street-finds.html
+
+---
+
+class: bg-full
+background-image: url("img/07/recession2.png")
+
+---
+
+class: title title-1
+
+# Matching and eugenics
+
+.box-inv-1.medium[Prasanta Chandra Mahalanobis]
+
+.pull-left.center[
+&lt;figure&gt;
+  &lt;img src="img/07/mahalanobis.png" alt="Prasanta Chandra Mahalanobis" title="Prasanta Chandra Mahalanobis" width="50%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right[
+.box-1[Tried to prove brain size differences between castes; low-key eugenicist]
+]
+
+???
+
+https://en.wikipedia.org/wiki/Prasanta_Chandra_Mahalanobis#/media/File:PCMahalanobis.png
+
+---
+
+&lt;img src="07-slides_files/figure-html/edu-age-dag-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+
+&lt;img src="07-slides_files/figure-html/edu-age-unmatched-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="07-slides_files/figure-html/edu-age-matched-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="07-slides_files/figure-html/edu-age-trimmed-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-1
+
+# Potential problems with matching
+
+.box-inv-1[Nearest neighbor matching can be greedy!]
+
+.center[
+&lt;figure&gt;
+  &lt;img src="07-slides_files/figure-html/edu-age-matched-1.png" alt="Lost data" title="Lost data" width="50%%"&gt;
+&lt;/figure&gt;
+]
+
+--
+
+.box-1[Solution: Don't throw everything away!]
+
+---
+
+class: title title-1
+
+# Propensity scores
+
+.box-inv-1.medium[Predict the probability of&lt;br&gt;assignment to treatment using a model]
+
+.box-1.sp-after[Logistic regression, probit regression, machine learning, etc.]
+
+--
+
+.box-1.smaller[Here's logistic regression:]
+
+`$$\operatorname{log} \frac{p_\text{Treated}}{1 - p_\text{Treated}} = \beta_0 + \beta_1 \text{Education} + \beta_2 \text{Age}$$`
+
+---
+
+&lt;img src="07-slides_files/figure-html/logit-graph-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+.smaller[
+`$$\operatorname{log} \frac{p_\text{Manual}}{1 - p_\text{Manual}} = \beta_0 + \beta_1 \text{MPG}$$`
+]
+
+.small-code[
+
+```r
+model_transmission &lt;- glm(am ~ mpg, data = mtcars, family = binomial(link = "logit"))
+```
+]
+
+---
+
+.box-1[Log odds .tiny[(default coefficient unit of measurement; fairly uninterpretable)]]
+
+.box-1[Odds ratios .tiny[(e&lt;sup&gt;β&lt;/sup&gt;; centered around 1: 1.5 means 50% more likely; 0.75 means 25% less likely)]]
+
+.pull-left-narrow.small-code[
+
+```r
+tidy(model_transmission)
+
+
+
+
+
+
+
+tidy(model_transmission, 
+     exponentiate = TRUE)
+```
+]
+
+.pull-right-wide.small-code[
+
+```
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)   -6.60      2.35      -2.81 0.00498
+## 2 mpg            0.307     0.115      2.67 0.00751
+```
+
+```
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)  0.00136     2.35      -2.81 0.00498
+## 2 mpg          1.36        0.115      2.67 0.00751
+```
+]
+
+---
+
+.box-inv-1.smaller[Plug all the values of MPG into the model and find the predicted probability of manual transmission]
+
+.small-code[
+
+```r
+augment(model_transmission, data = mtcars, type.predict = "response")
+```
+]
+
+.pull-left.small-code[
+
+
+
+```r
+## # A tibble: 32 x 3
+##      mpg    am .fitted
+##    &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1  21       1  0.461 
+##  2  21       1  0.461 
+##  3  22.8     1  0.598 
+##  4  21.4     0  0.492 
+##  5  18.7     0  0.297 
+##  6  18.1     0  0.260 
+*##  7  14.3     0  0.0986
+*##  8  24.4     0  0.708
+##  9  22.8     0  0.598 
+## 10  19.2     0  0.330 
+## # … with 22 more rows
+```
+
+]
+
+.pull-right[
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+.box-1.smaller[Row 7 is highly unlikely to be manual (1)]
+
+.box-1.smaller[Row 8 is highly likely to be manual]
+]
+
+
+---
+
+class: title title-1
+
+# Propensity score matching
+
+.box-inv-1.medium.sp-after-half[Super popular method]
+
+--
+
+.box-inv-1.medium.sp-after-half[There are mathy reasons why it's not great&lt;br&gt;for matching *for identification purposes*]
+
+--
+
+.box-inv-1.medium.sp-after-half[Propensity scores are fine!&lt;br&gt;Using them for matching isn't!]
+
+---
+
+class: bg-full
+background-image: url("img/07/gary-king.png")
+
+???
+
+https://gking.harvard.edu/files/gking/files/pan1900011_rev.pdf
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Weighting
+
+.box-inv-1[Make some observations more important than others]
+
+--
+
+
+|           | Young | Middle | Old |
+|:----------|:-----:|:------:|:---:|
+|Population |  30%  |  40%   | 30% |
+|Sample     |  60%  |  30%   | 10% |
+
+---
+
+# Weighting
+
+.box-inv-1[Make some observations more important than others]
+
+
+|           |             Young              |              Middle              |             Old              |
+|:----------|:------------------------------:|:--------------------------------:|:----------------------------:|
+|Population |              30%               |               40%                |             30%              |
+|Sample     |              60%               |               30%                |             10%              |
+|Weight     | &amp;ensp;30 / 60&amp;ensp;&lt;br&gt;**0.5** | &amp;ensp;40 / 30&amp;ensp;&lt;br&gt;**1.333** | &amp;ensp;30 / 10&amp;ensp;&lt;br&gt;**3** |
+
+--
+
+.box-1[Multiply weights by average values&lt;br&gt;(or us in regression) to adjust for importance]
+
+---
+
+# Inverse probability weighting
+
+.box-inv-1.medium[Use propensity scores to weight&lt;br&gt;observations by how "weird" they are]
+
+.box-1.small[Observations with high probability of treatment&lt;br&gt;who don't get it (and vice versa) have higher weight]
+
+$$
+\frac{\text{Treatment}}{\text{Propensity}} + \frac{1 - \text{Treatment}}{1 - \text{Propensity}}
+$$
+
+---
+
+layout: false
+
+.small-code[
+
+```r
+augment(model_transmission, data = mtcars, type.predict = "response") %&gt;%
+  select(mpg, am, propensity = .fitted) %&gt;%
+*  mutate(ip_weight = (am / propensity) + ((1 - am) / (1 - propensity)))
+```
+]
+
+.pull-left.small-code[
+
+```r
+## # A tibble: 32 x 4
+##      mpg    am propensity ip_weight
+##    &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+##  1  21       1     0.461       2.17
+##  2  21       1     0.461       2.17
+##  3  22.8     1     0.598       1.67
+##  4  21.4     0     0.492       1.97
+##  5  18.7     0     0.297       1.42
+##  6  18.1     0     0.260       1.35
+*##  7  14.3     0     0.0986      1.11
+*##  8  24.4     0     0.708       3.43
+##  9  22.8     0     0.598       2.49
+## 10  19.2     0     0.330       1.49
+### … with 22 more rows
+```
+
+]
+
+.pull-right[
+&amp;nbsp;
+
+&amp;nbsp;
+
+.box-1.smaller[Row 7 is highly unlikely to be manual and isn't.&lt;br&gt;**Boring! Low IPW.**]
+
+.box-1.smaller[Row 8 is highly likely to be manual, but isn't.&lt;br&gt;**That's weird! High IPW.**]
+]
+
+
+---
+
+&lt;img src="07-slides_files/figure-html/edu-age-ipw-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: middle
+
+.box-1.huge[Examples!]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

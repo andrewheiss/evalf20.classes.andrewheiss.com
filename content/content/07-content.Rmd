@@ -11,11 +11,27 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "07-slides"
+slides: "07-slides"
 output:
   blogdown::html_page:
     toc: true
 ---
+
+```{r slides-videos, echo=FALSE, include=FALSE}
+source(here::here("R", "slide-tabs.R"))
+source(here::here("R", "youtube-playlist.R"))
+
+playlist_id <- "PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz"
+
+slide_details <- tibble::tribble(
+  ~youtube_id,   ~title, ~slide, ~active,
+  "m4nKVJ-2K3I", "Introduction", "1", TRUE,
+  "-zjSixOybQE", "The magic of randomization", "magic-randomization", FALSE,
+  "W0NyALrjLA4", "How to analyze RCTs", "rct-how", FALSE,
+  "vHb2TYAze74", 'The "gold" standard', "gold-standard", FALSE,
+  "jECz-SS-sqc", "Adjustment with matching", "matching", FALSE
+)
+```
 
 ## Readings
 
@@ -25,12 +41,114 @@ output:
 - <i class="fas fa-podcast"></i> Planet Money, ["Moving To Opportunity?,"](https://www.npr.org/2019/08/30/756028025/episode-937-moving-to-opportunity) episode 937
 - <i class="fas fa-external-link-square-alt"></i> Aaron Carroll, ["Workplace Wellness Programs Don’t Work Well. Why Some Studies Show Otherwise,"](https://www.nytimes.com/2018/08/06/upshot/employer-wellness-programs-randomized-trials.html) *The Upshot*, August 6, 2018
 
+### Matching and inverse probability weighting
+
+- The [example page on matching and inverse probability weighting](/example/matching-ipw/) shows how to use R to close backdoors, make adjustments, and find causal effects from observational data using matching and inverse probability weighting
+
 
 ## Slides
 
-Slides go here.
+The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+`r blogdown::shortcode("slide-buttons")`
+
+```{r show-slide-tabs, echo=FALSE, results="asis"}
+slide_tabs(slide_details, "/slides/07-slides.html")
+```
+
+:::fyi
+**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.
+:::
 
 
 ## Videos
 
-Videos go here.
+```{r show-youtube-list, echo=FALSE, results="asis"}
+youtube_list(slide_details, playlist_id)
+```
+
+
+```{cat include=FALSE, eval=FALSE}
+Playlist: https://www.youtube.com/playlist?list=PLS6tnpTr39sGJURMOwN9tf9MNDN4t0JMz
+
+https://youtu.be/m4nKVJ-2K3I
+PMAP 8521 • (7) Randomization and matching: (0) Introduction
+
+Introduction to the class session on randomization and matching
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/07-content/
+
+
+https://youtu.be/-zjSixOybQE
+PMAP 8521 • (7) Randomization and matching: (1) The magic of randomization
+
+Discussion of how randomization allows for strong claims of causal inference
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/07-content/
+
+  
+https://youtu.be/W0NyALrjLA4
+PMAP 8521 • (7) Randomization and matching: (2) How to analyze RCTs
+
+Discussion and demonstration of how to analyze the results of an RCT using R
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/07-content/
+  
+  
+https://youtu.be/vHb2TYAze74
+PMAP 8521 • (7) Randomization and matching: (3) The "gold" standard
+
+Discussion of why RCTs aren't really a true "gold" standard for causal inference
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/07-content/
+  
+  
+https://youtu.be/jECz-SS-sqc
+PMAP 8521 • (7) Randomization and matching: (4) Adjustment with matching
+
+Discussion of matching and inverse probability weighting + how these methods allow you to close DAG backdoors
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/07-content/
+
+
+https://www.youtube.com/playlist?list=PLS6tnpTr39sGv7RPHEZy8CDSdCliQOW8K
+
+https://youtu.be/OoYgOwxUQgI
+PMAP 8521 • Example: Matching and IPW with R: 1: Drawing a DAG
+
+Demonstration of how to connect nodes in a DAG with dagitty to find backdoor associations
+
+Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/matching-ipw/
+
+
+https://youtu.be/_FNrfFe99R0
+PMAP 8521 • Example: Matching and IPW with R: 2: Creating an RStudio project
+
+Demonstration of how to create a new RStudio project and get ready to analyze data
+
+Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/matching-ipw/
+
+
+https://youtu.be/7NW7GbO44BY
+PMAP 8521 • Example: Matching and IPW with R: 3: Naive (and wrong!) estimate
+
+Demonstration of how to calculate an incorrect correlation-is-not-causation estimate of a causal effect with R
+
+Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/matching-ipw/
+
+
+https://youtu.be/uGwSRnET8Sg
+PMAP 8521 • Example: Matching and IPW with R: 4: Matching
+
+Demonstration of how to use the MatchIt package in R to close DAG backdoors, generate synthetic treatment and control groups, and estimate causal effects from observational data
+
+Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/matching-ipw/
+
+
+https://youtu.be/CKm1rZlAwuA
+PMAP 8521 • Example: Matching and IPW with R: 5: Inverse probability weighting
+
+Demonstration of how to use inverse probability weighting with R to close DAG backdoors and estimate causal effects from observational data
+
+Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/matching-ipw/
+```
