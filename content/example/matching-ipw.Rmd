@@ -1,5 +1,5 @@
 ---
-title: "Regression, matching, and inverse probability weighting"
+title: "Matching and inverse probability weighting"
 linktitle: "Matching and IPW"
 date: "2020-10-02"
 output:
@@ -282,9 +282,13 @@ Just one last little explanation for why we have to use weird log odds things. W
 
 You can see the relationship between log odds and odds ratios in the first two panels here (this is fake data where X ranges between -5 and 5, and Y is either 0 or 1; you can see the data points in the final panel as dots):
 
-```{r odds-probs, echo=FALSE, fig.width=7, fig.height=4.75, fig.asp=1, out.width="80%"}
+```{r odds-probs, echo=FALSE, fig.width=7.5, fig.height=4.75, fig.asp=1, out.width="80%"}
 library(latex2exp)
 library(patchwork)
+
+# Using TeX() wipes out theming for whatever reason, so this manually bolds stuff
+bolded_TeX <- function(str) parse(text = paste0("bold(", TeX(str), ")"))
+
 set.seed(1234)
 
 logit_df <- tibble(x = seq(-5, 5, length.out = 100)) %>% 
@@ -309,26 +313,29 @@ plot_log_odds <- ggplot(logit_df_odds, aes(x = x, y = log_odds)) +
        x = NULL,
        y = TeX("$log \\frac{p}{1 - p}$")) +
   theme_minimal() +
-  theme(plot.title = element_text(face = "bold"))
+  theme(plot.title = element_text(face = "bold"),
+        axis.title.y = element_text(angle = 0, hjust = 0))
 
 plot_odds <- ggplot(logit_df_odds, aes(x = x, y = odds_ratio)) +
   geom_path(color = "#FB9E07", size = 2) +
-  labs(title = "Odds (exp(β))", 
+  labs(title = bolded_TeX("Odds (e^β)"), 
        subtitle = "This is curvy, but it's a mathy transformation of a linear value",
        x = NULL,
        y = TeX("$\\frac{p}{1 - p}$")) +
   theme_minimal() +
-  theme(plot.title = element_text(face = "bold"))
+  theme(plot.title = element_text(face = "bold"),
+        axis.title.y = element_text(angle = 0, hjust = 0))
 
 plot_probs <- ggplot(logit_df_probs, aes(x = x, y = pred_prob)) +
-  geom_point(aes(y = y), alpha = 0.4) +
+  geom_point(aes(y = y), alpha = 0.4, position = position_jitter(width = 0, height = 0.05)) +
   geom_path(color = "#CF4446", size = 2) +
   labs(title = "Predicted probabilities", 
-       sutitle = "Plug values of X into ",
+       subtitle = 'Here you can\'t say "For every unit increase in X the predicted probability\nchanges by something", since the probability changes differently at every value of X',
        x = "X (value of explanatory variable)",
        y = TeX("\\hat{P(Y)} = \\frac{odds}{1 + odds}")) +
   theme_minimal() +
-  theme(plot.title = element_text(face = "bold"))
+  theme(plot.title = element_text(face = "bold"),
+        axis.title.y = element_text(angle = 0, hjust = 0))
 
 plot_log_odds / plot_odds / plot_probs
 ```
@@ -401,7 +408,7 @@ net_ipw %>%
   head()
 ```
 
-These first few rows have fairly low weights—those with low probabilities of using nets camp didn't, while those with high probabilities did. But look at person 4! They only had a 26% chance of using a net and they *did*! That's weird! They therefore have a higher inverse probability weight (3.81).
+These first few rows have fairly low weights—those with low probabilities of using nets didn't, while those with high probabilities did. But look at person 4! They only had a 26% chance of using a net and they *did*! That's weird! They therefore have a higher inverse probability weight (3.81).
 
 ### Step 2: Estimation
 
@@ -455,9 +462,9 @@ gm <- modelsummary::gof_map %>%
 modelsummary(list("Naive" = model_wrong, 
                   "Matched" = model_matched, "Matched + weights" = model_matched_wts, 
                   "IPW" = model_ipw, "IPW truncated at 8" = model_ipw_truncated),
-             gof_map = gm) %>% 
+             gof_map = gm, stars = TRUE) %>% 
   kableExtra::row_spec(3, background = "#F6D645") %>% 
   kableExtra::row_spec(4, extra_css = "border-bottom: 1px solid")
 ```
 
-Which one is right? In this case, because this is fake simulated data where I built in a 10 point effect, we can see which of these models gets the closest: in this case, the non-truncated IPW model wins. But that won't always be the case. Both matching and IPW work well at closing backdoors and adjusting for confounders. In real life, you won't know the true value, so try multiple ways.
+Which one is right? In this case, because this is fake simulated data where I built in a 10 point effect, we can see which of these models gets the closest: here, the non-truncated IPW model wins. But that won't always be the case. Both matching and IPW work well for closing backdoors and adjusting for confounders. In real life, you won't know the true value, so try multiple ways.

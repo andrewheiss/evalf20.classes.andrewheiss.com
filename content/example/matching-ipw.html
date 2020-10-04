@@ -1,5 +1,5 @@
 ---
-title: "Regression, matching, and inverse probability weighting"
+title: "Matching and inverse probability weighting"
 linktitle: "Matching and IPW"
 date: "2020-10-02"
 output:
@@ -350,7 +350,7 @@ net_ipw %&gt;%
 ## 4     4 TRUE     671        21.3     20      0.263  3.81
 ## 5     5 FALSE    728        19.2     17      0.308  1.44
 ## 6     6 FALSE   1050        25.3     48      0.429  1.75</code></pre>
-<p>These first few rows have fairly low weights—those with low probabilities of using nets camp didn’t, while those with high probabilities did. But look at person 4! They only had a 26% chance of using a net and they <em>did</em>! That’s weird! They therefore have a higher inverse probability weight (3.81).</p>
+<p>These first few rows have fairly low weights—those with low probabilities of using nets didn’t, while those with high probabilities did. But look at person 4! They only had a 26% chance of using a net and they <em>did</em>! That’s weird! They therefore have a higher inverse probability weight (3.81).</p>
 </div>
 <div id="step-2-estimation-1" class="section level3">
 <h3>Step 2: Estimation</h3>
@@ -420,19 +420,19 @@ IPW truncated at 8
 (Intercept)
 </td>
 <td style="text-align:left;">
-41.937
+41.937***
 </td>
 <td style="text-align:left;">
-38.487
+38.487***
 </td>
 <td style="text-align:left;">
-36.094
+36.094***
 </td>
 <td style="text-align:left;">
-39.679
+39.679***
 </td>
 <td style="text-align:left;">
-39.679
+39.679***
 </td>
 </tr>
 <tr>
@@ -459,19 +459,19 @@ IPW truncated at 8
 netTRUE
 </td>
 <td style="text-align:left;background-color: #F6D645 !important;">
--16.332
+-16.332***
 </td>
 <td style="text-align:left;background-color: #F6D645 !important;">
--12.882
+-12.882***
 </td>
 <td style="text-align:left;background-color: #F6D645 !important;">
--10.489
+-10.489***
 </td>
 <td style="text-align:left;background-color: #F6D645 !important;">
--10.131
+-10.131***
 </td>
 <td style="text-align:left;background-color: #F6D645 !important;">
--10.190
+-10.190***
 </td>
 </tr>
 <tr>
@@ -554,6 +554,13 @@ R2 Adj.
 </td>
 </tr>
 </tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup></sup> * p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01
+</td>
+</tr>
+</tfoot>
 </table>
-<p>Which one is right? In this case, because this is fake simulated data where I built in a 10 point effect, we can see which of these models gets the closest: in this case, the non-truncated IPW model wins. But that won’t always be the case. Both matching and IPW work well at closing backdoors and adjusting for confounders. In real life, you won’t know the true value, so try multiple ways.</p>
+<p>Which one is right? In this case, because this is fake simulated data where I built in a 10 point effect, we can see which of these models gets the closest: here, the non-truncated IPW model wins. But that won’t always be the case. Both matching and IPW work well for closing backdoors and adjusting for confounders. In real life, you won’t know the true value, so try multiple ways.</p>
 </div>
