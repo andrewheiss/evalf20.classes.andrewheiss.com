@@ -1,6 +1,10 @@
-youtube_list <- function(video_df, playlist_id) {
-  intro_p <- glue::glue("Videos for each section of the lecture are [available at this YouTube playlist](https://www.youtube.com/playlist?list={playlist_id}).")
-  
+youtube_list <- function(video_df, playlist_id, example = FALSE) {
+  if (example) {
+    intro_p <- glue::glue("There's a set of videos that walks through each section below. To make it easier for you to jump around the video examples, I cut the long video into smaller pieces and included them all in [one YouTube playlist](https://www.youtube.com/playlist?list={playlist_id}).")
+  } else {
+    intro_p <- glue::glue("Videos for each section of the lecture are [available at this YouTube playlist](https://www.youtube.com/playlist?list={playlist_id}).")
+  }
+
   videos_in_list <- dplyr::mutate(
     video_df,
     li = purrr::map2_chr(

@@ -41,8 +41,9 @@ slide_details <- tibble::tribble(
 - <i class="fas fa-podcast"></i> Planet Money, ["Moving To Opportunity?,"](https://www.npr.org/2019/08/30/756028025/episode-937-moving-to-opportunity) episode 937
 - <i class="fas fa-external-link-square-alt"></i> Aaron Carroll, ["Workplace Wellness Programs Don’t Work Well. Why Some Studies Show Otherwise,"](https://www.nytimes.com/2018/08/06/upshot/employer-wellness-programs-randomized-trials.html) *The Upshot*, August 6, 2018
 
-### Matching and inverse probability weighting
+### RCTs, matching, and inverse probability weighting
 
+- The [example page on RCTs](/example/rcts/) shows how to use R to analyze and estimate causal effects from RCTs
 - The [example page on matching and inverse probability weighting](/example/matching-ipw/) shows how to use R to close backdoors, make adjustments, and find causal effects from observational data using matching and inverse probability weighting
 
 

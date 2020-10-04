@@ -115,6 +115,7 @@ lessons:
 
   - title: '<span class="content-title">Randomization and matching</span>'
     session: "Session 7"
+    example: "matching-ipw"
     date: "October 5–9"
     content: "07-content"
     bg: 1
