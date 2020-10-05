@@ -64,7 +64,7 @@ The CSV file contains the following columns:
 
 ## Our goal
 
-**Our goal in this example is to estimate the *causal* effect of bed net usage on malaria risk using *only* observational data.** This was not an RCT, so it might seem a little sketchy to make claims of causality. But if we can draw a correct DAG and adjust for the correct nodes, we can isolated the net → malaria relationship and talk about causality.
+**Our goal in this example is to estimate the *causal* effect of bed net usage on malaria risk using *only* observational data.** This was not an RCT, so it might seem a little sketchy to make claims of causality. But if we can draw a correct DAG and adjust for the correct nodes, we can isolate the net → malaria relationship and talk about causality.
 
 Because this is simulated data, we know the true causal effect of the net program because I built it into the data. **The true average treatment effect (ATE) is -10.** Using a mosquito net *causes* the risk of malaria to decrease by 10 points, on average.
 
