@@ -31,6 +31,11 @@ h3 {
     font-size: 1.4rem;
 }
 
+// Nunito Sans's italic is really wimpy and hard to see, so add a background color
+em {
+    background: #fdf0e9;
+}
+
 kbd {
     font-size: 75%;
 }
