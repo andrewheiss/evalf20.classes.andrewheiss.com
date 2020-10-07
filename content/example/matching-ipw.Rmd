@@ -90,8 +90,8 @@ set.seed(1234)   # Make all random draws reproducible
 
 ```{r load-data-fake, eval=FALSE}
 # Load the data. 
-# It'd be a good idea to click on the "mosquito_nets.csv" object in the
-# Environment panel in RStudio to see what the data looks like after you load it
+# It'd be a good idea to click on the "nets" object in the Environment panel in
+# RStudio to see what the data looks like after you load it
 nets <- read_csv("data/mosquito_nets.csv")
 ```
 
