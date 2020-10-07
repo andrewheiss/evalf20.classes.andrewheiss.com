@@ -137,6 +137,7 @@ lessons:
 
   - title: '<span class="content-title">Difference-in-differences I + II</span>'
     session: "Sessions 8–9"
+    example: "diff-in-diff"
     date: "October 12–23"
     content: "08-content"
     bg: 2
