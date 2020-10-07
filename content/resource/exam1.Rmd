@@ -19,7 +19,7 @@ output:
 - …the difference between experimental research and observational research
 - …the sometimes conflicting roles of science and intuition in public administration and policy
 - …the difference between the various types of evaluations and how they target specific parts of a logic model
-- …the difference between identifying correlation (math) and identifying correlation (philosophy and theory)
+- …the difference between identifying correlation (math) and identifying causation (philosophy and theory)
 - …what it means for a relationship to be causal
 
 ## Regression and inference
