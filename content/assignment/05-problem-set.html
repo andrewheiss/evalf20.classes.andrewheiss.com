@@ -14,9 +14,47 @@ menu:
 type: docs
 editor_options: 
   chunk_output_type: console
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#instructions">Instructions</a></li>
+</ul>
+</div>
 
-<p>The instructions for this problem set will go live a couple weeks before the due date (and likely even earlier than that!)</p>
+<p>For this problem set, you’ll reproduce the results from one of the papers that you looked at in your threats to validity assignment:</p>
+<blockquote>
+<p><span class="citation">Rafael Di Tella and Ernesto Schargrodsky, “Do Police Reduce Crime? Estimates Using the Allocation of Police Forces After a Terrorist Attack,” <em>American Economic Review</em> 94, no. 1 (March 2004): 115–133, doi:<a href="https://doi.org/10.1257/000282804322970733" role="doc-biblioref">10.1257/000282804322970733</a>.</span></p>
+</blockquote>
+<p>The full published paper is posted on iCollege under “Content &gt; Validity assignment” (since you used the paper for that assignment). It’s not posted publicly here because of copyright reasons. The data comes from <a href="https://www.aeaweb.org/articles?id=10.1257/000282804322970733">Di Tella and Schargrodsky’s data appendix available at their study’s <em>AER</em> webpage</a>, and I’ve included it in the .zip file for the assignment.</p>
+<p>This paper uses difference-in-differences to estimate the causal effect of increased policing on car thefts. Now that you know all about diff-in-diff, you can create their same results!</p>
+<p>The answer key from Problem Set 4 (where you also did diff-in-diff) + this example page will be incredibly useful for you:</p>
+<ul>
+<li><a href="/example/diff-in-diff/">Difference-in-differences</a></li>
+</ul>
+<p>You’ll be doing all your R work in R Markdown. You can download a zipped file of a pre-made project here:</p>
+<ul>
+<li><a href="/projects/problem-set-5.zip"><i class="fas fa-file-archive"></i> <code>problem-set-5.zip</code></a></li>
+</ul>
+<p>And as always, if you’re struggling, <em>please</em> talk to me. Work with classmates too (especially for this assignment!). Don’t suffer in silence!</p>
+<div id="instructions" class="section level2">
+<h2>Instructions</h2>
+<ol style="list-style-type: decimal">
+<li><p>If you’re using R on your own computer, download this file, <a href="https://evalf20.classes.andrewheiss.com/resource/unzipping/"><em>unzip it</em></a>, and double click on the file named <code>problem-set-5.Rproj</code>: <a href="/projects/problem-set-5.zip"><i class="fas fa-file-archive"></i> <code>problem-set-5.zip</code></a></p>
+<p>You’ll need to make sure you have these packages installed on your computer: <code>tidyverse</code>, <code>haven</code>, <code>broom</code>, <code>fixest</code>, and <code>modelsummary</code>. If you try to load one of those packages with <code>library(tidyverse)</code> or <code>library(haven)</code>, etc., and R gives an error that the package is missing, use the “Packages” panel in RStudio to install it.</p>
+<p>(Alternatively, you can open the project named “Problem Set 5” on RStudio.cloud and complete the assignment in your browser without needing to install anything. <a href="https://rstudio.cloud/spaces/82624/project/1756879">This link should take you to the project</a>—if it doesn’t, log in and look for the project named “Problem Set 5.”)</p></li>
+<li><p>Rename the R Markdown file named <code>your-name_problem-set-5.Rmd</code> to something that matches your name and open it in RStudio.</p></li>
+<li><p>Complete the tasks given in the R Markdown file. There are questions <strong>marked in bold</strong>. Your job is to answer those questions. You don’t need to put your answers in bold or ALL CAPS or anything, and you can remove the question text if you want.</p>
+<p>Fill out code in the empty chunks provided (you can definitely copy, paste, and adapt from other code in the document or <a href="/example/diff-in-diff/">the example page on diff-in-diff</a>—don’t try to write everything from scratch!).</p>
+<p>You’ll need to insert your own code chunks. Rather than typing them by hand (that’s tedious!), use the “Insert” button at the top of the editing window, or press <kbd>⌥</kbd> + <kbd>⌘</kbd> + <kbd>I</kbd> on macOS, or <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>I</kbd> on Windows.</p>
+<p><img src="/img/assignments/insert-chunk-button.png" width="19%" /></p>
+<p>Remember that you can run an entire chunk by clicking on the green play arrow in the top right corner of the chunk. You can also run lines of code line-by-line if you place your cursor on some R code and press <kbd>⌘</kbd> + <kbd>enter</kbd> (for macOS users) or <kbd>ctrl</kbd> + <kbd>enter</kbd> (for Windows users).</p>
+<p>Make sure you run each chunk sequentially. If you run a chunk in the middle of the document without running previous ones, it might not work, since previous chunks might do things that later chunks depend on.</p></li>
+<li><p>When you’re all done, click on the “Knit” button at the top of the editing window and create an HTML or Word version (or PDF if you’ve <a href="/resource/install/#install-tinytex">installed <strong>tinytex</strong></a>) of your document. Upload that file to iCollege.</p></li>
+</ol>
+<p><img src="/img/assignments/knit-button.png" width="30%" /></p>
+</div>
