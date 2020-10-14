@@ -193,7 +193,7 @@ Recreate columns A, B, and C from Table 3 from the original article with `models
 
 ```r
 modelsummary(list(models, go, here),
-             se = "white", fmt = 5, stars = TRUE)
+             se = "white", fmt = "%.5f", stars = TRUE)
 ```
 
 ```{r show-all-models}
