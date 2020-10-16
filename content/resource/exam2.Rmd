@@ -1,18 +1,20 @@
 ---
 title: Things you should know for Exam 2
-date: "2019-11-18"
+date: "2020-10-16"
 menu:
-  reference:
-    parent: Resources
-    weight: 5
+  resource:
+    parent: Study guides
+    weight: 2
 type: docs
-weight: 5
+weight: 2
 output:
   blogdown::html_page:
       toc: TRUE
 ---
 
 ## Randomization
+
+## Matching and inverse probability weighting
 
 ## Difference-in-difference
 
