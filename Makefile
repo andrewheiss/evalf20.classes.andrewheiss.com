@@ -1,9 +1,19 @@
 OUTPUTDIR=public
 SSH_TARGET=cloud:/home/andrew/sites/evalf20.classes/public_html
 
-.PHONY : all clean serve build deploy zip_projects
+.PHONY : all clean serve build deploy zip_projects pdf_slides
 
-all: zip_projects build
+all: zip_projects build pdf_slides
+
+
+# Slides to PDF -----------------------------------------------------------
+TO_PDF = $(wildcard static/slides/*.html)
+PDF_TARGETS = $(addsuffix .pdf,$(basename $(TO_PDF)))
+
+static/slides/%.pdf: static/slides/%.html
+	Rscript R/pdfize.R $@
+
+pdf_slides: $(PDF_TARGETS)
 
 
 # Automatic project zipping -----------------------------------------------
@@ -46,7 +56,7 @@ static/slides/css/ath-slides.css:
 	sass static/slides/css/ath-slides.scss > static/slides/css/ath-slides.css
 
 # build: 
-build: static/slides/css/ath-slides.css zip_projects
+build: static/slides/css/ath-slides.css zip_projects pdf_slides
 	Rscript -e "blogdown::build_site()"
 
 serve: build
