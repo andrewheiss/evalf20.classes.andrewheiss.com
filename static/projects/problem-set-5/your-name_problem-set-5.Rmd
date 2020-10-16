@@ -152,9 +152,15 @@ To fix this, run a diff-in-diff model that includes two additional control varia
 
 **Don't use `tidy` to view the results**. You'll get a table with almost 900 rows and it'll take up pages and pages of your knitted document. If you really want to see the results, filter out the block and month rows (like this:).
 
+```r
+tidy(name_of_model) %>% 
+  filter(!str_starts(term, "month"), 
+         !str_starts(term, "block"))
+```
+
 ```{r really-slow-fe-model, cache=TRUE}
 # Code here with block + month in the model
-# DON'T RUN tidy()
+# DON'T RUN tidy() or modelsummary() without filtering out month and block coefficients
 ```
 
 That slowness is miserable. You can get around that by using a different function for OLS that has built-in support for fixed effects (or indicator variables). The `feols()` (fixed-effects OLS) function from the **fixest** package lets you include indicator variables in regression in a more sophisticated way. The math is lighting fast, and the coefficients for each block and year are hidden by default (though you can still see them if you really want).
