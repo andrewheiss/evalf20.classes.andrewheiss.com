@@ -1,30 +1,793 @@
 ---
 title: "Regression discontinuity"
 linktitle: "Regression discontinuity"
-date: "2020-03-25"
+date: "2020-10-20"
 output:
   blogdown::html_page:
     toc: true
 menu:
   example:
     parent: Examples
-    weight: 19
+    weight: 8
 type: docs
 editor_options: 
   chunk_output_type: console
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
-<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 <div id="TOC">
 <ul>
-<li><a href="#examples">Examples</a></li>
+<li><a href="#video-walk-through">Video walk-through</a></li>
+<li><a href="#program-background">Program background</a></li>
+<li><a href="#load-and-clean-data">Load and clean data</a></li>
+<li><a href="#step-1-determine-if-process-of-assigning-treatment-is-rule-based">Step 1: Determine if process of assigning treatment is rule-based</a></li>
+<li><a href="#step-2-determine-if-the-design-is-fuzzy-or-sharp">Step 2: Determine if the design is fuzzy or sharp</a></li>
+<li><a href="#step-3-check-for-discontinuity-in-running-variable-around-cutpoint">Step 3: Check for discontinuity in running variable around cutpoint</a></li>
+<li><a href="#step-4-check-for-discontinuity-in-outcome-across-running-variable">Step 4: Check for discontinuity in outcome across running variable</a></li>
+<li><a href="#step-5-measure-the-size-of-the-effect">Step 5: Measure the size of the effect</a>
+<ul>
+<li><a href="#parametric-estimation">Parametric estimation</a></li>
+<li><a href="#nonparametric-estimation">Nonparametric estimation</a></li>
+</ul></li>
+<li><a href="#step-6-compare-all-the-effects">Step 6: Compare all the effects</a></li>
 </ul>
 </div>
 
-<div id="examples" class="section level2">
-<h2>Examples</h2>
-<p>Worked-out examples and code and math, etc. will all go here.</p>
+<div id="video-walk-through" class="section level2">
+<h2>Video walk-through</h2>
+<p>If you want to follow along with this example, you can download the data below:</p>
+<ul>
+<li><a href="/data/tutoring_program.csv"><i class="fas fa-table"></i> <code>tutoring_program.csv</code></a></li>
+</ul>
+<div class="warning">
+<p><strong>Important</strong>: The results will be slightly different here than they were in the video. That’s because in the data I used in the video, I didn’t round any values, so people could score a 71.8392403 on the entrance exam, which is kind of an excessive number of decimals. In this data, I rounded everything to one decimal point (e.g. 71.8), so the gaps and lines will be a tiny bit different here.</p>
+</div>
+<p>There’s a set of videos that walks through each section below. To make it easier for you to jump around the video examples, I cut the long video into smaller pieces and included them all in <a href="https://www.youtube.com/playlist?list=PLS6tnpTr39sFCr8amjT2Ld_FE34i26a3S">one YouTube playlist</a>.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=8CayGMcJoLY&amp;list=PLS6tnpTr39sFCr8amjT2Ld_FE34i26a3S">Getting started</a></li>
+<li><a href="https://www.youtube.com/watch?v=ViDChprm2IY&amp;list=PLS6tnpTr39sFCr8amjT2Ld_FE34i26a3S">Sharp or fuzzy?</a></li>
+<li><a href="https://www.youtube.com/watch?v=hqPVIt-72fY&amp;list=PLS6tnpTr39sFCr8amjT2Ld_FE34i26a3S">Checking for manipulation</a></li>
+<li><a href="https://www.youtube.com/watch?v=yYqO22l_jgc&amp;list=PLS6tnpTr39sFCr8amjT2Ld_FE34i26a3S">Finding discontinuity in outcome</a></li>
+<li><a href="https://www.youtube.com/watch?v=Por8Rd9QuBk&amp;list=PLS6tnpTr39sFCr8amjT2Ld_FE34i26a3S">Measuring the gap parametrically</a></li>
+<li><a href="https://www.youtube.com/watch?v=lfBkAZLX_Z4&amp;list=PLS6tnpTr39sFCr8amjT2Ld_FE34i26a3S">Measuring the gap nonparametrically</a></li>
+</ul>
+<p>You can also watch the playlist (and skip around to different sections) here:</p>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/videoseries?list=PLS6tnpTr39sFCr8amjT2Ld_FE34i26a3S" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
+</div>
+<div id="program-background" class="section level2">
+<h2>Program background</h2>
+<p>In this hypothetical example, students take an entrance exam at the beginning of a school year. Those who score 70 or below are automatically enrolled in a free tutoring program and receive assistance throughout the year. At the end of the school year, students take a final test, or exit exam (with a maximum of 100 points) to measure how much they learned overall. Remember, this is a hypothetical example and tests like this don’t really exist, but just go with it.</p>
+<p>You have a dataset with four columns in it:</p>
+<ul>
+<li><code>id</code>: The ID of the student</li>
+<li><code>entrance_exam</code>: The student’s entrance exam score (out of 100)</li>
+<li><code>exit_exam</code>: The student’s exit exam score (out of 100)</li>
+<li><code>tutoring</code>: An indicator variable showing if the student was enrolled in the tutoring program</li>
+</ul>
+</div>
+<div id="load-and-clean-data" class="section level2">
+<h2>Load and clean data</h2>
+<p>First, let’s download the dataset (if you haven’t already), put in a folder named <code>data</code>, and load it:</p>
+<ul>
+<li><a href="/data/tutoring_program.csv"><i class="fas fa-table"></i> <code>tutoring_program.csv</code></a></li>
+</ul>
+<pre class="r"><code>library(tidyverse)  # ggplot(), %&gt;%, mutate(), and friends
+library(broom)  # Convert models to data frames
+library(rdrobust)  # For robust nonparametric regression discontinuity
+library(rddensity)  # For nonparametric regression discontinuity density tests
+library(modelsummary)  # Create side-by-side regression tables</code></pre>
+<pre class="r"><code># Load the data. 
+# It&#39;d be a good idea to click on the &quot;tutoring&quot; object in the Environment
+# panel in RStudio to see what the data looks like after you load it
+tutoring &lt;- read_csv(&quot;data/tutoring_program.csv&quot;)</code></pre>
+</div>
+<div id="step-1-determine-if-process-of-assigning-treatment-is-rule-based" class="section level2">
+<h2>Step 1: Determine if process of assigning treatment is rule-based</h2>
+<p>In order to join the tutoring program, students have to score 70 points or lower on the entrance exam. Students who score higher than 70 are not eligible for the program. Since we have a clear 70-point rule, we can assume that the process of participating in the tutoring program is rule-based.</p>
+</div>
+<div id="step-2-determine-if-the-design-is-fuzzy-or-sharp" class="section level2">
+<h2>Step 2: Determine if the design is fuzzy or sharp</h2>
+<p>Since we know that the program was applied based on a rule, we next want to figure out how strictly the rule was applied. The threshold was 70 points on the test—did people who scored 68 slip through bureaucratic cracks and not participate, or did people who scored 73 sneak into the program? The easiest way to check this is with a graph, and we can get exact numbers with a table.</p>
+<pre class="r"><code>ggplot(tutoring, aes(x = entrance_exam, y = tutoring, color = tutoring)) +
+  # Make points small and semi-transparent since there are lots of them
+  geom_point(size = 0.5, alpha = 0.5, 
+             position = position_jitter(width = 0, height = 0.25, seed = 1234)) + 
+  # Add vertical line
+  geom_vline(xintercept = 70) + 
+  # Add labels
+  labs(x = &quot;Entrance exam score&quot;, y = &quot;Participated in tutoring program&quot;) + 
+  # Turn off the color legend, since it&#39;s redundant
+  guides(color = FALSE)</code></pre>
+<p><img src="/example/rdd_files/figure-html/check-fuzzy-sharp-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>This looks pretty sharp—it doesn’t look like people who scored under 70 participated in the program. We can verify this with a table. There are no people where <code>entrance_exam</code> is greater than 70 and <code>tutoring</code> is false, and no people where <code>entrance_exam</code> is less than 70 and <code>tutoring</code> is true.</p>
+<pre class="r"><code>tutoring %&gt;% 
+  group_by(tutoring, entrance_exam &lt;= 70) %&gt;% 
+  summarize(count = n())</code></pre>
+<pre><code>## # A tibble: 2 x 3
+## # Groups:   tutoring [2]
+##   tutoring `entrance_exam &lt;= 70` count
+##   &lt;lgl&gt;    &lt;lgl&gt;                 &lt;int&gt;
+## 1 FALSE    FALSE                   759
+## 2 TRUE     TRUE                    241</code></pre>
+<p>This is thus a sharp design.</p>
+</div>
+<div id="step-3-check-for-discontinuity-in-running-variable-around-cutpoint" class="section level2">
+<h2>Step 3: Check for discontinuity in running variable around cutpoint</h2>
+<p>Next we need to see if there was any manipulation in the running variable—maybe lots of people bunched up around 70 because of how the test was graded (i.e. students wanted to get into the program, so they purposely did poorly on the exam to get under 70). We can do this a couple different ways. First, we’ll make a histogram of the running variable (test scores) and see if there are any big jumps around the threshold:</p>
+<pre class="r"><code>ggplot(tutoring, aes(x = entrance_exam, fill = tutoring)) +
+  geom_histogram(binwidth = 2, color = &quot;white&quot;, boundary = 70) + 
+  geom_vline(xintercept = 70) + 
+  labs(x = &quot;Entrance exam score&quot;, y = &quot;Count&quot;, fill = &quot;In program&quot;)</code></pre>
+<p><img src="/example/rdd_files/figure-html/check-running-discontinuity-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Here it doesn’t look like there’s a jump around the cutoff—there’s a tiny visible difference between the height of the bars right before and right after the 70-point threshold, but it seems to follow the general shape of the overall distribution. We can check to see if that jump is statistically significant with a McCrary density test (explained on pp. 185-86 of <a href="https://www.scunning.com/mixtape.html"><em>Causal Inference: The Mixtape</em></a>). This puts data into bins like a histogram, and then plots the averages and confidence intervals of those bins. If the confidence intervals of the density lines don’t overlap, then there’s likely something systematically wrong with how the test was scored (i.e. too many people getting 69 vs 71). If the confidence intervals overlap, there’s not any significant difference around the threshold and we’re fine.</p>
+<p>First we use <code>rddensity()</code> to do the actual statistical test. You need to feed it two things: the running variable and the cutoff.</p>
+<pre class="r"><code># Notice this tutoring$entrance_exam syntax. This is one way for R to access
+# columns in data frames---it means &quot;use the entrance_exam column in the
+# tutoring data frame&quot;. The general syntax for it is data_frame$column_name
+test_density &lt;- rddensity(tutoring$entrance_exam, c = 70)
+summary(test_density)</code></pre>
+<pre><code>## Manipulation testing using local polynomial density estimation.
+## 
+## Number of obs =       1000
+## Model =               unrestricted
+## Kernel =              triangular
+## BW method =           estimated
+## VCE method =          jackknife
+## 
+## c = 70                Left of c           Right of c          
+## Number of obs         237                 763                 
+## Eff. Number of obs    208                 577                 
+## Order est. (p)        2                   2                   
+## Order bias (q)        3                   3                   
+## BW est. (h)           22.444              19.966              
+## 
+## Method                T                   P &gt; |T|             
+## Robust                -0.5521             0.5809</code></pre>
+<p>We can then plot that density test:</p>
+<pre class="r"><code># The syntax for rdplotdensity is kinda wonky here. You have to feed it the
+# rddensity() test, and then you have to specify x, which is your running
+# variable (again!). The type argument tells the plot to show both points and
+# lines---without it, it&#39;ll only show lines.
+#
+# Finally, notice how I assigned the output of rdplotdensity to a variable named
+# plot_density_test. In theory, this should make it show nothing---all the
+# output should go to that object. Because of a bug in rdplotdensity, though, it
+# will show a plot automatically even if assigning it to a variable. If we don&#39;t
+# assign it to a variable you&#39;ll see two identical plots when knitting, which is
+# annoying. So we save it as a variable to hide the output, but get the output
+# for a single plot anyway. Ugh.
+plot_density_test &lt;- rdplotdensity(rdd = test_density, 
+                                   X = tutoring$entrance_exam, 
+                                   type = &quot;both&quot;)  # This adds both points and lines</code></pre>
+<p><img src="/example/rdd_files/figure-html/plot-running-discontinuity-mcrary-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>There’s a lot of output here, but what we care about is the line that starts with “Robust”, which shows the t-test for the difference in the two points on either side of the cutpoint in the plot. Notice in the plot that the confidence intervals overlap substantially. The p-value for the size of that overlap is 0.5809, which is a lot larger than 0.05, so we don’t have good evidence that there’s a significant difference between the two lines. Based on this plot and the t-statistic, we’re probably safe in saying that there’s no manipulation or bunching.</p>
+</div>
+<div id="step-4-check-for-discontinuity-in-outcome-across-running-variable" class="section level2">
+<h2>Step 4: Check for discontinuity in outcome across running variable</h2>
+<p>Now that we know this is a sharp design and that there’s no bunching of test scores around the 70-point threshold, we can finally see if there’s a discontinuity in final scores based on participation in the tutoring program. Plot the running variable on the x-axis, the outcome variable on the y-axis, and color the points by whether they participated in the program.</p>
+<pre class="r"><code>ggplot(tutoring, aes(x = entrance_exam, y = exit_exam, color = tutoring)) +
+  geom_point(size = 0.5, alpha = 0.5) + 
+  # Add a line based on a linear model for the people scoring less than 70
+  geom_smooth(data = filter(tutoring, entrance_exam &lt;= 70), method = &quot;lm&quot;) +
+  # Add a line based on a linear model for the people scoring 70 or more
+  geom_smooth(data = filter(tutoring, entrance_exam &gt; 70), method = &quot;lm&quot;) +
+  geom_vline(xintercept = 70) +
+  labs(x = &quot;Entrance exam score&quot;, y = &quot;Exit exam score&quot;, color = &quot;Used tutoring&quot;)</code></pre>
+<p><img src="/example/rdd_files/figure-html/check-outcome-discontinuity-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Based on this graph, there’s a clear discontinuity! It looks like participation in the tutoring program boosted final test scores.</p>
+</div>
+<div id="step-5-measure-the-size-of-the-effect" class="section level2">
+<h2>Step 5: Measure the size of the effect</h2>
+<p>There’s a discontinuity, but how big is it? And is it statistically significant?</p>
+<p>We can check the size two different ways: parametrically (i.e. using <code>lm()</code> with specific parameters and coefficients), and nonparametrically (i.e. not using <code>lm()</code> or any kind of straight line and instead drawing lines that fit the data more precisely). We’ll do it both ways.</p>
+<div id="parametric-estimation" class="section level3">
+<h3>Parametric estimation</h3>
+<p>First we’ll do it parametrically by using linear regression. Here we want to explain the variation in final scores based on the entrance exam score and participation in the tutoring program:</p>
+<p><span class="math display">\[
+\text{Exit exam} = \beta_0 + \beta_1 \text{Entrance exam score}_\text{centered} + \beta_2 \text{Tutoring program} + \epsilon
+\]</span></p>
+<p>To make it easier to interpret coefficients, we can center the entrance exam column so that instead of showing the actual test score, it shows how many points above or below 70 the student scored. That way we can use the coefficient for <code>tutoring</code> for the causal effect.</p>
+<pre class="r"><code>tutoring_centered &lt;- tutoring %&gt;% 
+  mutate(entrance_centered = entrance_exam - 70)
+
+model_simple &lt;- lm(exit_exam ~ entrance_centered + tutoring,
+                   data = tutoring_centered)
+tidy(model_simple)</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   term              estimate std.error statistic  p.value
+##   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)         59.4      0.442      134.  0.      
+## 2 entrance_centered    0.510    0.0269      18.9 1.40e-68
+## 3 tutoringTRUE        10.8      0.800       13.5 3.12e-38</code></pre>
+<p>Here’s what these coefficients mean:</p>
+<ul>
+<li><span class="math inline">\(\beta_0\)</span>: This is the intercept. Because we centered entrance exam scores, it shows the average exit exam score at the 70-point threshold. People who scored 70.001 points on the entrance exam score an average of 59.4 points on the exit exam. (Another way to think about this is that it shows the predicted exit exam score when <code>entrance_centered</code> is 0 (i.e. 70) and when <code>tutoring</code> is <code>FALSE</code>.)</li>
+<li><span class="math inline">\(\beta_1\)</span>: This is the coefficient for <code>entrance_centered</code>. For every point above 70 that people score on the entrance exam, they score 0.51 points higher on the exit exam. We don’t really care that much about this number.</li>
+<li><span class="math inline">\(\beta_2\)</span>: This is the coefficient for the tutoring program, and <em>this is the one we care about the most</em>. This is the shift in intercept when <code>tutoring</code> is true, or the difference between scores at the threshold. Participating in the tutoring program increases exit exam scores by 10.8 points.</li>
+</ul>
+<p>One advantage to using a parametric approach is that you can include other covariates like demographics. You can also use polynomial regression and include terms like <code>entrance_centered²</code> or <code>entrance_centered³</code> or even <code>entrance_centered⁴</code> to make the line fit the data as close as possible.</p>
+<p>Here we fit the model to the entire data, but in real life, we care most about the observations right around the threshold, which means this model is actually <strong><em>wrong</em></strong>. Scores that are super high or super low shouldn’t really influence our effect size, since we only care about the people who score just barely under and just barely over 70.</p>
+<p>We can fit the same model but restrict it to people within a smaller window, or bandwidth, like ±10 points, or ±5 points:</p>
+<pre class="r"><code>model_bw_10 &lt;- lm(exit_exam ~ entrance_centered + tutoring,
+                  data = filter(tutoring_centered,
+                                entrance_centered &gt;= -10 &amp; 
+                                  entrance_centered &lt;= 10))
+tidy(model_bw_10)</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   term              estimate std.error statistic   p.value
+##   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)         60.4       0.752     80.3  2.99e-249
+## 2 entrance_centered    0.388     0.114      3.40 7.45e-  4
+## 3 tutoringTRUE         9.27      1.31       7.09 6.27e- 12</code></pre>
+<pre class="r"><code>model_bw_5 &lt;- lm(exit_exam ~ entrance_centered + tutoring,
+                  data = filter(tutoring_centered,
+                                entrance_centered &gt;= -5 &amp; 
+                                  entrance_centered &lt;= 5))
+tidy(model_bw_5)</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   term              estimate std.error statistic   p.value
+##   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)         60.6       1.12      54.3  4.78e-118
+## 2 entrance_centered    0.380     0.331      1.15 2.53e-  1
+## 3 tutoringTRUE         9.12      1.91       4.77 3.66e-  6</code></pre>
+<p>We can compare all these models simultaneously with <code>modelsummary()</code>:</p>
+<pre class="r"><code>modelsummary(list(&quot;Full data&quot; = model_simple, 
+                  &quot;Bandwidth = 10&quot; = model_bw_10, 
+                  &quot;Bandwidth = 5&quot; = model_bw_5))</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+Full data
+</th>
+<th style="text-align:center;">
+Bandwidth = 10
+</th>
+<th style="text-align:center;">
+Bandwidth = 5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:center;">
+59.411***
+</td>
+<td style="text-align:center;">
+60.377***
+</td>
+<td style="text-align:center;">
+60.631***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(0.442)
+</td>
+<td style="text-align:center;">
+(0.752)
+</td>
+<td style="text-align:center;">
+(1.117)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+entrance_centered
+</td>
+<td style="text-align:center;">
+0.510***
+</td>
+<td style="text-align:center;">
+0.388***
+</td>
+<td style="text-align:center;">
+0.380
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(0.027)
+</td>
+<td style="text-align:center;">
+(0.114)
+</td>
+<td style="text-align:center;">
+(0.331)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #F6D645 !important;">
+tutoringTRUE
+</td>
+<td style="text-align:center;background-color: #F6D645 !important;">
+10.800***
+</td>
+<td style="text-align:center;background-color: #F6D645 !important;">
+9.273***
+</td>
+<td style="text-align:center;background-color: #F6D645 !important;">
+9.122***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;border-bottom: 1px solid">
+</td>
+<td style="text-align:center;border-bottom: 1px solid">
+(0.800)
+</td>
+<td style="text-align:center;border-bottom: 1px solid">
+(1.309)
+</td>
+<td style="text-align:center;border-bottom: 1px solid">
+(1.912)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+1000
+</td>
+<td style="text-align:center;">
+404
+</td>
+<td style="text-align:center;">
+194
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.268
+</td>
+<td style="text-align:center;">
+0.162
+</td>
+<td style="text-align:center;">
+0.222
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:center;">
+0.267
+</td>
+<td style="text-align:center;">
+0.158
+</td>
+<td style="text-align:center;">
+0.214
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup></sup> * p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01
+</td>
+</tr>
+</tfoot>
+</table>
+<p>The effect of <code>tutoring</code> differs a lot across these different models, from 9.1 to 10.8. Which one is right? I don’t know. Definitely not the full data one.</p>
+<p>Also notice how much the sample size (N) changes across the models. As you narrow the bandwidth, you look at fewer and fewer observations.</p>
+<pre class="r"><code>ggplot(tutoring, aes(x = entrance_exam, y = exit_exam, color = tutoring)) +
+  geom_point(size = 0.5, alpha = 0.2) + 
+  # Add lines for the full model (model_simple)
+  geom_smooth(data = filter(tutoring, entrance_exam &lt;= 70), 
+              method = &quot;lm&quot;, se = FALSE, linetype = &quot;dotted&quot;, size = 1) +
+  geom_smooth(data = filter(tutoring, entrance_exam &gt; 70), 
+              method = &quot;lm&quot;, se = FALSE, linetype = &quot;dotted&quot;, size = 1) +
+  # Add lines for bandwidth = 10
+  geom_smooth(data = filter(tutoring, entrance_exam &lt;= 70, entrance_exam &gt;= 60), 
+              method = &quot;lm&quot;, se = FALSE, linetype = &quot;dashed&quot;, size = 1) +
+  geom_smooth(data = filter(tutoring, entrance_exam &gt; 70, entrance_exam &lt;= 80), 
+              method = &quot;lm&quot;, se = FALSE, linetype = &quot;dashed&quot;, size = 1) +
+  # Add lines for bandwidth = 5
+  geom_smooth(data = filter(tutoring, entrance_exam &lt;= 70, entrance_exam &gt;= 65), 
+              method = &quot;lm&quot;, se = FALSE, size = 2) +
+  geom_smooth(data = filter(tutoring, entrance_exam &gt; 70, entrance_exam &lt;= 75), 
+              method = &quot;lm&quot;, se = FALSE, size = 2) +
+  geom_vline(xintercept = 70) +
+  # Zoom in
+  coord_cartesian(xlim = c(50, 90), ylim = c(55, 75)) +
+  labs(x = &quot;Entrance exam score&quot;, y = &quot;Exit exam score&quot;, color = &quot;Used tutoring&quot;)</code></pre>
+<p><img src="/example/rdd_files/figure-html/different-lm-bandwidths-1.png" width="75%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="nonparametric-estimation" class="section level3">
+<h3>Nonparametric estimation</h3>
+<p>Instead of using linear regression to measure the size of the discontinuity, we can use nonparametric methods. Essentially this means that R will not try to fit a straight line to the data—instead it’ll curve around the points and try to fit everything as smoothly as possible.</p>
+<p>The <code>rdrobust()</code> function makes it really easy to measure the gap at the cutoff with nonparametric estimation. Here’s the simplest version:</p>
+<pre class="r"><code># Notice how we have to use the tutoring$exit_exam syntax here. Also make sure
+# you set the cutoff with c
+rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam, c = 70) %&gt;% 
+  summary()</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdrobust
+## 
+## Number of Obs.                 1000
+## BW type                       mserd
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Eff. Number of Obs.            144         256
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## BW est. (h)                  9.969       9.969
+## BW bias (b)                 14.661      14.661
+## rho (h/b)                    0.680       0.680
+## Unique Obs.                    155         262
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    -8.578     1.601    -5.359     0.000   [-11.715 , -5.441]    
+##         Robust         -         -    -4.352     0.000   [-12.101 , -4.587]    
+## =============================================================================</code></pre>
+<p>There are a few important pieces of information to look at in this output:</p>
+<ul>
+<li>The thing you care about the most is the actual effect size. This is the coefficient in the table at the bottom, indicated with the “Conventional” method. Here it’s -8.578, which means the tutoring program causes an 8-point change in exit exam scores. The table at the bottom also includes standard errors, p-values, and confidence intervals for the coefficient, both normal estimates (conventional) and robust estimates (robust). According to both types of estimates, this 8 point bump is statistically significant (p &lt; 0.001; the 95% confidence interval definitely doesn’t ever include 0).</li>
+<li>Importantly, notice that the coefficient here is actually negative (-8.578), while our previous parametric estimates were all positive. That does <em>not</em> mean that the program causes a drop in test scores. That negative value is just a side effect of how <code>rdrobust()</code> measures the gap. It looks at the value of the treatment group right before the threshold and then shows that test scores drop when shifting to the control group (while before we talked about the opposite story: test scores increase as you move from the control group to the treatment group). There’s no way to flip the sign within <code>rdrobust()</code>, so you need to look at the plot and see what the gap is really doing.</li>
+<li>The model used a bandwidth of 9.969 (<code>BW est. (h)</code> in the output), which means it only looked at people with test scores of 70 ± 10. It decided on this bandwidth automatically, but you can change it to whatever you want.</li>
+<li>The model used a triangular kernel. This is the most esoteric part of the model—the kernel decides how much weight to give to observations around the cutoff. Test scores like 69.99 or 70.01 are extremely close to 70, so they get the most weight. Scores like 67 or 73 are a little further away so they matter less. Scores like 64 or 76 matter even less, so they get even less weight. You can use different kernels too, and <a href="https://en.wikipedia.org/wiki/Kernel_(statistics)#Kernel_functions_in_common_use">Wikipedia has a nice graphic showing the shapes of these different kernels</a> and how they give different weights to observations at different distances.</li>
+</ul>
+<p>We can plot this nonparametric model with <code>rdplot()</code>.</p>
+<pre class="r"><code>rdplot(y = tutoring$exit_exam, x = tutoring$entrance_exam, c = 70)</code></pre>
+<p><img src="/example/rdd_files/figure-html/rdplot-basic-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Look at that 8.5 point jump at 70! Neat!</p>
+<p>Notice that the points here aren’t actually the observations in the dataset. The <code>rdplot()</code> function makes bins of points (like a histogram) and then shows the average outcome within each bin. You can control how many bins are used in the x-axis with the <code>nbins</code> or <code>binselect</code> arguments in <code>rdplot()</code> (run <code>?rdplot</code> in your console to see all the possible options for plotting nonparametric discontinuities).</p>
+<div class="fyi">
+<p><strong>Side note</strong>: <code>rdplot()</code> uses the same plotting system as <code>ggplot()</code>, so you can add layers like <code>labs()</code> or <code>geom_point()</code> or anything else, which is cool, but getting to that underlying <code>ggplot()</code> object is weird. To do it, store the results of <code>rdplot</code> as an object, like <code>asdf</code>, then use <code>asdf$rdplot</code> to access the plot:</p>
+<pre class="r"><code>asdf &lt;- rdplot(...)
+asdf$rdplot +
+  labs(x = &quot;Running variable&quot;, y = &quot;Outcome variable&quot;)</code></pre>
+<p>You don’t need to worry about all that for showing simple plots though!</p>
+</div>
+<p>By default, <code>rdrobust()</code> chooses the bandwidth size automatically based on fancy algorithms that economists have developed. You can use <code>rdbwselect()</code> to see what that bandwidth is, and if you include the <code>all = TRUE</code> argument, you can see a bunch of different potential bandwidths based on a bunch of different algorithms:</p>
+<pre class="r"><code># This says to use the mserd version, which according to the help file for
+# rdbwselect means &quot;the mean squared error-optimal bandwidth selector for RD
+# treatment effects&quot;. Sounds great.
+rdbwselect(y = tutoring$exit_exam, x = tutoring$entrance_exam, c = 70) %&gt;% 
+  summary()</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdbwselect
+## 
+## Number of Obs.                 1000
+## BW type                       mserd
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## Unique Obs.                    155         262
+## 
+## =======================================================
+##                   BW est. (h)    BW bias (b)
+##             Left of c Right of c  Left of c Right of c
+## =======================================================
+##      mserd     9.969      9.969     14.661     14.661
+## =======================================================</code></pre>
+<p>What are the different possible bandwidths we could use?</p>
+<pre class="r"><code>rdbwselect(y = tutoring$exit_exam, x = tutoring$entrance_exam, c = 70, all = TRUE) %&gt;% 
+  summary()</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdbwselect
+## 
+## Number of Obs.                 1000
+## BW type                         All
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## Unique Obs.                    155         262
+## 
+## =======================================================
+##                   BW est. (h)    BW bias (b)
+##             Left of c Right of c  Left of c Right of c
+## =======================================================
+##      mserd     9.969      9.969     14.661     14.661
+##     msetwo    11.521     10.054     17.067     14.907
+##     msesum    12.044     12.044     17.631     17.631
+##   msecomb1     9.969      9.969     14.661     14.661
+##   msecomb2    11.521     10.054     17.067     14.907
+##      cerrd     7.058      7.058     14.661     14.661
+##     certwo     8.156      7.118     17.067     14.907
+##     cersum     8.526      8.526     17.631     17.631
+##   cercomb1     7.058      7.058     14.661     14.661
+##   cercomb2     8.156      7.118     17.067     14.907
+## =======================================================</code></pre>
+<p>Phew. There are a lot here. The best one was <code>mserd</code>, or ±9.69. Some say ±7, others ±12, other are asymmetric and say -11.5 before and +10 after. Try a bunch of different bandwidths as part of your sensitivity analysis and see if your effect size changes substantially as a result.</p>
+<p>Another common approach to sensitivity analysis is to use the ideal bandwidth, twice the ideal, and half the ideal (so in our case 10, 20, and 5) and see if the estimate changes substantially. Use the <code>h</code> argument to specify your own bandwidth</p>
+<pre class="r"><code>rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam, c = 70, h = 9.969) %&gt;% 
+  summary()</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdrobust
+## 
+## Number of Obs.                 1000
+## BW type                      Manual
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Eff. Number of Obs.            144         256
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## BW est. (h)                  9.969       9.969
+## BW bias (b)                  9.969       9.969
+## rho (h/b)                    1.000       1.000
+## Unique Obs.                    155         262
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    -8.578     1.601    -5.359     0.000   [-11.715 , -5.441]    
+##         Robust         -         -    -3.276     0.001   [-12.483 , -3.138]    
+## =============================================================================</code></pre>
+<pre class="r"><code>rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam, c = 70, h = 9.969 * 2) %&gt;% 
+  summary()</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdrobust
+## 
+## Number of Obs.                 1000
+## BW type                      Manual
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Eff. Number of Obs.            206         577
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## BW est. (h)                 19.938      19.938
+## BW bias (b)                 19.938      19.938
+## rho (h/b)                    1.000       1.000
+## Unique Obs.                    155         262
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    -9.151     1.130    -8.100     0.000   [-11.365 , -6.937]    
+##         Robust         -         -    -4.980     0.000   [-11.670 , -5.078]    
+## =============================================================================</code></pre>
+<pre class="r"><code>rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam, c = 70, h = 9.969 / 2) %&gt;% 
+  summary()</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdrobust
+## 
+## Number of Obs.                 1000
+## BW type                      Manual
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Eff. Number of Obs.             82         109
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## BW est. (h)                  4.984       4.984
+## BW bias (b)                  4.984       4.984
+## rho (h/b)                    1.000       1.000
+## Unique Obs.                    155         262
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    -8.201     2.348    -3.493     0.000   [-12.803 , -3.600]    
+##         Robust         -         -    -2.032     0.042   [-13.618 , -0.246]    
+## =============================================================================</code></pre>
+<p>Here the coefficients change slightly:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Bandwidth</th>
+<th align="center">Effect size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">9.969 (ideal)</td>
+<td align="center">8.578</td>
+</tr>
+<tr class="even">
+<td align="center">19.938 (twice)</td>
+<td align="center">9.151</td>
+</tr>
+<tr class="odd">
+<td align="center">4.984 (half)</td>
+<td align="center">8.201</td>
+</tr>
+</tbody>
+</table>
+<p>You can also adjust the kernel. By default <code>rd_robust</code> uses a triangular kernel (more distant observations have less weight linearly), but you can switch it to Epanechnikov (more distant observations have less weight following a curve) or uniform (more distant observations have the same weight as closer observations; this is unweighted).</p>
+<pre class="r"><code># Non-parametric RD with different kernels
+rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam, 
+         c = 70, kernel = &quot;triangular&quot;) %&gt;% 
+  summary()  # Default</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdrobust
+## 
+## Number of Obs.                 1000
+## BW type                       mserd
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Eff. Number of Obs.            144         256
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## BW est. (h)                  9.969       9.969
+## BW bias (b)                 14.661      14.661
+## rho (h/b)                    0.680       0.680
+## Unique Obs.                    155         262
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    -8.578     1.601    -5.359     0.000   [-11.715 , -5.441]    
+##         Robust         -         -    -4.352     0.000   [-12.101 , -4.587]    
+## =============================================================================</code></pre>
+<pre class="r"><code>rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam, 
+         c = 70, kernel = &quot;epanechnikov&quot;) %&gt;% 
+  summary()</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdrobust
+## 
+## Number of Obs.                 1000
+## BW type                       mserd
+## Kernel                   Epanechnikov
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Eff. Number of Obs.            130         204
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## BW est. (h)                  8.201       8.201
+## BW bias (b)                 12.807      12.807
+## rho (h/b)                    0.640       0.640
+## Unique Obs.                    155         262
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    -8.389     1.677    -5.001     0.000   [-11.677 , -5.101]    
+##         Robust         -         -    -4.085     0.000   [-12.116 , -4.260]    
+## =============================================================================</code></pre>
+<pre class="r"><code>rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam, 
+         c = 70, kernel = &quot;uniform&quot;) %&gt;% 
+  summary()</code></pre>
+<pre><code>## [1] &quot;Mass points detected in the running variable.&quot;
+## Call: rdrobust
+## 
+## Number of Obs.                 1000
+## BW type                       mserd
+## Kernel                      Uniform
+## VCE method                       NN
+## 
+## Number of Obs.                 237         763
+## Eff. Number of Obs.            119         176
+## Order est. (p)                   1           1
+## Order bias  (q)                  2           2
+## BW est. (h)                  7.346       7.346
+## BW bias (b)                 12.561      12.561
+## rho (h/b)                    0.585       0.585
+## Unique Obs.                    155         262
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    -8.175     1.651    -4.952     0.000   [-11.411 , -4.939]    
+##         Robust         -         -    -4.085     0.000   [-11.704 , -4.115]    
+## =============================================================================</code></pre>
+<p>Again, the coefficients change slightly:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Kernel</th>
+<th align="center">Effect size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Triangular</td>
+<td align="center">8.578</td>
+</tr>
+<tr class="even">
+<td align="center">Epanechnikov</td>
+<td align="center">8.389</td>
+</tr>
+<tr class="odd">
+<td align="center">Uniform</td>
+<td align="center">8.175</td>
+</tr>
+</tbody>
+</table>
+<p>Which one is best? ¯\_(ツ)_/¯. All that really matters is that the size and direction of the effect doesn’t change. It’s still positive and it’s still in the 8–9ish point range.</p>
+</div>
+</div>
+<div id="step-6-compare-all-the-effects" class="section level2">
+<h2>Step 6: Compare all the effects</h2>
+<p>We just estimated a ton of effect sizes. In real life you’d generally just report one of these as your final effect, but you’d run the different parametric and nonparametric models to check how reliable and robust your findings are. Here’s everything we just found:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Method</th>
+<th align="center">Bandwidth</th>
+<th align="center">Kernel</th>
+<th align="center">Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Parametric</td>
+<td align="center">Full data</td>
+<td align="center">Unweighted</td>
+<td align="center">10.8</td>
+</tr>
+<tr class="even">
+<td align="center">Parametric</td>
+<td align="center">10</td>
+<td align="center">Unweighted</td>
+<td align="center">9.273</td>
+</tr>
+<tr class="odd">
+<td align="center">Parametric</td>
+<td align="center">5</td>
+<td align="center">Unweighted</td>
+<td align="center">9.122</td>
+</tr>
+<tr class="even">
+<td align="center">Nonparametric</td>
+<td align="center">9.969</td>
+<td align="center">Triangular</td>
+<td align="center">8.578</td>
+</tr>
+<tr class="odd">
+<td align="center">Nonparametric</td>
+<td align="center">19.938</td>
+<td align="center">Triangular</td>
+<td align="center">9.151</td>
+</tr>
+<tr class="even">
+<td align="center">Nonparametric</td>
+<td align="center">4.984</td>
+<td align="center">Triangular</td>
+<td align="center">8.201</td>
+</tr>
+<tr class="odd">
+<td align="center">Nonparametric</td>
+<td align="center">8.201</td>
+<td align="center">Epanechnikov</td>
+<td align="center">8.389</td>
+</tr>
+<tr class="even">
+<td align="center">Nonparametric</td>
+<td align="center">7.346</td>
+<td align="center">Uniform (unweighted)</td>
+<td align="center">8.175</td>
+</tr>
+</tbody>
+</table>
+<p>In real life, I’d likely report the simplest one (row 4: nonparametric, automatic bandwidth, triangular kernel), but knowing how much the effect varies across model specifications is helpful.</p>
 </div>

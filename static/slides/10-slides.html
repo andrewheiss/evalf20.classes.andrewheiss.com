@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Regression discontinuity I</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-10-19" />
+    <script src="libs/header-attrs-2.4.5/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# Regression discontinuity I
+
+.class-info[
+
+**Session 10**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-2.medium.sp-after-half[Arbitrary cutoffs and causal inference]
+
+--
+
+.box-4.medium.sp-after-half[Drawing lines and measuring gaps]
+
+--
+
+.box-6.medium.sp-after-half[Main RDD concerns]
+
+---
+
+name: arbitrary-cutoffs
+class: center middle section-title section-title-2 animated fadeIn
+
+# Arbitrary cutoffs&lt;br&gt;and causal inference
+
+---
+
+layout: true
+class: title title-2
+
+---
+
+# Quasi-experiments again
+
+--
+
+.box-inv-2.sp-after[Instead of using carefully adjusted DAGs,&lt;br&gt;we can use *context* to isolate/identify the pathway between&lt;br&gt;treatment and outcome in observational data]
+
+--
+
+.box-inv-2[Diff-in-diff was one kind of quasi-experiment]
+
+.box-2.sp-after[Treatment/control + before/after]
+
+--
+
+.box-inv-2[Regression discontinuity designs (RDD) are another]
+
+.box-2[Arbitrary rules determine access to programs]
+
+---
+
+# Rules to access programs
+
+.box-inv-2.medium[Lots of policies and programs are&lt;br&gt;based on arbitrary rules and thresholds]
+
+--
+
+.box-2[If you're above the threshold, you're in the program;&lt;br&gt;if you're below, you're not (or vice versa)]
+
+---
+
+# Key terms
+
+--
+
+.box-inv-2.medium[Running / forcing variable]
+
+.box-2.sp-after[Index or measure that determines eligibility]
+
+--
+
+.box-inv-2.medium[Cutoff / cutpoint / threshold]
+
+.box-2[Number that formally assigns access to program]
+
+---
+
+layout: false
+
+&lt;img src="10-slides_files/figure-html/rd-dag-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: true
+class: title title-2
+
+---
+
+# Discontinuities everywhere!
+
+.pull-left-wide.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Size &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Annual &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Monthly &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; 138% &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; 150% &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; 200% &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $12,760 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $1,063 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $17,609 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $19,140 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $25,520 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $17,240 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $1,437 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $23,791 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $25,860 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $34,480 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $21,720 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $1,810 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $29,974 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $32,580 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $43,440 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $26,200 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $2,183 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $36,156 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $39,300 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $52,400 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $30,680 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $2,557 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $42,338 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $46,020 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $61,360 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $35,160 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $2,930 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $48,521 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $52,740 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $70,320 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $39,640 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $3,303 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $54,703 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $59,460 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $79,280 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $44,120 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $3,677 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $60,886 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $66,180 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $88,240 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.pull-right-narrow[
+.box-inv-2.smaller[**Medicaid**&lt;br&gt;138%*]
+
+.box-inv-2.smaller[**ACA subsidies**&lt;br&gt;138–400%*]
+
+.box-inv-2.smaller[**CHIP**&lt;br&gt;200%]
+
+.box-inv-2.smaller[**SNAP/Free lunch**&lt;br&gt;130%]
+
+.box-inv-2.smaller[**Reduced lunch**&lt;br&gt;130–185%]
+]
+
+
+---
+
+# Hypothetical tutoring program
+
+--
+
+.box-inv-2.medium[Students take an entrance exam]
+
+--
+
+.box-inv-2.medium[Those who score 70 or lower&lt;br&gt;get a free tutor for the year]
+
+--
+
+.box-inv-2.medium[Students then take an exit exam&lt;br&gt;at the end of the year]
+
+---
+
+layout: false
+
+&lt;img src="10-slides_files/figure-html/tutoring-running-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-2
+
+# Causal inference intuition
+
+.box-inv-2.medium[The people right before and right after the threshold are essentially the same]
+
+---
+
+&lt;img src="10-slides_files/figure-html/tutoring-running-threshold-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="10-slides_files/figure-html/tutoring-running-threshold-zoomed-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-2
+
+# Causal inference intuition
+
+--
+
+.box-inv-2.medium[The people right before and right after the threshold are essentially the same]
+
+--
+
+.box-2.medium[Pseudo treatment and control groups!]
+
+--
+
+.box-inv-2.medium[Compare outcomes for those&lt;br&gt;right before/after, calculate difference]
+
+---
+
+&lt;img src="10-slides_files/figure-html/tutoring-outcome-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="10-slides_files/figure-html/tutoring-outcome-lines-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="10-slides_files/figure-html/tutoring-outcome-delta-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="10-slides_files/figure-html/tutoring-outcome-delta-zoomed-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: true
+class: title title-2
+
+---
+
+# Geographic discontinuities
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/10/timezones-1.png" alt="Holbein time zones" title="Holbein time zones" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Geographic discontinuities
+
+.pull-left-wide.center[
+&lt;figure&gt;
+  &lt;img src="img/10/timezones-2.png" alt="Holbein time zones" title="Holbein time zones" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right-narrow[
+.box-inv-2[Lower turnout in counties on the eastern side of the boundary]
+
+.box-inv-2[Election schedules cause fluctuations in turnout]
+]
+
+---
+
+# Time discontinuities
+
+.pull-left-wide.center[
+&lt;figure&gt;
+  &lt;img src="img/10/hospitals-1.png" alt="Hospital stays title" title="Hospital stays title" width="90%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right-narrow[
+.box-inv-2[California requires that insurance cover two days of post-partum hospitalization]
+
+.box-inv-2[Does extra time in the hospital improve health outcomes?]
+]
+
+---
+
+# Time discontinuities
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/10/hospitals-2.png" alt="Hospital stays duration" title="Hospital stays duration" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+.box-inv-2[Delivering at 12:01 AM makes you stay longer in the hospital…]
+
+---
+
+
+# Time discontinuities
+
+.pull-left-wide.center[
+&lt;figure&gt;
+  &lt;img src="img/10/hospitals-3.png" alt="Hospital stays outcomes" title="Hospital stays outcomes" width="65%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right-narrow[
+&amp;nbsp;
+
+.box-inv-2[…but delivering at 12:01 AM has no effect on readmission rates or mortality rates]
+]
+
+---
+
+# Test score discontinuities
+
+.pull-left-wide.center[
+&lt;figure&gt;
+  &lt;img src="img/10/flagship-1.png" alt="Flagship universities" title="Flagship universities" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right-narrow[
+.box-inv-2[Does going to the main state university (e.g. UGA) make you earn more money?]
+
+.box-inv-2[SAT scores are an arbitrary cutoff for accessing the university]
+]
+
+---
+
+# Test score discontinuities
+
+.pull-left.center[
+&lt;figure&gt;
+  &lt;img src="img/10/flagship-2.png" alt="Flagship cutoff" title="Flagship cutoff" width="100%"&gt;
+&lt;/figure&gt;
+
+.box-inv-2[Cutoff seems rule-based]
+]
+
+--
+
+.pull-right.center[
+&lt;figure&gt;
+  &lt;img src="img/10/flagship-3.png" alt="Flagship outcome" title="Flagship outcome" width="100%"&gt;
+&lt;/figure&gt;
+
+.box-inv-2[Earnings are slightly higher]
+]
+
+---
+
+# RDDs are all the rage
+
+.box-inv-2.medium[People love these things!]
+
+--
+
+.box-2[They're intuitive, compelling, and highly graphical]
+
+--
+
+.pull-left.center[
+&lt;figure&gt;
+  &lt;img src="img/10/rdd-p-hacking.png" alt="RDD p-hacking" title="RDD p-hacking" width="80%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right[
+.box-2[RDD less susceptible to p-hacking and selective publication than DID or IV]
+]
+
+---
+
+layout: false
+name: lines-gaps
+class: center middle section-title section-title-4 animated fadeIn
+
+# Drawing lines&lt;br&gt;and measuring gaps
+
+---
+
+class: title title-4
+
+# Main goal of RD
+
+--
+
+.box-inv-4.medium[Measure the gap in outcome for&lt;br&gt;people on both sides of the cutpoint]
+
+--
+
+.box-inv-4.medium[Gap = **δ** =&lt;br&gt;local average treatment effect (LATE)]
+
+---
+
+![](10-slides_files/figure-html/tutoring-outcome-delta-1.png)
+
+---
+
+layout: true
+class: title title-4
+
+---
+
+# Drawing lines
+
+--
+
+.box-inv-4.medium[The size of the gap depends on how&lt;br&gt;you draw the lines on each side of the cutoff]
+
+--
+
+.box-inv-4.medium.sp-after[The type of lines you choose can&lt;br&gt;change the estimate of δ—sometimes by a lot!]
+
+--
+
+.box-4.medium[There's no one right way to draw lines!]
+
+---
+
+# Line-drawing considerations
+
+--
+
+.box-inv-4.medium[Parametric vs. non-parametric lines]
+
+--
+
+.box-inv-4.medium[Measuring the gap]
+
+--
+
+.box-inv-4.medium[Bandwidths]
+
+--
+
+.box-inv-4.medium[Kernels]
+
+---
+
+# Parametric lines
+
+.box-inv-4.medium[Formulas with *parameters*]
+
+--
+
+.medium[
+`$$y = mx + b$$`
+
+`$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$`
+]
+
+---
+
+layout: false
+
+
+
+.small[
+`$$y = 10 + 4x$$`
+]
+
+&lt;img src="10-slides_files/figure-html/params-plot-linear-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-4
+
+# Parametric lines
+
+.box-inv-4.medium[Not just for straight lines!&lt;br&gt;Make curvy with exponents or trigonometry]
+
+--
+
+.medium[
+`$$y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^7$$`
+
+`$$y = \beta_0 + \beta_1 x + \beta_2 \sin(x)$$`
+]
+
+---
+
+.small[
+`$$y = 120 - 3x + 0.07x^2$$`
+]
+
+&lt;img src="10-slides_files/figure-html/params-plot-square-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.small[
+`$$y = 300 - 25x + 0.65x^2 - 0.004x^3$$`
+]
+
+&lt;img src="10-slides_files/figure-html/params-plot-poly-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.small[
+`$$y = 10 + 4x + 50 \times \sin (\frac{x}{4})$$`
+]
+
+&lt;img src="10-slides_files/figure-html/params-plot-trig-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-4
+
+# Parametric lines
+
+&amp;nbsp;
+
+--
+
+.box-inv-4.medium.sp-after[It's important to get the parameters right!]
+
+--
+
+.box-inv-4.medium[Line should fit the data pretty well]
+
+---
+
+&lt;img src="10-slides_files/figure-html/params-plot-linear-squared-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="10-slides_files/figure-html/params-plot-linear-poly-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title title-4
+
+# Nonparametric lines
+
+--
+
+.box-inv-4.medium[Lines without parameters]
+
+--
+
+.box-4[Use the data to find the best line,&lt;br&gt;often with windows and moving averages]
+
+--
+
+.box-4[&lt;span style="color: #F6D645;"&gt;Lo&lt;/span&gt;cally &lt;span style="color: #F6D645;"&gt;e&lt;/span&gt;stimated/&lt;span style="color: #F6D645;"&gt;we&lt;/span&gt;ighted &lt;span style="color: #F6D645;"&gt;s&lt;/span&gt;catterplot &lt;span style="color: #F6D645;"&gt;s&lt;/span&gt;moothing (LOESS/LOWESS)&lt;br&gt;is a common method (but not the only one!)]
+
+---
+
+.small[
+`$$y = \text{who knows?}$$`
+]
+
+&lt;img src="10-slides_files/figure-html/params-plot-loess-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.center[
+&lt;video controls&gt;
+  &lt;source src="img/10/loess_window.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+]
+
+---
+
+&lt;img src="10-slides_files/figure-html/params-plot-loess-lines-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: true
+class: title title-4
+
+---
+
+# Measuring gap with parametric lines
+
+.center[
+&lt;figure&gt;
+  &lt;img src="10-slides_files/figure-html/tutoring-outcome-lines-1.png" alt="Parametric gap" title="Parametric gap" width="85%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Measuring gap with parametric lines
+
+.box-inv-4[Easiest way: center the running variable around the threshold]
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; id &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; exit_exam &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; entrance_exam &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; entrance_centered &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; tutoring &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 78 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 92 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; FALSE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 58 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 73 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; FALSE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 62 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 54 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -16 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TRUE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 67 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 98 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; FALSE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 54 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TRUE &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.small[
+`$$y = \beta_0 + \beta_1 \text{Running variable (centered)} + \beta_2 \text{Indicator for treatment}$$`
+]
+
+---
+
+# Measuring gap with parametric lines
+
+.center[
+&lt;figure&gt;
+  &lt;img src="10-slides_files/figure-html/tutoring-outcome-lines-1.png" alt="Parametric gap" title="Parametric gap" width="35%"&gt;
+&lt;/figure&gt;
+]
+
+.left-code[
+
+```r
+program_data &lt;- tutoring %&gt;% 
+  mutate(entrance_centered = 
+           entrance_exam - 70)
+
+model1 &lt;- lm(exit_exam ~ 
+               entrance_centered + tutoring,
+             data = program_data)
+```
+]
+
+.right-code[
+
+```r
+tidy(model1)
+```
+
+
+```
+## # A tibble: 3 x 3
+##   term              estimate std.error
+##   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)         59.3      0.440 
+## 2 entrance_centered    0.514    0.0268
+## 3 tutoringTRUE        11.0      0.802
+```
+]
+
+---
+
+# Measuring gap with nonparametric lines
+
+.center[
+&lt;img src="10-slides_files/figure-html/tutoring-outcome-loess-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.box-inv-4[Can't use regression; use `rdrobust` R package]
+
+---
+
+# Measuring gap with nonparametric lines
+
+.center[
+&lt;figure&gt;
+  &lt;img src="10-slides_files/figure-html/tutoring-outcome-loess-1.png" alt="Nonparametric gap" title="Nonparametric gap" width="40%"&gt;
+&lt;/figure&gt;
+]
+
+.small-code[
+
+```r
+rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam, c = 70)
+```
+]
+
+.small-code[
+
+
+
+```
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    -9.992     1.708    -5.852     0.000   [-13.339 , -6.646]    
+##         Robust         -         -    -4.992     0.000   [-14.244 , -6.212]    
+## =============================================================================
+```
+]
+
+---
+
+# Bandwidths
+
+--
+
+.box-inv-4.medium[All you really care about is the&lt;br&gt;area right around the cutoff]
+
+.box-4.sp-after[Observations far away don't matter&lt;br&gt;because they're not comparable]
+
+--
+
+.box-inv-4.medium[Bandwidth = window around cutoff]
+
+---
+
+layout: false
+
+
+
+&lt;img src="10-slides_files/figure-html/bandwidth-plots-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+layout: true
+class: title title-4
+
+---
+
+# Bandwidths
+
+--
+
+.box-inv-4.medium.sp-after[Algorithms exist to choose optimal width]
+
+--
+
+.box-inv-4.medium[Also use common sense]
+
+.box-4.sp-after[Maybe ±5 for the entrance exam?]
+
+--
+
+.box-inv-4.medium[For robustness, check what happens&lt;br&gt;if you double and halve the bandwidth]
+
+---
+
+# Kernels
+
+--
+
+.box-inv-4.medium[Because we care the most about&lt;br&gt;observations right by the cutoff,&lt;br&gt;give more distant ones less weight]
+
+--
+
+.box-inv-4.medium[Kernel = method for assigning importance to&lt;br&gt;observations based on distance to the cutoff]
+
+---
+
+layout: false
+
+&lt;img src="10-slides_files/figure-html/kernel-examples-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="10-slides_files/figure-html/kernel-weighted-points-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+class: title title-4
+
+# Try everything!
+
+--
+
+.box-inv-4.medium[Your estimate of δ depends on all these:]
+
+--
+
+.box-inv-4[Line type (parametric vs. nonparametric)]
+
+.center[
+.float-left[.box-inv-4[Bandwidth (wide vs. narrow)]&amp;ensp;.box-inv-4[Kernel weighting]]
+]
+
+--
+
+&amp;nbsp;
+
+.box-4.medium[Try lots of different combinations!]
+
+---
+
+&lt;img src="10-slides_files/figure-html/params-plot-parametric-effects-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="10-slides_files/figure-html/params-plot-bw-effects-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: false
+name: main-concerns
+class: center middle section-title section-title-6 animated fadeIn
+
+# Main RDD concerns
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# It's greedy!
+
+.box-inv-6.medium[You need *lots* of data,&lt;br&gt;since you're throwing most of it away]
+
+.center[
+&lt;figure&gt;
+  &lt;img src="10-slides_files/figure-html/bandwidth-plots-1.png" alt="Different bandwidths" title="Different bandwidths" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# It's limited in scope!
+
+.box-inv-6.medium[You're only measuring the ATE&lt;br&gt;for people in the bandwidth]
+
+--
+
+.box-6.medium[Local Average Treatment Effect (LATE)]
+
+---
+
+# It's limited in scope!
+
+.box-inv-6.medium[You can't make population-level&lt;br&gt;claims with a LATE]
+
+--
+
+.box-inv-6.smaller[*(But can you really do that with RCTs or diff-in-diff?)*]
+
+--
+
+.box-6.medium["The realistic conclusion to draw is that&lt;br&gt;all quantitative empirical results&lt;br&gt;that we encounter are 'local'"]
+
+.box-6.small[Angrist and Pischke, *Mostly Harmless Econometrics*, pp. 23–24]
+
+---
+
+# Graphics are neat!
+
+
+
+&lt;img src="10-slides_files/figure-html/too-graphical-plot-1-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Which gaps are significant?
+
+&lt;img src="10-slides_files/figure-html/too-graphical-plot-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# All of them!
+
+&lt;img src="10-slides_files/figure-html/too-graphical-plot-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Don't rely *only* on graphics
+
+.pull-left[
+.box-inv-6.medium[Super clear breaks are uncommon]
+
+.box-inv-6.medium[Make graphs,&lt;br&gt;but also find the&lt;br&gt;actual δ value]
+]
+
+.pull-right[
+&lt;img src="10-slides_files/figure-html/too-graphical-plot-3-single-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Manipulation!
+
+--
+
+.box-inv-6.medium[People might know about the cutoff&lt;br&gt;and change their behavior]
+
+--
+
+.box-6[People might fudge numbers or work to&lt;br&gt;cross the threshold to get in/out of program]
+
+--
+
+.box-6[If so, those right next to the cutoff are&lt;br&gt;no longer comparable treatment/control groups]
+
+---
+
+layout: false
+class: bg-full
+background-image: url("img/10/marathons.png")
+
+???
+
+Data from &lt;https://faculty.chicagobooth.edu/george.wu/research/marathon/data.htm&gt; and &lt;https://doi.org/10.1287/mnsc.2015.2417&gt;
+
+---
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/10/basketball.png" alt="NBA shot locations, 2014-15" title="NBA shot locations, 2014-15" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://fivethirtyeight.com/features/how-mapping-shots-in-the-nba-changed-it-forever/&gt;
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Manipulation!
+
+.box-inv-6.medium[Check with a McCrary density test]
+
+.box-6.small[`rddensity::rdplotdensity()` in R]
+
+
+
+&lt;img src="10-slides_files/figure-html/manipulation-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Noncompliance!
+
+--
+
+.box-inv-6.medium[People on the margin of the cutoff&lt;br&gt;might end up in/out of the program]
+
+--
+
+.box-6.sp-after[The ACA, subsidies, Medicaid, and 138% of the poverty line]
+
+--
+
+.box-inv-6.medium[Sharp vs. fuzzy discontinuities]
+
+---
+
+# Sharp discontinuity
+
+.box-inv-6[Perfect compliance]
+
+&lt;img src="10-slides_files/figure-html/tutoring-sharp-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fuzzy discontinuity
+
+.box-inv-6[Imperfect compliance]
+
+&lt;img src="10-slides_files/figure-html/tutoring-fuzzy-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fuzzy discontinuities
+
+.box-inv-6.medium[Address noncompliance with&lt;br&gt;instrumental variables&lt;br&gt;(more on this later!)]
+
+--
+
+.box-6.sp-after[Use an instrument for which side&lt;br&gt;of the cutoff people should be on]
+
+--
+
+.box-inv-6[Effect is only for compliers near the cutoff&lt;br&gt;(complier LATE; doubly local effect)]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

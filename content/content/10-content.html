@@ -11,19 +11,20 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "10-slides"
+slides: "10-slides"
 output:
   blogdown::html_page:
     toc: true
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
-<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 <div id="TOC">
 <ul>
-<li><a href="#readings">Readings</a></li>
+<li><a href="#readings">Readings</a>
+<ul>
+<li><a href="#regression-discontinuity">Regression discontinuity</a></li>
+</ul></li>
 <li><a href="#slides">Slides</a></li>
 <li><a href="#videos">Videos</a></li>
 </ul>
@@ -31,13 +32,78 @@ output:
 
 <div id="readings" class="section level2">
 <h2>Readings</h2>
-<p>Readings go here.</p>
+<ul>
+<li><i class="fas fa-book"></i> Chapter 6 in <em>Impact Evaluation in Practice</em> <span class="citation">Paul J. Gertler et al., <em>Impact Evaluation in Practice</em>, 2nd ed. (Inter-American Development Bank; World Bank, 2016), <a href="https://openknowledge.worldbank.org/handle/10986/25030" role="doc-biblioref">https://openknowledge.worldbank.org/handle/10986/25030</a>.</span></li>
+<li><i class="fas fa-book"></i> Chapter 4 in <em>Mastering ’Metrics</em> <span class="citation">Joshua D. Angrist and Jörn-Steffen Pischke, <em>Mastering ’Metrics: The Path from Cause to Effect</em> (Princeton, NJ: Princeton University Press, 2015).</span></li>
+<li><i class="fas fa-book"></i> “Regression discontinuity” in <em>Causal Inference: The Mixtape</em> <span class="citation">Scott Cunningham, <em>Causal Inference: The Mixtape</em>, 2018, <a href="https://www.scunning.com/mixtape.html" role="doc-biblioref">https://www.scunning.com/mixtape.html</a>.</span></li>
+</ul>
+<div id="regression-discontinuity" class="section level3">
+<h3>Regression discontinuity</h3>
+<ul>
+<li>The <a href="/example/rdd/">example page on regression discontinuity</a> shows how to use R to analyze and estimate causal effects with regression discontinuity</li>
+</ul>
+</div>
 </div>
 <div id="slides" class="section level2">
 <h2>Slides</h2>
-<p>Slides go here.</p>
+<p>The slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.</p>
+{{% slide-buttons %}}
+<ul class="nav nav-tabs" id="slide-tabs" role="tablist">
+<li class="nav-item">
+<a class="nav-link active" id="introduction-tab" data-toggle="tab" href="#introduction" role="tab" aria-controls="introduction" aria-selected="true">Introduction</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="arbitrary-cutoffs-and-causal-inference-tab" data-toggle="tab" href="#arbitrary-cutoffs-and-causal-inference" role="tab" aria-controls="arbitrary-cutoffs-and-causal-inference" aria-selected="false">Arbitrary cutoffs and causal inference</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="drawing-lines-and-measuring-gaps-tab" data-toggle="tab" href="#drawing-lines-and-measuring-gaps" role="tab" aria-controls="drawing-lines-and-measuring-gaps" aria-selected="false">Drawing lines and measuring gaps</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="main-rdd-concerns-tab" data-toggle="tab" href="#main-rdd-concerns" role="tab" aria-controls="main-rdd-concerns" aria-selected="false">Main RDD concerns</a>
+</li>
+</ul>
+<div id="slide-tabs" class="tab-content">
+<div id="introduction" class="tab-pane fade show active" role="tabpanel" aria-labelledby="introduction-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/10-slides.html#1">
+</iframe>
+</div>
+</div>
+<div id="arbitrary-cutoffs-and-causal-inference" class="tab-pane fade" role="tabpanel" aria-labelledby="arbitrary-cutoffs-and-causal-inference-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/10-slides.html#arbitrary-cutoffs">
+</iframe>
+</div>
+</div>
+<div id="drawing-lines-and-measuring-gaps" class="tab-pane fade" role="tabpanel" aria-labelledby="drawing-lines-and-measuring-gaps-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/10-slides.html#lines-gaps">
+</iframe>
+</div>
+</div>
+<div id="main-rdd-concerns" class="tab-pane fade" role="tabpanel" aria-labelledby="main-rdd-concerns-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/10-slides.html#main-concerns">
+</iframe>
+</div>
+</div>
+</div>
+<div class="fyi">
+<p><strong>Fun fact</strong>: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.</p>
+</div>
 </div>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
-<p>Videos go here.</p>
+<p>Videos for each section of the lecture are <a href="https://www.youtube.com/playlist?list=PLS6tnpTr39sGYRrLn6OEoI5kry5gvJvdz">available at this YouTube playlist</a>.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=4y84N23Mx-o&amp;list=PLS6tnpTr39sGYRrLn6OEoI5kry5gvJvdz">Introduction</a></li>
+<li><a href="https://www.youtube.com/watch?v=ZHBZtKL7zAg&amp;list=PLS6tnpTr39sGYRrLn6OEoI5kry5gvJvdz">Arbitrary cutoffs and causal inference</a></li>
+<li><a href="https://www.youtube.com/watch?v=B060u1zGOWo&amp;list=PLS6tnpTr39sGYRrLn6OEoI5kry5gvJvdz">Drawing lines and measuring gaps</a></li>
+<li><a href="https://www.youtube.com/watch?v=0v1aE70FhsQ&amp;list=PLS6tnpTr39sGYRrLn6OEoI5kry5gvJvdz">Main RDD concerns</a></li>
+</ul>
+<p>You can also watch the playlist (and skip around to different sections) here:</p>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/videoseries?list=PLS6tnpTr39sGYRrLn6OEoI5kry5gvJvdz" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
 </div>
