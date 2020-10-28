@@ -19,8 +19,6 @@ csl: ../../static/bib/chicago-syllabus-no-bib.csl
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
-<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 <div id="TOC">
 <ul>
@@ -28,6 +26,13 @@ csl: ../../static/bib/chicago-syllabus-no-bib.csl
 </ul>
 </div>
 
+<div class="note">
+<p>You’ll likely run into some errors when knitting with a <code>modelsummary()</code> table. That’s because the current version of the <strong>modelsummary</strong> package on CRAN doesn’t include support for robust standard errors from <code>feols()</code> models. You can install the latest version of <strong>modelsummary</strong> that <em>does</em> have support for robust standard errors by doing this:</p>
+<ol style="list-style-type: decimal">
+<li>Install the <strong>remotes</strong> package using the Packages panel in RStudio</li>
+<li>Run this in your console to install <a href="https://github.com/vincentarelbundock/modelsummary">the latest version of <strong>modelsummary</strong> directly from GitHub</a>: <code>remotes::install_github('vincentarelbundock/modelsummary')</code></li>
+</ol>
+</div>
 <p>For this problem set, you’ll reproduce the results from one of the papers that you looked at in your threats to validity assignment:</p>
 <blockquote>
 <p><span class="citation">Rafael Di Tella and Ernesto Schargrodsky, “Do Police Reduce Crime? Estimates Using the Allocation of Police Forces After a Terrorist Attack,” <em>American Economic Review</em> 94, no. 1 (March 2004): 115–133, doi:<a href="https://doi.org/10.1257/000282804322970733" role="doc-biblioref">10.1257/000282804322970733</a>.</span></p>

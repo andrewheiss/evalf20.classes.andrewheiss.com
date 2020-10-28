@@ -18,6 +18,13 @@ bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-syllabus-no-bib.csl
 ---
 
+:::note
+You'll likely run into some errors when knitting with a `modelsummary()` table. That's because the current version of the **modelsummary** package on CRAN doesn't include support for robust standard errors from `feols()` models. You can install the latest version of **modelsummary** that *does* have support for robust standard errors by doing this:
+
+1. Install the **remotes** package using the Packages panel in RStudio
+2. Run this in your console to install [the latest version of **modelsummary** directly from GitHub](https://github.com/vincentarelbundock/modelsummary): `remotes::install_github('vincentarelbundock/modelsummary')`
+:::
+
 For this problem set, you'll reproduce the results from one of the papers that you looked at in your threats to validity assignment:
 
 > [@Di-TellaSchargrodsky:2004]
