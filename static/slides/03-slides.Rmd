@@ -8,6 +8,7 @@ output:
     chakra: "libs/remark-latest.min.js"
     css: ["default", "css/ath-slides.css", "css/ath-inferno-fonts.css", "css/animate.css"]
     seal: false
+    anchor_sections: false
     nature:
       highlightStyle: github
       highlightLines: true
