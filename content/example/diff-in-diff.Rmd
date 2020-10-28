@@ -8,7 +8,7 @@ output:
 menu:
   example:
     parent: Examples
-    weight: 18
+    weight: 7
 type: docs
 editor_options: 
   chunk_output_type: console
