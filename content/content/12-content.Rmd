@@ -11,24 +11,166 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "12-slides"
+slides: "12-slides"
 output:
   blogdown::html_page:
     toc: true
 ---
 
+```{r slides-videos, echo=FALSE, include=FALSE}
+source(here::here("R", "slide-tabs.R"))
+source(here::here("R", "youtube-playlist.R"))
+
+playlist_id <- "PLS6tnpTr39sGrbGfvdp0Gob6qAghIdiLq"
+
+slide_details <- tibble::tribble(
+  ~youtube_id,   ~title, ~slide, ~active,
+  "qDAFXXriFyE", "Introduction", "1", TRUE,
+  "_Ue7blCyEXk", "Treatment effects and compliance", "treatment-effects", FALSE,
+  "M5cuBBuqZys", "Randomized promotion", "encouragement", FALSE,
+  "9xGeCGRvVgE", "Fuzzy regression discontinuity", "fuzzy-rdd", FALSE
+)
+```
+
 ## Readings
 
-- <i class="fas fa-book"></i> Chapter 5 in *Impact Evaluation in Practice* [@wb-eval]
-- <i class="fas fa-book"></i> Chapter 3 in *Mastering 'Metrics* [@AngristPischke:2015]
-- <i class="fas fa-book"></i> "Instrumental variables" in *Causal Inference: The Mixtape* [@mixtape]
+Review the readings from the sessions on regression discontinuity and instrumental variables.
 
 
 ## Slides
 
-Slides go here.
+The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+`r blogdown::shortcode("slide-buttons")`
+
+```{r show-slide-tabs, echo=FALSE, results="asis"}
+slide_tabs(slide_details, "/slides/12-slides.html")
+```
+
+:::fyi
+**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.
+:::
 
 
 ## Videos
 
-Videos go here.
+```{r show-youtube-list, echo=FALSE, results="asis"}
+youtube_list(slide_details, playlist_id)
+```
+
+
+```{r create-save-data, include=FALSE}
+library(tidyverse)
+library(scales)
+
+# Fake program data
+set.seed(1234)
+num_students <- 1000
+tutoring <- tibble(
+  id = 1:num_students,
+  entrance_exam = rbeta(num_students, shape1 = 7, shape2 = 2),
+  exit_exam_base = rbeta(num_students, shape1 = 5, shape2 = 3)
+) %>% 
+  mutate(entrance_exam = entrance_exam * 100) %>% 
+  mutate(tutoring_sharp = entrance_exam <= 70) %>%
+  mutate(tutoring_fuzzy = case_when(
+    entrance_exam >= 50 & entrance_exam <= 70 ~ sample(c(TRUE, FALSE), n(), replace = TRUE, prob = c(0.8, 0.2)),
+    entrance_exam > 70 & entrance_exam <= 90 ~ sample(c(TRUE, FALSE), n(), replace = TRUE, prob = c(0.2, 0.8)),
+    entrance_exam < 50 ~ TRUE,
+    entrance_exam > 90 ~ FALSE
+  )) %>% 
+  mutate(tutoring_text = factor(tutoring_sharp, levels = c(FALSE, TRUE),
+                                labels = c("No tutor", "Tutor")),
+         tutoring_fuzzy_text = factor(tutoring_fuzzy, levels = c(FALSE, TRUE),
+                                      labels = c("No tutor", "Tutor"))) %>% 
+  mutate(exit_exam = exit_exam_base * 40 + 10 * tutoring_sharp + entrance_exam / 2) %>% 
+  mutate(exit_exam_fuzzy = exit_exam_base * 40 + 10 * tutoring_fuzzy + entrance_exam / 2) %>% 
+  mutate(entrance_centered = entrance_exam - 70) %>% 
+  mutate(below_cutoff = entrance_exam <= 70)
+
+tutoring <- tutoring %>% 
+  select(id, entrance_exam, tutoring = tutoring_fuzzy, 
+         tutoring_text = tutoring_fuzzy_text, exit_exam = exit_exam_fuzzy)
+
+write_csv(tutoring, here::here("static", "data", "tutoring_program_fuzzy.csv"))
+
+
+set.seed(1234)
+
+N <- 2000
+df <- tibble(
+  status = sample(c("Always taker", "Never taker", "Complier"), N, 
+                  replace = TRUE, prob = c(0.2, 0.4, 0.4)),
+  treatment = sample(c("Treatment", "Control"), N, replace = TRUE, prob = c(0.5, 0.5))
+) %>% 
+  mutate(bed_net_0 = (status == "Always taker") * 1,
+         bed_net_1 = (status != "Never taker") * 1) %>% 
+  mutate(health_0 = case_when(
+    status == "Always taker" ~ rnorm(N, 1, 0.5),
+    status == "Never taker"  ~ rnorm(N, 0, 0.6),
+    status == "Complier"     ~ rnorm(N, 0.1, 0.4),
+  )) %>% 
+  mutate(health_1 = case_when(
+    status == "Always taker" ~ rnorm(N, 1, 0.5),
+    status == "Never taker"  ~ rnorm(N, 0, 0.6),
+    status == "Complier"     ~ rnorm(N, 0.9, 0.7),
+  )) %>% 
+  mutate(bed_net = case_when(
+    treatment == "Treatment" ~ bed_net_1,
+    treatment == "Control"   ~ bed_net_0
+  )) %>% 
+  mutate(health = case_when(
+    bed_net == 0 ~ health_0,
+    bed_net == 1 ~ health_1
+  )) %>% 
+  mutate(bed_net = factor(bed_net, labels = c("No bed net", "Bed net")))
+
+min_health <- min(df$health_0, df$health_1)
+max_health <- max(df$health_0, df$health_1)
+
+df <- df %>% 
+  mutate(across(starts_with("health"), 
+                ~rescale(., to = c(0, 100), 
+                         from = c(min_health, max_health))))
+
+df_real <- df %>% 
+  select(treatment, bed_net, health)
+
+write_csv(df, here::here("static", "data", "bed_nets_time_machine.csv"))
+write_csv(df_real, here::here("static", "data", "bed_nets_observed.csv"))
+```
+
+```{cat include=FALSE, eval=FALSE}
+Playlist: https://www.youtube.com/playlist?list=PLS6tnpTr39sGrbGfvdp0Gob6qAghIdiLq
+
+https://youtu.be/qDAFXXriFyE
+PMAP 8521 • (12) Instrumental variables II + Regression discontinuity II: (0) Introduction
+
+Introduction to the class session on instrumental variables and fuzzy regression discontinuity
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/12-content/
+
+
+https://youtu.be/_Ue7blCyEXk
+PMAP 8521 • (12) Instrumental variables II + Regression discontinuity II: (1) Treatment effects and compliance
+
+Discussion of compliers, always takers, and never takers + how to find complier average causal effects (CACE) by finding the intent-to-treat effect (ITT) and dividing it by the proportion of compliers
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/12-content/
+
+  
+https://youtu.be/M5cuBBuqZys
+PMAP 8521 • (12) Instrumental variables II + Regression discontinuity II: (2) Randomized promotion
+
+Discussion of how to use randomized promotion as an instrument to measure the causal effect of a universal program with self-selection
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/12-content/
+  
+  
+https://youtu.be/9xGeCGRvVgE
+PMAP 8521 • (12) Instrumental variables II + Regression discontinuity II: (3) Fuzzy regression discontinuity
+
+Discussion of how to use an above/below threshold variable as an instrument in fuzzy regression discontinuity designs
+
+Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/12-content/
+```

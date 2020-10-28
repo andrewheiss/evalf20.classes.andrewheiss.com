@@ -11,15 +11,13 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "12-slides"
+slides: "12-slides"
 output:
   blogdown::html_page:
     toc: true
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
-<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 <div id="TOC">
 <ul>
@@ -31,17 +29,68 @@ output:
 
 <div id="readings" class="section level2">
 <h2>Readings</h2>
-<ul>
-<li><i class="fas fa-book"></i> Chapter 5 in <em>Impact Evaluation in Practice</em> <span class="citation">Paul J. Gertler et al., <em>Impact Evaluation in Practice</em>, 2nd ed. (Inter-American Development Bank; World Bank, 2016), <a href="https://openknowledge.worldbank.org/handle/10986/25030" role="doc-biblioref">https://openknowledge.worldbank.org/handle/10986/25030</a>.</span></li>
-<li><i class="fas fa-book"></i> Chapter 3 in <em>Mastering ’Metrics</em> <span class="citation">Joshua D. Angrist and Jörn-Steffen Pischke, <em>Mastering ’Metrics: The Path from Cause to Effect</em> (Princeton, NJ: Princeton University Press, 2015).</span></li>
-<li><i class="fas fa-book"></i> “Instrumental variables” in <em>Causal Inference: The Mixtape</em> <span class="citation">Scott Cunningham, <em>Causal Inference: The Mixtape</em>, 2018, <a href="https://www.scunning.com/mixtape.html" role="doc-biblioref">https://www.scunning.com/mixtape.html</a>.</span></li>
-</ul>
+<p>Review the readings from the sessions on regression discontinuity and instrumental variables.</p>
 </div>
 <div id="slides" class="section level2">
 <h2>Slides</h2>
-<p>Slides go here.</p>
+<p>The slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.</p>
+{{% slide-buttons %}}
+<ul class="nav nav-tabs" id="slide-tabs" role="tablist">
+<li class="nav-item">
+<a class="nav-link active" id="introduction-tab" data-toggle="tab" href="#introduction" role="tab" aria-controls="introduction" aria-selected="true">Introduction</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="treatment-effects-and-compliance-tab" data-toggle="tab" href="#treatment-effects-and-compliance" role="tab" aria-controls="treatment-effects-and-compliance" aria-selected="false">Treatment effects and compliance</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="randomized-promotion-tab" data-toggle="tab" href="#randomized-promotion" role="tab" aria-controls="randomized-promotion" aria-selected="false">Randomized promotion</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="fuzzy-regression-discontinuity-tab" data-toggle="tab" href="#fuzzy-regression-discontinuity" role="tab" aria-controls="fuzzy-regression-discontinuity" aria-selected="false">Fuzzy regression discontinuity</a>
+</li>
+</ul>
+<div id="slide-tabs" class="tab-content">
+<div id="introduction" class="tab-pane fade show active" role="tabpanel" aria-labelledby="introduction-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/12-slides.html#1">
+</iframe>
+</div>
+</div>
+<div id="treatment-effects-and-compliance" class="tab-pane fade" role="tabpanel" aria-labelledby="treatment-effects-and-compliance-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/12-slides.html#treatment-effects">
+</iframe>
+</div>
+</div>
+<div id="randomized-promotion" class="tab-pane fade" role="tabpanel" aria-labelledby="randomized-promotion-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/12-slides.html#encouragement">
+</iframe>
+</div>
+</div>
+<div id="fuzzy-regression-discontinuity" class="tab-pane fade" role="tabpanel" aria-labelledby="fuzzy-regression-discontinuity-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/12-slides.html#fuzzy-rdd">
+</iframe>
+</div>
+</div>
+</div>
+<div class="fyi">
+<p><strong>Fun fact</strong>: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.</p>
+</div>
 </div>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
-<p>Videos go here.</p>
+<p>Videos for each section of the lecture are <a href="https://www.youtube.com/playlist?list=PLS6tnpTr39sGrbGfvdp0Gob6qAghIdiLq">available at this YouTube playlist</a>.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=qDAFXXriFyE&amp;list=PLS6tnpTr39sGrbGfvdp0Gob6qAghIdiLq">Introduction</a></li>
+<li><a href="https://www.youtube.com/watch?v=_Ue7blCyEXk&amp;list=PLS6tnpTr39sGrbGfvdp0Gob6qAghIdiLq">Treatment effects and compliance</a></li>
+<li><a href="https://www.youtube.com/watch?v=M5cuBBuqZys&amp;list=PLS6tnpTr39sGrbGfvdp0Gob6qAghIdiLq">Randomized promotion</a></li>
+<li><a href="https://www.youtube.com/watch?v=9xGeCGRvVgE&amp;list=PLS6tnpTr39sGrbGfvdp0Gob6qAghIdiLq">Fuzzy regression discontinuity</a></li>
+</ul>
+<p>You can also watch the playlist (and skip around to different sections) here:</p>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/videoseries?list=PLS6tnpTr39sGrbGfvdp0Gob6qAghIdiLq" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
 </div>
