@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Instrumental variables I</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-10-27" />
+    <script src="libs/header-attrs-2.4.5/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# Instrumental&lt;br&gt;variables I
+
+.class-info[
+
+**Session 11**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-5.medium.sp-after-half[Endogeneity and exogeneity]
+
+--
+
+.box-6.medium.sp-after-half[Instruments]
+
+--
+
+.box-3.medium.sp-after-half[Using instruments]
+
+---
+
+name: endo-exo
+class: center middle section-title section-title-5 animated fadeIn
+
+# Endogeneity&lt;br&gt;and exoegneity
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Does education cause higher earnings?
+
+&lt;img src="11-slides_files/figure-html/iv-dag-simple-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+--
+
+.medium[
+`$$\color{#FF851B}{\text{Earnings}_i} = \beta_0 + \beta_1 \color{#0074D9}{\text{Education}_i} + \varepsilon_i$$`
+]
+
+---
+
+layout: false
+
+.box-inv-5.medium[If we ran this regression, would β&lt;sub&gt;1&lt;/sub&gt;&lt;br&gt;give us the causal effect of education?]
+
+.medium[
+`$$\text{Earnings}_i = \beta_0 + \beta_1 \text{Education}_i + \varepsilon_i$$`
+]
+
+--
+
+.box-5.medium[No!]
+
+--
+
+.float-left.center[.box-inv-5[Omitted variable bias!]&amp;ensp;.box-inv-5[Unclosed backdoors!]]
+
+--
+
+.box-inv-5[**Endogeneity!**]
+
+---
+
+layout: true
+class: title title-5
+
+---
+
+# Exogeneity and endogeneity
+
+.box-inv-5.medium[**Exogenous** variables]
+
+--
+
+.box-5[Value is not determined by&lt;br&gt;anything else in the model]
+
+--
+
+.box-5[In a DAG, a node that doesn't&lt;br&gt;have arrows coming into it]
+
+
+---
+
+# Exogeneity
+
+.box-inv-5.medium[Education is exogenous: no arrows *into* it]
+
+&lt;img src="11-slides_files/figure-html/iv-dag-simple-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Exogeneity and endogeneity
+
+.box-inv-5.medium[**Endogenous** variables]
+
+--
+
+.box-5[Value is determined by&lt;br&gt;something else in the model]
+
+--
+
+.box-5[In a DAG, a node that&lt;br&gt;has arrows coming into it]
+
+---
+
+# Endogeneity
+
+.box-inv-5.medium[Education is endogenous: Ability → Education]
+
+&lt;img src="11-slides_files/figure-html/iv-dag-endogenous-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Exgoeneity
+
+.box-inv-5.medium[What would exogenous variation&lt;br&gt;in education look like?]
+
+--
+
+.box-5[Choices to get more education that are essentially random&lt;br&gt;(or at least uncorrelated with omitted variables)]
+
+---
+
+layout: false
+
+.box-5.medium[We'd like education to be exogenous&lt;br&gt;.smaller[(an outside decision or intervention)], but it's not!]
+
+&lt;img src="11-slides_files/figure-html/iv-dag-endogenous-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+--
+
+.box-inv-5[Part of it is exogenous, but part of it is&lt;br&gt;caused by ability, which is in the DAG]
+
+---
+
+class: title title-5
+
+# Fixing endogeneity with DAGs
+
+&lt;img src="11-slides_files/figure-html/iv-dag-endogenous-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+--
+
+.box-5[Close backdoor and adjust for ability]
+
+--
+
+.box-inv-5.smaller[Adjustment filters out the endogenous part of education and leaves us with just the endogenous part]
+
+`$$\text{Earnings}_i = \beta_0 + \beta_1 \text{Education}_i + \beta_2 \text{Ability}_i + \varepsilon_i$$`
+
+---
+
+
+
+.pull-left-wide[
+.small[
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Outome = wage&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Unadjusted &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Adjusted &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -59.378*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -85.571*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (10.376) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (7.198) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFC6C6 !important;"&gt; educ &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #FFC6C6 !important;"&gt; 13.124*** &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #FFC6C6 !important;"&gt; 7.767*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.618) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.456) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ability &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.344*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; (0.010) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Num.Obs. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; R2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.311 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.673 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-bottom: 1px solid"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 451.244 &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 1025.794 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style="padding: 0; border:0;" colspan="100%"&gt;
+&lt;sup&gt;&lt;/sup&gt; * p &amp;lt; 0.1, ** p &amp;lt; 0.05, *** p &amp;lt; 0.01&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+]
+]
+
+.pull-right-narrow[
+.box-2[Unadjusted&lt;br&gt;is wrong!]
+
+.box-5[Adjusted&lt;br&gt;is right!]
+
+.box-inv-5.small[One year of education causes hourly wage to increase by $7.77]
+
+.box-inv-5.smaller[(FAKE DATA)]
+]
+---
+
+layout: true
+class: title title-5
+
+---
+
+# But we can't measure ability!
+
+&lt;img src="11-slides_files/figure-html/iv-dag-endogenous-confounding-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+`$$\color{#FF851B}{\text{Earnings}_i} = \beta_0 + \beta_1 \color{#0074D9}{\text{Education}_i} + \beta_2 \color{#FF4136}{\text{Ability}_i} + \varepsilon_i$$`
+
+--
+
+.box-inv-5.small[Unmeasurable ability node is in the error term (ε)]
+
+`$$\color{#FF851B}{\text{Earnings}_i} = \beta_0 + \beta_1 \color{#0074D9}{\text{Education}_i} + \color{#FF4136}{\varepsilon_i}$$`
+
+---
+
+# Split exogeneity and endogeneity
+
+.box-inv-5[What if we could somehow separate education&lt;br&gt;into its endogenous and exogenous parts?]
+
+--
+
+.SMALL[
+$$
+`\begin{aligned}
+\color{#FF851B}{\text{Earnings}_i} =&amp; \beta_0 + \beta_1 \color{#B10DC9}{\text{Education}_i} + \varepsilon_i \\
+&amp; \beta_0 + \beta_1 (\color{#0074D9}{\text{Education}_i^\text{exog.}} + \color{#FF4136}{\text{Education}_i^\text{endog.}}) + \varepsilon_i \\
+&amp; \beta_0 + \beta_1 \color{#0074D9}{\text{Education}_i^\text{exog.}} + \underbrace{\beta_1 \color{#FF4136}{\text{Education}_i^{\text{endog.}}} + \varepsilon_i}_{\color{#AAAAAA}{\omega_i}} \\
+&amp; \beta_0 + \beta_1 \color{#0074D9}{\text{Education}_i^\text{exog.}} + \color{#AAAAAA}{\omega_i}
+\end{aligned}`
+$$
+]
+
+---
+
+# Find exogeneity with One Weird Trick™
+
+.medium[
+$$
+\color{#FF851B}{\text{Earnings}_i} = \beta_0 + \beta_1 \color{#0074D9}{\text{Education}_i^\text{exog.}} + \color{#AAAAAA}{\omega_i}
+$$
+]
+
+.box-inv-5.medium.sp-after[How do we find only Education&lt;sup&gt;exog.&lt;/sup&gt;?]
+
+--
+
+.box-5.large[Use an instrument!]
+
+---
+
+layout: false
+name: instruments
+class: center middle section-title section-title-6 animated fadeIn
+
+# Instruments
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# What is an instrument?
+
+--
+
+.box-inv-6[Something that is correlated with the policy variable]
+
+.box-6.small.sp-after[(Relevance)]
+
+--
+
+.box-inv-6[Something that does not directly cause the outcome]
+
+.box-6.small.sp-after[(Exclusion)]
+
+--
+
+.box-inv-6[Something that is not correlated with the omitted variables]
+
+.box-6.small[(Exogenity)]
+
+---
+
+layout: false
+
+&lt;img src="11-slides_files/figure-html/iv-dag-general-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="11-slides_files/figure-html/iv-dag-example-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="11-slides_files/figure-html/iv-dag-letters-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+.pull-left[
+.box-6.SMALL[**Relevance**&lt;br&gt;Correlated with policy]
+
+.box-inv-6.smaller[Z → X &amp;emsp; Cor(Z, X) ≠ 0]
+
+.box-6.SMALL[**Excludability**&lt;br&gt;Correlated with outcome&lt;br&gt;*only through* policy]
+
+.box-inv-6.smaller[Z → X → Y &amp;emsp; Z &amp;nrarr; Y &amp;emsp; Cor(Z, Y | X) = 0]
+
+.box-6.SMALL[**Exogeneity**&lt;br&gt;*Not* correlated&lt;br&gt;with omitted variables]
+
+.box-inv-6.smaller[U &amp;nrarr; Z &amp;emsp; Cor(Z, U) = 0]
+
+]
+
+.pull-right[
+&amp;nbsp;
+
+![](11-slides_files/figure-html/iv-dag-letters-1.png)
+
+.box-inv-6.smaller[**Relevance** testable with stats]
+
+.box-inv-6.smaller[**Excludability** testable with stats + story]
+
+.box-inv-6.smaller[**Exogeneity** requires story, no stats]
+]
+
+???
+
+https://dlm-econometrics.blogspot.com/2020/08/horseshoes-and-hand-grenades.html
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Relevance
+
+.box-6[Instrument causes change in policy]
+
+.box-inv-6.smaller.sp-after[Z → X &amp;emsp; Cor(Z, X) ≠ 0]
+
+&lt;hr&gt;
+
+--
+
+.center.float-left.sp-after[.box-inv-6.sp-before[Social security number] .box-2.smaller[Probably not relevant (uncorrelated with education)]]
+
+--
+
+.center.float-left.sp-after[.box-inv-6.sp-before[3rd grade test scores] .box-5.smaller[Potentially relevant (early grades cause more education)]]
+
+--
+
+.center.float-left[.box-inv-6.sp-before[Father's education] .box-5.smaller[Relevant (Educated parents cause more education)]]
+
+---
+
+# Excludability
+
+.box-6[Instrument causes outcome *only through* policy]
+
+.box-inv-6.smaller.sp-after[Z → X → Y &amp;emsp; Z &amp;nrarr; Y &amp;emsp; Cor(Z, Y | X) = 0]
+
+&lt;hr&gt;
+
+--
+
+.center.float-left.sp-after[.box-inv-6.sp-before[Social security number] .box-5.smaller[Exclusive (SSN isn't correlated with hourly wages)]]
+
+--
+
+.center.float-left.sp-after[.box-inv-6.sp-before[3rd grade test scores] .box-5.smaller[Potentially exclusive (early grades probably don't cause wages)]]
+
+--
+
+.center.float-left[.box-inv-6.sp-before[Father's education] .box-5.smaller[Exclusive (Parent's education doesn't cause your wages (lol))]]
+
+---
+
+# Exogeneity
+
+.box-6[Instrument not correlated with omitted variables]
+
+.box-inv-6.smaller.sp-after[U &amp;nrarr; Z &amp;emsp; Cor(Z, U) = 0]
+
+&lt;hr&gt;
+
+--
+
+.center.float-left.sp-after[.box-inv-6.sp-before[Social security number] .box-5.smaller[Exogenous (Unrelated to anything related to education)]]
+
+--
+
+.center.float-left.sp-after[.box-inv-6.sp-before[3rd grade test scores] .box-2.smaller[Not exogenous (Grades correlated with other education factors)]]
+
+--
+
+.center.float-left[.box-inv-6.sp-before[Father's education] .box-5.smaller[Exogenous (Birth to parents is random)]]
+
+---
+
+# The huh? factor
+
+.box-inv-6.medium["A necessary but not a sufficient condition&lt;br&gt;for having an instrument that can satisfy&lt;br&gt;the exclusion restriction is &lt;span style="color: #A52C60;"&gt;if people are&lt;br&gt;confused when you tell them about the&lt;br&gt;instrument's relationship to the outcome.&lt;/span&gt;"]
+
+.box-6.small[Scott Cunningham, *Causal Inference: The Mixtape*, p. 123]
+
+---
+
+layout: false
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Policy &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Unobserved stuff &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Instrument &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Father's education &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Distance to college &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Military draft &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Health &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Smoking cigarettes &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Other negative health behaviors &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Tobacco taxes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Patrol hours &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; # of criminals &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Election cycles &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Incarceration rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Overcrowding litigations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Labor market success &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Americanization &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Scrabble score of name &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Conflicts &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Economic growth &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Rainfall &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Policy &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Unobserved stuff &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Instrument &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Father's education &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Distance to college &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Military draft &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Health &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Smoking cigarettes &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Other negative health behaviors &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Tobacco taxes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Patrol hours &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; # of criminals &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Election cycles &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Incarceration rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Overcrowding litigations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Labor market success &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Americanization &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Scrabble score of name &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Conflicts &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Economic growth &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Rainfall &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Policy &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Unobserved stuff &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Instrument &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Father's education &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Distance to college &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Military draft &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Health &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Smoking cigarettes &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Other negative health behaviors &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Tobacco taxes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Patrol hours &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; # of criminals &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Election cycles &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Incarceration rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Overcrowding litigations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Labor market success &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Americanization &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Scrabble score of name &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Conflicts &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Economic growth &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Rainfall &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Policy &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Unobserved stuff &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Instrument &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Father's education &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Distance to college &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Military draft &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Health &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Smoking cigarettes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Other negative health behaviors &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Tobacco taxes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Patrol hours &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; # of criminals &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Election cycles &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Incarceration rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Overcrowding litigations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Labor market success &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Americanization &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Scrabble score of name &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Conflicts &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Economic growth &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Rainfall &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Policy &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Unobserved stuff &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Instrument &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Father's education &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Distance to college &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Military draft &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Health &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Smoking cigarettes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Other negative health behaviors &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Tobacco taxes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Crime rate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Patrol hours &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; # of criminals &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Election cycles &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Crime &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Incarceration rate &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Overcrowding litigations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Labor market success &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Americanization &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Scrabble score of name &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Conflicts &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Economic growth &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Rainfall &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Policy &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Unobserved stuff &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Instrument &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Father's education &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Distance to college &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Military draft &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Health &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Smoking cigarettes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Other negative health behaviors &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Tobacco taxes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Crime rate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Patrol hours &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; # of criminals &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Election cycles &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Crime &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Incarceration rate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Overcrowding litigations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Labor market success &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Americanization &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Scrabble score of name &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Conflicts &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Economic growth &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Rainfall &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Policy &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Unobserved stuff &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Instrument &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Father's education &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Distance to college &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Military draft &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Health &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Smoking cigarettes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Other negative health behaviors &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Tobacco taxes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Crime rate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Patrol hours &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; # of criminals &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Election cycles &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Crime &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Incarceration rate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Overcrowding litigations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Labor market success &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Americanization &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Scrabble score of name &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Conflicts &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Economic growth &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;color: #ffffff; background-color: #ffffff;"&gt; Rainfall &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+.small[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Policy &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Unobserved stuff &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Instrument &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Father's education &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Distance to college &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Income &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Education &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Military draft &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Health &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Smoking cigarettes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Other negative health behaviors &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Tobacco taxes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Crime rate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Patrol hours &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; # of criminals &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Election cycles &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Crime &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Incarceration rate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Overcrowding litigations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Labor market success &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Americanization &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Scrabble score of name &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Conflicts &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Economic growth &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Simultaneous causality &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Rainfall &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Instruments are hard to find!
+
+.box-inv-6.medium[The trickiest thing to prove is&lt;br&gt;the exclusion restriction]
+
+.box-6.sp-after[Instrument causes the outcome *only through* the policy]
+
+--
+
+.box-inv-6.medium[Most proposed instruments fail this!]
+
+---
+
+# Rainfall as an instrument
+
+.box-inv-6[People love using weather as an instrument… buuuuut…]
+
+--
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/11/weather-paper.png" alt="Rainfall exclusion restrictions paper" title="Rainfall exclusion restrictions paper" width="85%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3715610&gt;
+
+---
+
+layout: false
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/11/weather-violations.png" alt="Rainfall exclusion restrictions paper" title="Rainfall exclusion restrictions paper" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# COVID-19 as an instrument
+
+.box-inv-6.medium[A global pandemic is a huge&lt;br&gt;exogenous shock to&lt;br&gt;social systems everywhere]
+
+.box-6[Maybe we can use it as an instrument!]
+
+---
+
+# COVID-19 as an instrument
+
+.box-inv-6[What effect does closing schools have on&lt;br&gt;student performance or lifetime earnings?]
+
+&lt;img src="11-slides_files/figure-html/covid-dag-1-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# lolnope
+
+&lt;img src="11-slides_files/figure-html/covid-dag-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+???
+
+https://twitter.com/joshuasgoodman/status/1238517897829310464
+
+---
+
+# Falsifying exclusion assumptions
+
+.box-inv-6[Can you think of some other way that the instrument&lt;br&gt;can cause the outcome outside of the policy?]
+
+--
+
+.box-inv-6[If so, the instrument doesn't meet exclusion restriction]
+
+--
+
+.pull-left[
+![](11-slides_files/figure-html/iv-dag-general-1.png)
+]
+
+.pull-right[
+.box-6.small[Instrument → ?? → outcome?]
+
+.box-6.small[Rainfall → ?? → civil war?]
+
+.box-6.small[Tobacco taxes → ?? → health?]
+
+.box-6.small[Scrabble score → ?? →&lt;br&gt;Labor market success?]
+]
+
+---
+
+layout: false
+name: using-instruments
+class: center middle section-title section-title-3 animated fadeIn
+
+# Using instruments
+
+---
+
+`$$\text{Earnings}_i = \beta_0 + \beta_1 \text{Education}_i + \varepsilon_i$$`
+
+.smaller[
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Unadjusted &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Forbidden &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -59.378*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -85.571*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (10.376) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (7.198) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #F5ABEA !important;"&gt; educ &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 13.124*** &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 7.767*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.618) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.456) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ability &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.344*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; (0.010) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Num.Obs. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; R2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.311 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.673 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-bottom: 1px solid"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 451.244 &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 1025.794 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style="padding: 0; border:0;" colspan="100%"&gt;
+&lt;sup&gt;&lt;/sup&gt; * p &amp;lt; 0.1, ** p &amp;lt; 0.05, *** p &amp;lt; 0.01&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+]
+
+---
+
+&amp;nbsp;
+
+.SMALL[
+$$
+`\begin{aligned}
+\color{#FF851B}{\text{Earnings}_i} =&amp; \beta_0 + \beta_1 \color{#B10DC9}{\text{Education}_i} + \varepsilon_i \\
+&amp; \beta_0 + \beta_1 (\color{#0074D9}{\text{Education}_i^\text{exog.}} + \color{#FF4136}{\text{Education}_i^\text{endog.}}) + \varepsilon_i \\
+&amp; \beta_0 + \beta_1 \color{#0074D9}{\text{Education}_i^\text{exog.}} + \underbrace{\beta_1 \color{#FF4136}{\text{Education}_i^{\text{endog.}}} + \varepsilon_i}_{\color{#AAAAAA}{\omega_i}} \\
+&amp; \beta_0 + \beta_1 \color{#0074D9}{\text{Education}_i^\text{exog.}} + \color{#AAAAAA}{\omega_i}
+\end{aligned}`
+$$
+]
+
+---
+
+&lt;img src="11-slides_files/figure-html/iv-dag-example-1.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+.center.float-left[.box-3[Relevancy]&amp;ensp;.box-3[Excludability]&amp;ensp;.box-3[Exogeneity]]
+
+---
+
+layout: true
+class: title title-3
+
+---
+
+# Relevancy
+
+.box-inv-3[Program ~ instrument]
+
+.pull-left-narrow[
+&lt;img src="11-slides_files/figure-html/plot-first-stage-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right-wide[
+.small-code.smaller[
+.box-3.small[Clear, significant effect = relevant!]
+
+
+```r
+first_stage &lt;- lm(educ ~ fathereduc, data = father_education)
+tidy(first_stage)
+```
+
+```
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)    2.25     0.172       13.1 3.67e-36
+## 2 fathereduc     0.916    0.0108      84.5 0.
+```
+]
+
+.small-code.smaller[
+.box-3.small[First-stage model F-statistic (`statistic` here) &gt; 104 = strong instrument]
+
+
+```r
+glance(first_stage)
+```
+
+```
+## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.877         0.877 0.703     7136.       0     1 -1066. 2137. 2152.
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;
+```
+]
+]
+
+???
+
+&lt;https://arxiv.org/abs/2010.05058&gt;
+
+---
+
+# Exclusion
+
+.box-inv-3[Does it meet exclusion assumption?]
+
+.box-3.smaller[Father's education causes your wages *only through* your education?]
+
+.box-3.smaller[Any other plausible node between father's education and earnings?]
+
+.pull-left-narrow[
+&lt;img src="11-slides_files/figure-html/plot-exclusion-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-wide[
+&lt;img src="11-slides_files/figure-html/iv-dag-example-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+
+Most obvious is that father’s education causes father’s earnings, which then causes your earnings
+
+---
+
+# Exogeneity
+
+.box-inv-3.medium[Is assignment to your parents random?]
+
+--
+
+.box-3.sp-after[Sure.]
+
+--
+
+.box-inv-3.medium[Is your parents' choice to&lt;br&gt;gain education random?]
+
+--
+
+.box-3[lolz.]
+
+---
+
+# Two-stage least squares (2SLS)
+
+.box-inv-3.medium[Find exogenous part of policy variable based on instrument; use *that* to predict outcome]
+
+--
+
+.pull-left[
+.box-3.small[First stage]
+
+.small[
+$$
+`\begin{aligned}
+&amp;\widehat{\text{Education}}_i = \\
+&amp;\quad \gamma_0 + \gamma_1 \text{Father's education}_i + \upsilon_i
+\end{aligned}`
+$$
+]
+
+.box-inv-3.smaller["Education hat": fitted/predicted values; exogenous part of education]
+]
+
+--
+
+.pull-right[
+.box-3.small[Second stage]
+
+.small[
+$$
+`\begin{aligned}
+&amp;\text{Earnings}_i = \\
+&amp;\quad \beta_0 + \beta_1 \widehat{\text{Education}}_i + \varepsilon_i
+\end{aligned}`
+$$
+]
+]
+
+---
+
+# Stage 1: Policy ~ instrument
+
+
+```r
+first_stage &lt;- lm(educ ~ fathereduc, data = father_education)
+
+tidy(first_stage)
+```
+
+```
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)    2.25     0.172       13.1 3.67e-36
+## 2 fathereduc     0.916    0.0108      84.5 0.
+```
+
+---
+
+# Stage 1: Check instrument strength
+
+.box-inv-3[Model's F-statistic .smaller[(`statistic` here)] should be &gt; 104&lt;br&gt;(though most books say &gt; 10)]
+
+
+```r
+glance(first_stage)
+```
+
+
+```
+## # A tibble: 1 x 5
+##   r.squared adj.r.squared sigma statistic p.value
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1     0.877         0.877 0.703     7136.       0
+```
+
+---
+
+# Stage 1: Use first stage to predict policy
+
+.small[
+$$
+\widehat{\text{Education}}_i = 2.251 + (0.916 \times \text{Father's education}_i) + \upsilon_i
+$$
+]
+
+.small-code[
+
+```r
+data_with_predictions &lt;- augment_columns(first_stage, data = father_education) %&gt;% 
+  rename(educ_hat = .fitted)
+head(data_with_predictions)
+```
+]
+
+.pull-left.small-code[
+
+```
+## # A tibble: 6 x 5
+##    wage  educ ability fathereduc educ_hat
+##   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1  180.  18.5    408.       17.2     18.0
+## 2  100.  16.2    310.       15.5     16.4
+## 3  125.  18.2    303.       17.7     18.4
+## 4  178.  16.6    342.       15.6     16.5
+## 5  265.  17.3    534.       14.7     15.8
+## 6  187.  17.5    409.       16.0     16.9
+```
+]
+
+.pull-right[
+&amp;nbsp;
+
+.box-3.smaller[educ_hat = 2.251 + (0.916 × **17.2**) = **18.0**]
+
+.box-3.smaller[educ_hat = 2.251 + (0.916 × **15.5**) = **16.4**]
+]
+
+---
+
+# Stage 2: Outcome ~ predicted policy
+
+
+```r
+second_stage &lt;- lm(wage ~ educ_hat,
+                   data = data_with_predictions)
+
+tidy(second_stage)
+```
+
+```
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)    28.8     12.7        2.27 2.32e- 2
+## 2 educ_hat        7.83     0.755     10.4  5.10e-24
+```
+
+---
+
+layout: false
+
+.pull-left-wide.smaller[
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Unadjusted &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Forbidden &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; 2SLS IV &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -59.378*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -85.571*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 28.819** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (10.376) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (7.198) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (12.672) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #F5ABEA !important;"&gt; educ &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 13.124*** &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 7.767*** &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.618) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.456) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ability &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.344*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.010) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #F5ABEA !important;"&gt; educ_hat &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 7.835*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; (0.755) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Num.Obs. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; R2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.311 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.673 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.097 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-bottom: 1px solid"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 451.244 &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 1025.794 &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 107.639 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style="padding: 0; border:0;" colspan="100%"&gt;
+&lt;sup&gt;&lt;/sup&gt; * p &amp;lt; 0.1, ** p &amp;lt; 0.05, *** p &amp;lt; 0.01&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+]
+
+.pull-right-narrow[
+.box-2[Unadjusted&lt;br&gt;is wrong!]
+
+.box-5[Forbidden is right,&lt;br&gt;but not actually&lt;br&gt;measurable!]
+
+.box-5[2SLS is close&lt;br&gt;*and* measurable!]
+
+.box-inv-5.small[One year of education causes hourly wage to increase by $7.84]
+]
+
+---
+
+layout: true
+class: title title-3
+
+---
+
+# Multiple instruments
+
+.box-inv-3[You can use multiple instruments to&lt;br&gt;explain more of the endogeneity in the policy node]
+
+&lt;img src="11-slides_files/figure-html/multiple-ivs-dag-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Multiple instruments
+
+&amp;nbsp;
+
+$$
+`\begin{aligned}
+\widehat{\text{Education}}_i =&amp;\ \gamma_0 + \gamma_1 \text{Father's education}_i +\\
+&amp;\ \gamma_2 \text{Mother's education}_i + \upsilon_i\\
+\\
+\text{Earnings}_i =&amp;\ \beta_0 + \beta_1 \widehat{\text{Education}}_i + \varepsilon_i
+\end{aligned}`
+$$
+
+---
+
+# Other control variables
+
+.box-inv-3[You can use control variables too!]
+
+.box-inv-3[For mathy reasons,&lt;br&gt;all exogenous controls need to go in both stages]
+
+.small[
+$$
+`\begin{aligned}
+\widehat{\text{Education}}_i =&amp;\ \gamma_0 + \gamma_1 \text{Father's education}_i + \gamma_2 \text{Mother's education}_i +\\
+&amp;\ \gamma_3 \text{SES}_i + \gamma_4 \text{State}_i + \gamma_5 \text{Year}_i + \upsilon_i\\
+\\
+\text{Earnings}_i =&amp;\ \beta_0 + \beta_1 \widehat{\text{Education}}_i +\\
+&amp;\ \beta_2 \text{SES}_i + \beta_3 \text{State}_i + \beta_4 \text{Year}_i + \varepsilon_i
+\end{aligned}`
+$$
+]
+
+???
+
+Control variables and other backdoors (exogenous ones go in both stages, even if they’re not used as instruments in the first stage – first stage is supposed to take out all the endogenous variation in all variables, so if you don’t include 2nd stage controls, they’ll still have some mathematical endogeneity)
+
+- https://raw.githack.com/edrubin/EC421W19/master/LectureNotes/11InstrumentalVariables/11_instrumental_variables.html#147
+- https://twitter.com/grant_mcdermott/status/1194348199743377408
+- https://stats.stackexchange.com/questions/177747/why-do-you-put-all-the-exogenous-variables-into-the-first-and-second-stage-of-2s
+
+---
+
+# Faster, more accurate ways to run 2SLS
+
+.box-inv-3[Running the first stage, calculating policy-hat,&lt;br&gt;then running second stage is neat, but time consuming!]
+
+.code-small.smaller[
+
+```r
+first_stage &lt;- lm(educ ~ fathereduc, data = father_education)
+
+data_with_predictions &lt;- augment_columns(first_stage, data = father_education) %&gt;% 
+  rename(educ_hat = .fitted)
+
+second_stage &lt;- lm(wage ~ educ_hat, data = data_with_predictions)
+```
+]
+
+--
+
+.box-inv-3[Your standard errors will be wrong unless&lt;br&gt;you adjust them with fancy math by hand]
+
+--
+
+.box-3[Use R packages that do all that work for you instead!]
+
+???
+
+https://raw.githack.com/uo-ec607/lectures/master/08-regression/08-regression.html#Instrumental_variables
+
+---
+
+# Faster, more accurate ways to run 2SLS
+
+.box-inv-3[`ivreg()` from the **ivreg** package]
+
+.box-3[Outcome ~ 2nd stage stuff | 1st stage stuff]
+
+.pull-left.code-small.tiny[
+
+```r
+library(ivreg)
+model_ivreg &lt;- ivreg(wage ~ educ | fathereduc,
+                     data = father_education)
+tidy(model_ivreg)
+```
+
+```
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)    28.8     11.5        2.51 1.21e- 2
+## 2 educ            7.83     0.683     11.5  1.13e-28
+```
+]
+
+.pull-right.code-small.tiny[
+
+```r
+summary(model_ivreg)
+```
+
+
+```
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  28.8187    11.4679   2.513   0.0121 *  
+## educ          7.8349     0.6834  11.465   &lt;2e-16 ***
+## 
+## Diagnostic tests:
+##                  df1 df2 statistic p-value    
+## Weak instruments   1 998      7136  &lt;2e-16 ***
+## Wu-Hausman         1 997      1102  &lt;2e-16 ***
+```
+]
+
+???
+
+https://raw.githack.com/uo-ec607/lectures/master/08-regression/08-regression.html#Option_1:_AER::ivreg()
+
+---
+
+# Faster, more accurate ways to run 2SLS
+
+.box-inv-3[`iv_robust()` from the **estimatr** package]
+
+.box-3[Outcome ~ 2nd stage stuff | 1st stage stuff]
+
+.code-small.smaller[
+
+```r
+library(estimatr)
+model_iv_robust &lt;- iv_robust(wage ~ educ | fathereduc,
+                             data = father_education)
+tidy(model_iv_robust)
+```
+
+```
+##          term  estimate  std.error statistic      p.value conf.low conf.high
+## 1 (Intercept) 28.818695 11.1645893  2.581259 9.985789e-03 6.909932 50.727459
+## 2        educ  7.834935  0.6635423 11.807739 3.281862e-30 6.532837  9.137033
+##    df outcome
+## 1 998    wage
+## 2 998    wage
+```
+]
+
+.box-inv-3.small[(See also `lfe()` from the **felm** package for IV with fancy fixed effects)]
+
+???
+
+https://raw.githack.com/uo-ec607/lectures/master/08-regression/08-regression.html#Option_3:_felm::lfe()
+
+---
+
+layout: false
+
+.smaller[
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Unadjusted &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Forbidden &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; 2SLS IV (by hand) &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; 2SLS IV (ivreg()) &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; 2SLS IV (iv_robust()) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -59.378*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -85.571*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 28.819** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 28.819** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 28.819*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (10.376) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (7.198) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (12.672) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (11.468) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (11.165) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #F5ABEA !important;"&gt; educ &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 13.124*** &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 7.767*** &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 7.835*** &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 7.835*** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.618) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.456) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.683) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.664) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ability &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.344*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.010) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #F5ABEA !important;"&gt; educ_hat &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt; 7.835*** &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #F5ABEA !important;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; (0.755) &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Num.Obs. &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: #FFE2D0 !important;"&gt; R2 &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #FFE2D0 !important;"&gt; 0.311 &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #FFE2D0 !important;"&gt; 0.673 &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #FFE2D0 !important;"&gt; 0.097 &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #FFE2D0 !important;"&gt; 0.261 &lt;/td&gt;
+   &lt;td style="text-align:center;background-color: #FFE2D0 !important;"&gt; 0.261 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-bottom: 1px solid"&gt; R2 Adj. &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 0.311 &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 0.672 &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 0.096 &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 0.260 &lt;/td&gt;
+   &lt;td style="text-align:center;border-bottom: 1px solid"&gt; 0.260 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; N &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style="padding: 0; border:0;" colspan="100%"&gt;
+&lt;sup&gt;&lt;/sup&gt; * p &amp;lt; 0.1, ** p &amp;lt; 0.05, *** p &amp;lt; 0.01&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+]
+
+---
+
+class: title title-3
+
+# General IV process
+
+--
+
+.box-inv-3[**1: Is the instrument relevant?**&lt;br&gt;.smaller[Instrument correlated with policy/program; F-statistic in 1st stage &gt; 104]]
+
+--
+
+.box-inv-3[**2: Does the instrument meet exclusion assumption?**&lt;br&gt;.smaller[Instrument causes outcome *only through* policy/program. **Good luck.**]]
+
+--
+
+.box-inv-3[**3: Is the instrument exogenous?**&lt;br&gt;.smaller[No arrows going into instrument node in DAG]]
+
+--
+
+.box-inv-3[**4: 2-stage least squares (2SLS)**&lt;br&gt;.smaller[program ~ instrument; outcome ~ program_hat&amp;emsp;**OR**&amp;emsp;`iv_robust()`]]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
