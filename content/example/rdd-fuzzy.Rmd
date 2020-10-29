@@ -201,7 +201,7 @@ $$
 \end{aligned}
 $$
 
-We could manually run the first stage model, generated predicted `tutoring` and then use those predicted values in the second stage model [like we did in the instrumental variables example](/example/iv/), but that's tedious and nobody wants to do all that work. We'll use `iv_robust()` from the **estimatr** package instead.
+We could manually run the first stage model, generate predicted `tutoring` and then use those predicted values in the second stage model [like we did in the instrumental variables example](/example/iv/), but that's tedious and nobody wants to do all that work. We'll use `iv_robust()` from the **estimatr** package instead.
 
 ```{r model-fuzzy}
 model_fuzzy <- iv_robust(

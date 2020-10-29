@@ -188,7 +188,7 @@ tidy(model_sans_instrument)</code></pre>
 \text{Exit exam} &amp;= \beta_0 + \beta_1 \text{Entrance exam score}_\text{centered} + \beta_2 \widehat{\text{Tutoring program}} + \epsilon
 \end{aligned}
 \]</span></p>
-<p>We could manually run the first stage model, generated predicted <code>tutoring</code> and then use those predicted values in the second stage model <a href="/example/iv/">like we did in the instrumental variables example</a>, but that’s tedious and nobody wants to do all that work. We’ll use <code>iv_robust()</code> from the <strong>estimatr</strong> package instead.</p>
+<p>We could manually run the first stage model, generate predicted <code>tutoring</code> and then use those predicted values in the second stage model <a href="/example/iv/">like we did in the instrumental variables example</a>, but that’s tedious and nobody wants to do all that work. We’ll use <code>iv_robust()</code> from the <strong>estimatr</strong> package instead.</p>
 <pre class="r"><code>model_fuzzy &lt;- iv_robust(
   exit_exam ~ entrance_centered + tutoring | entrance_centered + below_cutoff,
   data = filter(tutoring_centered, entrance_centered &gt;= -10 &amp; entrance_centered &lt;= 10)

@@ -39,7 +39,7 @@
 "content/example/matching-ipw.Rmd" "b27d1652404fd58b9cc9c9802b015471"
 "content/example/po-ate-cate.Rmd" "1a7bf4a2dace7de2a2ed55b56b626678"
 "content/example/rcts.Rmd" "23d01e7896f709f780e330fd07c9c990"
-"content/example/rdd-fuzzy.Rmd" "78362d20d860bd057c25154ef0d1d488"
+"content/example/rdd-fuzzy.Rmd" "c823dd34c2809c4fa97ed2fa91acb382"
 "content/example/rdd.Rmd" "002027f96bc779ea5391159815032e3c"
 "content/example/regression.Rmd" "26672a80ce4403abdd84aa3788c638e4"
 "content/example/rstudio-tidyverse.Rmd" "b4e78eb1823943747ae44cecfa0f384d"
