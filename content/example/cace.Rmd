@@ -17,7 +17,7 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.asp = 0.618, fig.align = "center", fig.retina = 3, out.width = "75%")
 set.seed(1234)
-options("digits" = 2, "width" = 150)
+options("digits" = 4, "width" = 150)
 options(dplyr.summarise.inform = FALSE)
 ```
 
@@ -137,14 +137,14 @@ $$
 \begin{aligned}
 \text{ITT}\ =\ & \color{#0D0887}{\pi_\text{C} \text{CACE}} + \color{#B7318A}{\pi_\text{A} \text{ATACE}} + \color{#FEBA2C}{\pi_\text{N} \text{NTACE}} \\[6pt]
 =\ & \color{#0D0887}{\pi_\text{C} \text{CACE}} + \color{#B7318A}{\pi_\text{A} \times 0} + \color{#FEBA2C}{\pi_\text{N} \times 0}\\[6pt]
-\text{ITT}\ =\ &\color{#0D0887}{\pi_\text{C} \text{CACE}}
+\text{ITT}\ =\ & \color{#0D0887}{\pi_\text{C} \text{CACE}}
 \end{aligned}
 $$
 
 We can use algebra to rearrange this formula so that we're left with an equation that starts with CACE (since that's the value we care about):
 
 $$
-\color{#0D0887}{\text{CACE}} = \frac{\text{ITT}}{\color{#0D0887}{\pi_\text{C}}}
+\text{CACE} = \frac{\text{ITT}}{\pi_\text{C}}
 $$
 
 If we can find the ITT and the proportion of compliers, we can find the complier average causal effect (CACE). Fortunately, both those pieces—ITT and $\pi_\text{C}$—are findable in the data we have!

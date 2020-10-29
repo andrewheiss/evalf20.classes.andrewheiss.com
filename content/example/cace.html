@@ -108,12 +108,12 @@ ggplot(bed_nets_time_machine, aes(y = health, x = bed_net)) +
 \begin{aligned}
 \text{ITT}\ =\ &amp; \color{#0D0887}{\pi_\text{C} \text{CACE}} + \color{#B7318A}{\pi_\text{A} \text{ATACE}} + \color{#FEBA2C}{\pi_\text{N} \text{NTACE}} \\[6pt]
 =\ &amp; \color{#0D0887}{\pi_\text{C} \text{CACE}} + \color{#B7318A}{\pi_\text{A} \times 0} + \color{#FEBA2C}{\pi_\text{N} \times 0}\\[6pt]
-\text{ITT}\ =\ &amp;\color{#0D0887}{\pi_\text{C} \text{CACE}}
+\text{ITT}\ =\ &amp; \color{#0D0887}{\pi_\text{C} \text{CACE}}
 \end{aligned}
 \]</span></p>
 <p>We can use algebra to rearrange this formula so that we’re left with an equation that starts with CACE (since that’s the value we care about):</p>
 <p><span class="math display">\[
-\color{#0D0887}{\text{CACE}} = \frac{\text{ITT}}{\color{#0D0887}{\pi_\text{C}}}
+\text{CACE} = \frac{\text{ITT}}{\pi_\text{C}}
 \]</span></p>
 <p>If we can find the ITT and the proportion of compliers, we can find the complier average causal effect (CACE). Fortunately, both those pieces—ITT and <span class="math inline">\(\pi_\text{C}\)</span>—are findable in the data we have!</p>
 </div>
@@ -167,7 +167,7 @@ pi_c &lt;- 0.6104418 - 0.1952191</code></pre>
 <p>Finally, now that we know both the ITT and <span class="math inline">\(\pi_\text{C}\)</span>, we can find the CACE (or the LATE):</p>
 <pre class="r"><code>CACE &lt;- ITT / pi_c
 CACE</code></pre>
-<pre><code>## [1] 14</code></pre>
+<pre><code>## [1] 14.42</code></pre>
 <p>It’s 14.4, which means that using bed nets increased health by 14 health points <em>for compliers</em> (which is a lot bigger than the 6 that we found before). We successfully filtered out the always takers and the never takers, and we have our complier-specific causal effect.</p>
 </div>
 <div id="finding-the-cacelate-with-iv2sls" class="section level2">
@@ -177,8 +177,8 @@ CACE</code></pre>
 <p>Here’s a 2SLS regression with assignment to treatment as the instrument:</p>
 <pre class="r"><code>model_2sls &lt;- iv_robust(health ~ bed_net | treatment, data = bed_nets)
 tidy(model_2sls)</code></pre>
-<pre><code>##             term estimate std.error statistic p.value conf.low conf.high   df outcome
-## 1    (Intercept)       38      0.52        74 0.0e+00       37        39 1998  health
-## 2 bed_netBed net       14      1.25        12 1.1e-29       12        17 1998  health</code></pre>
+<pre><code>##             term estimate std.error statistic   p.value conf.low conf.high   df outcome
+## 1    (Intercept)    38.12    0.5151     74.01 0.000e+00    37.11     39.13 1998  health
+## 2 bed_netBed net    14.42    1.2538     11.50 1.087e-29    11.96     16.88 1998  health</code></pre>
 <p>The coefficient for <code>bed_net</code> is identical to the CACE that we found manually! Instrumental variables are helpful for isolated program effects to only compliers when you’re dealing with noncompliance.</p>
 </div>
