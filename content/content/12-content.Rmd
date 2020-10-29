@@ -34,7 +34,8 @@ slide_details <- tibble::tribble(
 
 ## Readings
 
-Review the readings from the sessions on regression discontinuity and instrumental variables.
+- The [example page on complier average causal effects](/example/cace/) shows how to use R to disentangle complier average causal effects
+- The [example page on fuzzy regression discontinuity](/example/rdd-fuzzy) shows how to use R to use instrumental variables in fuzzy regression discontinuity, both parametrically and nonparametrically
 
 
 ## Slides
