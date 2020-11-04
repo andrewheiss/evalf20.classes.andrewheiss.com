@@ -1,0 +1,835 @@
+---
+title: "Generating random numbers"
+linktitle: "Random numbers"
+date: "2020-10-31"
+output:
+  blogdown::html_page:
+    toc: true
+menu:
+  example:
+    parent: Simulated data
+    weight: 1
+type: docs
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+
+<div id="TOC">
+<ul>
+<li><a href="#seeds">Seeds</a></li>
+<li><a href="#distributions">Distributions</a>
+<ul>
+<li><a href="#uniform-distribution">Uniform distribution</a></li>
+<li><a href="#normal-distribution">Normal distribution</a></li>
+<li><a href="#truncated-normal-distribution">Truncated normal distribution</a></li>
+<li><a href="#beta-distribution">Beta distribution</a></li>
+<li><a href="#binomial-distribution">Binomial distribution</a></li>
+<li><a href="#poisson-distribution">Poisson distribution</a></li>
+</ul></li>
+<li><a href="#rescaling-numbers">Rescaling numbers</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</div>
+
+<p>In your final project, you will generate a synthetic dataset and use it to conduct an evaluation of some social program. Generating fake or simulated data is an <em>incredibly powerful skill</em>, but it takes some practice. Here are a bunch of helpful resources and code examples of how to use different R functions to generate random numbers that follow specific distributions (or probability shapes).</p>
+<p>This example focuses primarily on distributions. Each of the columns you’ll generate will be completely independent from each other and there will be no correlation between them. <a href="/example/synthetic-data/">The example for generating synthetic data</a> provides code and a bunch of examples of how to build in correlations between columns.</p>
+<p>First, make sure you load the libraries we’ll use throughout the example:</p>
+<pre class="r"><code>library(tidyverse)
+library(patchwork)</code></pre>
+<div id="seeds" class="section level2">
+<h2>Seeds</h2>
+<p>When R (or any computer program, really) generates random numbers, it uses an algorithm to simulate randomness. This algorithm always starts with an initial number, or seed. Typically it will use something like the current number of milliseconds since some date, so that every time you generate random numbers they’ll be different. Look at this, for instance:</p>
+<pre class="r"><code># Choose 3 numbers between 1 and 10
+sample(1:10, 3)</code></pre>
+<pre><code>## [1] 9 4 7</code></pre>
+<pre class="r"><code># Choose 3 numbers between 1 and 10
+sample(1:10, 3)</code></pre>
+<pre><code>## [1] 5 6 9</code></pre>
+<p>They’re different both times.</p>
+<p>That’s ordinarily totally fine, but if you care about reproducibility (like having a synthetic dataset with the same random values, or having jittered points in a plot be in the same position every time you knit), it’s a good idea to set your own seed. This ensures that the random numbers you generate are the same every time you generate them.</p>
+<p>Do this by feeding <code>set.seed()</code> some numbers. It doesn’t matter what number you use—it just has to be a whole number. People have all sorts of favorite seeds:</p>
+<ul>
+<li><code>1</code></li>
+<li><code>13</code></li>
+<li><code>42</code></li>
+<li><code>1234</code></li>
+<li><code>12345</code></li>
+<li><code>20201101</code> (i.e. the current date)</li>
+<li><code>8675309</code></li>
+</ul>
+<p>You could even go to <a href="https://www.random.org/">random.org</a> and use atmospheric noise to generate a seed, and then use that in R.</p>
+<p>Here’s what happens when you generate random numbers after setting a seed:</p>
+<pre class="r"><code># Set a seed
+set.seed(1234)
+
+# Choose 3 numbers between 1 and 10
+sample(1:10, 3)</code></pre>
+<pre><code>## [1] 10  6  5</code></pre>
+<pre class="r"><code># Set a seed
+set.seed(1234)
+
+# Choose another 3 numbers between 1 and 10
+sample(1:10, 3)</code></pre>
+<pre><code>## [1] 10  6  5</code></pre>
+<p>They’re the same!</p>
+<p>Once you set a seed, it influences any function that does anything random, but it doesn’t reset. For instance, if you set a seed once and then run <code>sample()</code> twice, you’ll get different numbers the second time, but you’ll get the same different numbers every time:</p>
+<pre class="r"><code># Set a seed
+set.seed(1234)
+
+# Choose 3 numbers between 1 and 10
+sample(1:10, 3)</code></pre>
+<pre><code>## [1] 10  6  5</code></pre>
+<pre class="r"><code>sample(1:10, 3)  # This will be different!</code></pre>
+<pre><code>## [1] 9 5 6</code></pre>
+<pre class="r"><code># Set a seed again
+set.seed(1234)
+
+# Choose 3 numbers between 1 and 10
+sample(1:10, 3)</code></pre>
+<pre><code>## [1] 10  6  5</code></pre>
+<pre class="r"><code>sample(1:10, 3)  # This will be different, but the same as before!</code></pre>
+<pre><code>## [1] 9 5 6</code></pre>
+<p>Typically it’s easiest to just include <code>set.seed(SOME_NUMBER)</code> at the top of your script after you load all the libraries. Some functions have a <code>seed</code> argument, and it’s a good idea to use it: <code>position_jitter(..., seed = 1234)</code>.</p>
+</div>
+<div id="distributions" class="section level2">
+<h2>Distributions</h2>
+<p>Remember in elementary school when you’d decide on playground turns by saying “Pick a number between 1 and 10” and whoever was the closest would win? When you generate random numbers in R, you’re essentially doing the same thing, only with some fancier bells and whistles.</p>
+<p>When you ask someone to choose a number between 1 and 10, any of those numbers should be equally likely. 1 isn’t really less common than 5 or anything. In some situations, though, there are numbers that are more likely to appear than others (i.e. when you roll two dice, it’s pretty rare to get a 2, but pretty common to get a 7). These different kinds of likelihood change the shape of the <em>distribution</em> of possible values. There are <a href="https://en.wikipedia.org/wiki/List_of_probability_distributions">hundreds of different distributions</a>, but for the sake of generating data, there are only a few that you need to know.</p>
+<div id="uniform-distribution" class="section level3">
+<h3>Uniform distribution</h3>
+<p>In a <a href="https://en.wikipedia.org/wiki/Discrete_uniform_distribution">uniform distribution</a>, every number is equally likely. This is the “pick a number between 1 and 10” scenario, or rolling a single die. There are a couple ways to work with a uniform distribution in R: (1) <code>sample()</code> and (2) <code>runif()</code>.</p>
+<div id="sample" class="section level4">
+<h4><code>sample()</code></h4>
+<p>The <code>sample()</code> function chooses an element from a list.</p>
+<p>For instance, let’s pretend we have six possible numbers (like a die, or like 6 categories on a survey), like this:</p>
+<pre class="r"><code>possible_answers &lt;- c(1, 2, 3, 4, 5, 6)  # We could also write this as 1:6 instead</code></pre>
+<p>If we want to randomly choose from this list, you’d use <code>sample()</code>. The <code>size</code> argument defines how many numbers to choose.</p>
+<pre class="r"><code># Choose 1 random number
+sample(possible_answers, size = 1)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code># Choose 3 random numbers
+sample(possible_answers, size = 3)</code></pre>
+<pre><code>## [1] 2 6 5</code></pre>
+<p>One important argument you can use is <code>replace</code>, which essentially puts the number back into the pool of possible numbers. Imagine having a bowl full of ping pong balls with the numbers 1–6 on them. If you take the number “3” out, you can’t draw it again. If you put it back in, you can pull it out again. The <code>replace</code> argument puts the number back after it’s drawn:</p>
+<pre class="r"><code># Choose 10 random numbers, with replacement
+sample(possible_answers, size = 10, replace = TRUE)</code></pre>
+<pre><code>##  [1] 6 4 6 6 6 4 4 5 4 3</code></pre>
+<p>If you don’t specify <code>replace = TRUE</code>, and you try to choose more numbers than are in the set, you’ll get an error:</p>
+<pre class="r"><code># Choose 8 numbers between 1 and 6, but don&#39;t replace them.
+# This won&#39;t work!
+sample(possible_answers, size = 8)</code></pre>
+<pre><code>## Error in sample.int(length(x), size, replace, prob): cannot take a sample larger than the population when &#39;replace = FALSE&#39;</code></pre>
+<p>It’s hard to see patterns in the outcomes when generating just a handful of numbers, but easier when you do a lot. Let’s roll a die 1,000 times:</p>
+<pre class="r"><code>set.seed(1234)
+die &lt;- tibble(value = sample(possible_answers, 
+                             size = 1000, 
+                             replace = TRUE))
+die %&gt;% 
+  count(value)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   value     n
+##   &lt;dbl&gt; &lt;int&gt;
+## 1     1   161
+## 2     2   153
+## 3     3   188
+## 4     4   149
+## 5     5   157
+## 6     6   192</code></pre>
+<pre class="r"><code>ggplot(die, aes(x = value)) +
+  geom_bar() +
+  labs(title = &quot;1,000 rolls of a single die&quot;)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/dice-roll-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>In this case, 3 and 6 came up more often than the others, but that’s just because of randomness. If we rolled the die 100,000 times, the bars should basically be the same:</p>
+<pre class="r"><code>set.seed(1234)
+die &lt;- tibble(value = sample(possible_answers, 
+                             size = 100000, 
+                             replace = TRUE))
+
+ggplot(die, aes(x = value)) +
+  geom_bar() +
+  labs(title = &quot;100,000 rolls of a single die&quot;)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/dice-roll-lots-1.png" width="75%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="runif" class="section level4">
+<h4><code>runif()</code></h4>
+<p>Another way to generate uniformly distributed numbers is to use the <code>runif()</code> function (which is short for “random uniform”, and which took me years to realize, and for years I wondered why people used a function named “run if” when there’s no if statement anywhere??)</p>
+<p><code>runif()</code> will choose numbers between a minimum and a maximum. These numbers will not be whole numbers. By default, the min and max are 0 and 1:</p>
+<pre class="r"><code>runif(5)</code></pre>
+<pre><code>## [1] 0.09862 0.96294 0.88655 0.05623 0.44452</code></pre>
+<p>Here are 5 numbers between 35 and 56:</p>
+<pre class="r"><code>runif(5, min = 35, max = 56)</code></pre>
+<pre><code>## [1] 46.83 42.89 37.75 53.22 46.13</code></pre>
+<p>Since these aren’t whole numbers, you can round them to make them look more realistic (like, if you were generating a column for age, you probably don’t want people who are 21.5800283 years old):</p>
+<pre class="r"><code># Generate 5 people between the ages of 18 and 35
+round(runif(5, min = 18, max = 35), 0)</code></pre>
+<pre><code>## [1] 21 28 33 34 31</code></pre>
+<p>You can confirm that each number has equal probability if you make a histogram. Here are 5,000 random people between 18 and 35:</p>
+<pre class="r"><code>set.seed(1234)
+lots_of_numbers &lt;- tibble(x = runif(5000, min = 18, max = 35))
+
+ggplot(lots_of_numbers, aes(x = x)) +
+  geom_histogram(binwidth = 1, color = &quot;white&quot;, boundary = 18)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/runif-plot-1.png" width="75%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="normal-distribution" class="section level3">
+<h3>Normal distribution</h3>
+<p>The whole “choose a number between 1 and 10” idea of a uniform distribution is neat and conceptually makes sense, but most numbers that exist in the world tend to have higher probabilities around certain values—almost like gravity around a specific point. For instance, income in the United States is not uniformly distributed—a handful of people are really really rich, lots are very poor, and most are kind of clustered around an average.</p>
+<p>The idea of having possible values clustered around an average is how the rest of these distributions work (uniform distributions don’t have any sort of central gravity point; all these others do). Each distribution is defined by different things called <em>parameters</em>, or values that determine the shape of the probabilities and locations of the clusters.</p>
+<p>A super common type of distribution is the <a href="https://en.wikipedia.org/wiki/Normal_distribution">normal distribution</a>. This is the famous “bell curve” you learn about in earlier statistics classes. A normal distribution has two parameters:</p>
+<ol style="list-style-type: decimal">
+<li>A mean (the center of the cluster)</li>
+<li>A standard deviation (how much spread there is around the mean).</li>
+</ol>
+<p>In R, you can generate random numbers from a normal distribution with the <code>rnorm()</code> function. It takes three arguments: the number of numbers you want to generate, the mean, and the standard deviation. It defaults to a mean of 0 and a standard deviation of 1, which means most numbers will cluster around 0, with a lot between −1 and 1, and some going up to −2 and 2 (technically 67% of numbers will be between −1 and 1, while 95% of numbers will be between −2–2ish)</p>
+<pre class="r"><code>rnorm(5)</code></pre>
+<pre><code>## [1] -1.3662  0.5392 -1.3219 -0.2813 -2.1049</code></pre>
+<pre class="r"><code># Cluster around 10, with an SD of 4
+rnorm(5, mean = 10, sd = 4)</code></pre>
+<pre><code>## [1]  3.530  7.105 11.227 10.902 13.743</code></pre>
+<p>When working with uniform distributions, it’s easy to know how high or low your random values might go, since you specify a minimum and maximum number. With a normal distribution, you don’t specify starting and ending points—you specify a middle and a spread, so it’s harder to guess the whole range. Plotting random values is thus essential. Here’s 1,000 random numbers clustered around 10 with a standard deviation of 4:</p>
+<pre class="r"><code>set.seed(1234)
+
+plot_data &lt;- tibble(x = rnorm(1000, mean = 10, sd = 4))
+head(plot_data)</code></pre>
+<pre><code>## # A tibble: 6 x 1
+##        x
+##    &lt;dbl&gt;
+## 1  5.17 
+## 2 11.1  
+## 3 14.3  
+## 4  0.617
+## 5 11.7  
+## 6 12.0</code></pre>
+<pre class="r"><code>ggplot(plot_data, aes(x = x)) +
+  geom_histogram(binwidth = 1, boundary = 0, color = &quot;white&quot;)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/normal-10-4-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Neat. Most numbers are around 10; lots are between 5 and 15; some go as high as 25 and as low as −5.</p>
+<p>Watch what happens if you change the standard deviation to 10 to make the spread wider:</p>
+<pre class="r"><code>set.seed(1234)
+
+plot_data &lt;- tibble(x = rnorm(1000, mean = 10, sd = 10))
+head(plot_data)</code></pre>
+<pre><code>## # A tibble: 6 x 1
+##        x
+##    &lt;dbl&gt;
+## 1  -2.07
+## 2  12.8 
+## 3  20.8 
+## 4 -13.5 
+## 5  14.3 
+## 6  15.1</code></pre>
+<pre class="r"><code>ggplot(plot_data, aes(x = x)) +
+  geom_histogram(binwidth = 1, boundary = 0, color = &quot;white&quot;)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/normal-10-10-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>It’s still centered around 10, but now you get values as high as 40 and as low as −20. The data is more spread out now.</p>
+<p>When simulating data, you’ll most often use a normal distribution just because it’s easy and lots of things follow that pattern in the real world. Incomes, ages, education, etc. all have a kind of gravity to them, and a normal distribution is a good way of showing that gravity. For instance, here are 1,000 simulated people with reasonable random incomes, ages, and years of education:</p>
+<pre class="r"><code>set.seed(1234)
+
+fake_people &lt;- tibble(income = rnorm(1000, mean = 40000, sd = 15000),
+                      age = rnorm(1000, mean = 25, sd = 8),
+                      education = rnorm(1000, mean = 16, sd = 4))
+head(fake_people)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   income   age education
+##    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+## 1 21894. 15.4      12.1 
+## 2 44161. 27.4      15.6 
+## 3 56267. 12.7      15.6 
+## 4  4815. 30.1      20.8 
+## 5 46437. 30.6       9.38
+## 6 47591.  9.75     11.8</code></pre>
+<pre class="r"><code>fake_income &lt;- ggplot(fake_people, aes(x = income)) +
+  geom_histogram(binwidth = 5000, color = &quot;white&quot;, boundary = 0) +
+  labs(title = &quot;Simulated income&quot;)
+
+fake_age &lt;- ggplot(fake_people, aes(x = age)) +
+  geom_histogram(binwidth = 2, color = &quot;white&quot;, boundary = 0) +
+  labs(title = &quot;Simulated age&quot;)
+
+fake_education &lt;- ggplot(fake_people, aes(x = education)) +
+  geom_histogram(binwidth = 2, color = &quot;white&quot;, boundary = 0) +
+  labs(title = &quot;Simulated education&quot;)
+
+fake_income + fake_age + fake_education</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/reasonable-normal-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>These three columns all have different centers and spreads. Income is centered around <span>$45,000</span>, going up to almost <span>$100,000</span> and as low as <span>−$10,000</span>; age is centered around 25, going as low as 0 and as high as 50; education is centered around 16, going as low as 3 and as high as 28. Cool.</p>
+<p>Again, when generating these numbers, it’s really hard to know how high or low these ranges will be, so it’s a good idea to plot them constantly. I settled on <code>sd = 4</code> for education only because I tried things like <code>1</code> and <code>10</code> and got wild looking values (everyone basically at 16 with little variation, or everyone ranging from −20 to 50, which makes no sense when thinking about years of education). Really it’s just a process of trial and error until the data looks good and reasonable.</p>
+</div>
+<div id="truncated-normal-distribution" class="section level3">
+<h3>Truncated normal distribution</h3>
+<p>Sometimes you’ll end up with negative numbers that make no sense. Look at income in the plot above, for instance. Some people are earning −$10,000 year. The rest of the distribution looks okay, but those negative values are annoying.</p>
+<p>To fix this, you can use something called a <a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">truncated normal distribution</a>, which lets you specify a mean and standard deviation, just like a regular normal distribution, but also lets you specify a minimum and/or maximum so you don’t get values that go too high or too low.</p>
+<p>R doesn’t have a truncated normal function built-in, but you can install <a href="https://github.com/olafmersmann/truncnorm">the <strong>truncnorm</strong> package</a> and use the <code>rtruncnorm()</code> function. A truncated normal distribution has four parameters:</p>
+<ol style="list-style-type: decimal">
+<li>A mean (<code>mean</code>)</li>
+<li>A standard deviation (<code>sd</code>)</li>
+<li>A minimum (optional) (<code>a</code>)</li>
+<li>A maximum (optional) (<code>b</code>)</li>
+</ol>
+<p>For instance, let’s pretend you have a youth program designed to target people who are between 12 and 21 years old, with most around 14. You can generate numbers with a mean of 14 and a standard deviation of 5, but you’ll create people who are too old, too young, or even negatively aged!</p>
+<pre class="r"><code>set.seed(1234)
+
+plot_data &lt;- tibble(fake_age = rnorm(1000, mean = 14, sd = 5))
+head(plot_data)</code></pre>
+<pre><code>## # A tibble: 6 x 1
+##   fake_age
+##      &lt;dbl&gt;
+## 1     7.96
+## 2    15.4 
+## 3    19.4 
+## 4     2.27
+## 5    16.1 
+## 6    16.5</code></pre>
+<pre class="r"><code>ggplot(plot_data, aes(x = fake_age)) +
+  geom_histogram(binwidth = 2, color = &quot;white&quot;, boundary = 0)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/nontruncated-normal-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>To fix this, truncate the range at 12 and 21:</p>
+<pre class="r"><code>library(truncnorm)  # For rtruncnorm()
+
+set.seed(1234)
+
+plot_data &lt;- tibble(fake_age = rtruncnorm(1000, mean = 14, sd = 5, a = 12, b = 21))
+head(plot_data)</code></pre>
+<pre><code>## # A tibble: 6 x 1
+##   fake_age
+##      &lt;dbl&gt;
+## 1     15.4
+## 2     19.4
+## 3     16.1
+## 4     16.5
+## 5     14.3
+## 6     18.8</code></pre>
+<pre class="r"><code>ggplot(plot_data, aes(x = fake_age)) +
+  geom_histogram(binwidth = 1, color = &quot;white&quot;, boundary = 0)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/truncated-normal-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>And voila! A bunch of people between 12 and 21, with most around 14, with no invalid values.</p>
+</div>
+<div id="beta-distribution" class="section level3">
+<h3>Beta distribution</h3>
+<p>Normal distributions are neat, but they’re symmetrical around the mean (unless you truncate them). What if your program involves a test with a maximum of 100 points where most people score around 85, but a sizable portion score below that. In other words, it’s not centered at 85, but is skewed left.</p>
+<p>To simulate this kind of distribution, we can use a Beta distribution. Beta distributions are neat because they naturally only range between 0 and 1—they’re perfect for things like percentages or proportions or or 100-based exams.</p>
+<p>Unlike a normal distribution, where you use the mean and standard deviation as parameters, Beta distributions take two non-intuitive parameters:</p>
+<ol style="list-style-type: decimal">
+<li><code>shape1</code></li>
+<li><code>shape2</code></li>
+</ol>
+<p>What the heck are these shapes though?! <a href="https://stats.stackexchange.com/a/47782/3025">This answer at Cross Validated</a> does an <em>excellent</em> job of explaining the intuition behind Beta distributions and it’d be worth it to read it.</p>
+<p>Basically, Beta distributions are good at modeling probabilities of things, and <code>shape1</code> and <code>shape2</code> represent specific parts of a probability formula.</p>
+<p>Let’s say that there’s an exam with 10 points where most people score a 6/10. Another way to think about this is that an exam is a collection of correct answers and incorrect answers, and that the percent correct follows this equation:</p>
+<p><span class="math display">\[
+\frac{\text{Number correct}}{\text{Number correct} + \text{Number incorrect}}
+\]</span></p>
+<p>If you scored a 6, you could write that as:</p>
+<p><span class="math display">\[
+\frac{6}{6 + 4}
+\]</span></p>
+<p>To make it more general, we can use Greek variable names: <span class="math inline">\(\alpha\)</span> for the number correct and <span class="math inline">\(\beta\)</span> for the number incorrect, leaving us with this:</p>
+<p><span class="math display">\[
+\frac{\alpha}{\alpha + \beta}
+\]</span></p>
+<p>Neat.</p>
+<p>In a Beta distribution, the <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> in that equation correspond to <code>shape1</code> and <code>shape2</code>. If we want to generate random scores for this test where most people get 6/10, we can use <code>rbeta()</code>:</p>
+<pre class="r"><code>set.seed(1234)
+
+plot_data &lt;- tibble(exam_score = rbeta(1000, shape1 = 6, shape2 = 4)) %&gt;% 
+  # rbeta() generates numbers between 0 and 1, so multiply everything by 10 to
+  # scale up the exam scores
+  mutate(exam_score = exam_score * 10)
+
+ggplot(plot_data, aes(x = exam_score)) +
+  geom_histogram(binwidth = 1, color = &quot;white&quot;) +
+  scale_x_continuous(breaks = 0:10)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-example1-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Most people score around 6, with a bunch at 5 and 7, and fewer in the tails. Importantly, it’s <em>not</em> centered at 6—the distribution is asymmetric.</p>
+<p>The magic of—and most confusing part about—Beta distributions is that you can get all sorts of curves by just changing the shape parameters. To make this easier to see, we can make a bunch of different Beta distributions. Instead of plotting them with histograms, we’ll use density plots (and instead of generating random numbers, we’ll plot the actual full range of the distribution (that’s what <code>dbeta</code> and <code>geom_function()</code> do in all these examples)).</p>
+<p>Here’s what we saw before, with <span class="math inline">\(\alpha\)</span> (<code>shape1</code>) = 6 and <span class="math inline">\(\beta\)</span> (<code>shape2</code>) = 4:</p>
+<pre class="r"><code>ggplot() +
+  geom_function(fun = dbeta, args = list(shape1 = 6, shape2 = 4))</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-6-4-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Again, there’s a peak at 0.6 (or 6), which is what we expected.</p>
+<p>We can make the distribution narrower if we scale the shapes up. Here pretty much everyone scores around 50% and 75%.</p>
+<pre class="r"><code>ggplot() +
+  geom_function(fun = dbeta, args = list(shape1 = 60, shape2 = 40))</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-60-44-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>So far all these curves look like normal distributions, just slightly skewed. But when if most people score 90–100%? Or most fail? A Beta distribution can handle that too:</p>
+<pre class="r"><code>ggplot() +
+  geom_function(fun = dbeta, args = list(shape1 = 9, shape2 = 1), color = &quot;blue&quot;) +
+  geom_function(fun = dbeta, args = list(shape1 = 1, shape2 = 9), color = &quot;red&quot;)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-1-9-9-1-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>With <code>shape1 = 9</code> and <code>shape2 = 1</code> (or <span class="math inline">\(\frac{9}{9 + 1}\)</span>) we get most around 90%, while <code>shape1 = 1</code> and <code>shape2 = 9</code> (or <span class="math inline">\(\frac{1}{1 + 9}\)</span>) gets us most around 10%.</p>
+<p>Check out all these other shapes too:</p>
+<pre class="r"><code>ggplot() +
+  geom_function(fun = dbeta, args = list(shape1 = 5, shape2 = 5), color = &quot;blue&quot;) +
+  geom_function(fun = dbeta, args = list(shape1 = 2, shape2 = 5), color = &quot;red&quot;) +
+  geom_function(fun = dbeta, args = list(shape1 = 80, shape2 = 23), color = &quot;orange&quot;) +
+  geom_function(fun = dbeta, args = list(shape1 = 13, shape2 = 17), color = &quot;brown&quot;)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-lots-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>In real life, if I don’t want to figure out the math behind the <span class="math inline">\(\frac{\alpha}{\alpha + \beta}\)</span> shape values, I end up just choosing different numbers until it looks like the shape I want, and then I use <code>rbeta()</code> with those parameter values. Like, how about we generate some numbers based on the red line above, with <code>shape1 = 2</code> and <code>shape2 = 5</code>, which looks like it should be centered around 0.2ish (<span class="math inline">\(\frac{2}{2 + 5} = 0.2857\)</span>):</p>
+<pre class="r"><code>set.seed(1234)
+
+plot_data &lt;- tibble(thing = rbeta(1000, shape1 = 2, shape2 = 5)) %&gt;% 
+  mutate(thing = thing * 100)
+head(plot_data)</code></pre>
+<pre><code>## # A tibble: 6 x 1
+##   thing
+##   &lt;dbl&gt;
+## 1 10.1 
+## 2 34.5 
+## 3 55.3 
+## 4  2.19
+## 5 38.0 
+## 6 39.9</code></pre>
+<pre class="r"><code>ggplot(plot_data, aes(x = thing)) +
+  geom_histogram(binwidth = 2, color = &quot;white&quot;, boundary = 0)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-2-5-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>It worked! Most values are around 20ish, but some go up to 60–80.</p>
+</div>
+<div id="binomial-distribution" class="section level3">
+<h3>Binomial distribution</h3>
+<p>Often you’ll want to generate a column that only has two values: yes/no, treated/untreated, before/after, big/small, red/blue, etc. You’ll also likely want to control the proportions (25% treated, 62% blue, etc.). You can do this in two different ways: (1) <code>sample()</code> and (2) <code>rbinom()</code>.</p>
+<div id="sample-1" class="section level4">
+<h4><code>sample()</code></h4>
+<p>We already saw <code>sample()</code> when we talked about uniform distributions. To generate a binary variable with <code>sample()</code>, just feed it a list of two possible values:</p>
+<pre class="r"><code>set.seed(1234)
+
+# Choose 5 random T/F values
+possible_things &lt;- c(TRUE, FALSE)
+sample(possible_things, 5, replace = TRUE)</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE FALSE  TRUE</code></pre>
+<p>R will choose these values with equal/uniform probability by default, but you can change that in <code>sample()</code> with the <code>prob</code> argument. For instance, pretend you want to simulate an election. According to the latest polls, one candidate has an 80% chance of winning. You want to randomly choose a winner based on that chance. Here’s how to do that with <code>sample()</code>:</p>
+<pre class="r"><code>set.seed(1234)
+candidates &lt;- c(&quot;Person 1&quot;, &quot;Person 2&quot;)
+sample(candidates, size = 1, prob = c(0.8, 0.2))</code></pre>
+<pre><code>## [1] &quot;Person 1&quot;</code></pre>
+<p>Person 1 wins!</p>
+<p>It’s hard to see the weighted probabilities when you just choose one, so let’s pretend there are 1,000 elections:</p>
+<pre class="r"><code>set.seed(1234)
+fake_elections &lt;- tibble(winner = sample(candidates, 
+                                         size = 1000, 
+                                         prob = c(0.8, 0.2),
+                                         replace = TRUE))
+fake_elections %&gt;% 
+  count(winner)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   winner       n
+##   &lt;chr&gt;    &lt;int&gt;
+## 1 Person 1   792
+## 2 Person 2   208</code></pre>
+<pre class="r"><code>ggplot(fake_elections, aes(x = winner)) +
+  geom_bar()</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/fake-election-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Person 1 won 792 of the elections. Neat.</p>
+<p>(This is essentially what election forecasting websites like FiveThirtyEight do! They just do it with way more sophisticated simulations.)</p>
+</div>
+<div id="rbinom" class="section level4">
+<h4><code>rbinom()</code></h4>
+<p>Instead of using <code>sample()</code>, you can use a formal distribution called the <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial distribution</a>. This distribution is often used for things that might have “trials” or binary outcomes that are like success/failure or yes/no or true/false</p>
+<p>The binomial distribution takes two parameters:</p>
+<ol style="list-style-type: decimal">
+<li><code>size</code>: The number of “trials”, or times that an event happens</li>
+<li><code>prob</code>: The probability of success in each trial</li>
+</ol>
+<p>It’s easiest to see some examples of this. Let’s say you have a program that has a 60% success rate and it is tried on groups of 20 people 5 times. The parameters are thus <code>size = 20</code> (since there are twenty people per group) and <code>prob = 0.6</code> (since there is a 60% chance of success):</p>
+<pre class="r"><code>set.seed(1234)
+
+rbinom(5, size = 20, prob = 0.6)</code></pre>
+<pre><code>## [1] 15 11 11 11 10</code></pre>
+<p>The results here mean that in group 1, 15/20 (75%) people had success, in group 2, 11/20 (55%) people had success, and so on. Not every group will have exactly 60%, but they’re all kind of clustered around that.</p>
+<p>HOWEVER, I don’t like using <code>rbinom()</code> like this, since this is all group-based, and when you’re generating fake people you generally want to use individuals, or groups of 1. So instead, I assume that <code>size = 1</code>, which means that each “group” is only one person large. This forces the generated numbers to either be 0 or 1:</p>
+<pre class="r"><code>set.seed(1234)
+
+rbinom(5, size = 1, prob = 0.6)</code></pre>
+<pre><code>## [1] 1 0 0 0 0</code></pre>
+<p>Here, only 1 of the 5 people were 1/TRUE/yes, which is hardly close to a 60% chance overall, but that’s because we only generated 5 numbers. If we generate lots, we can see the probability of yes emerge:</p>
+<pre class="r"><code>set.seed(12345)
+
+plot_data &lt;- tibble(thing = rbinom(2000, 1, prob = 0.6)) %&gt;% 
+  # Make this a factor since it&#39;s basically a yes/no categorical variable
+  mutate(thing = factor(thing))
+
+plot_data %&gt;% 
+  count(thing) %&gt;% 
+  mutate(proportion = n / sum(n))</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   thing     n proportion
+##   &lt;fct&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1 0       840      0.42 
+## 2 1      1160      0.580</code></pre>
+<pre class="r"><code>ggplot(plot_data, aes(x = thing)) +
+  geom_bar()</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/plot-binomial-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>58% of the 2,000 fake people here were 1/TRUE/yes, which is close to the goal of 60%. Perfect.</p>
+</div>
+</div>
+<div id="poisson-distribution" class="section level3">
+<h3>Poisson distribution</h3>
+<p>One last common distribution that you might find helpful when simulating data is the <a href="https://en.wikipedia.org/wiki/Poisson_binomial_distribution">Poisson distribution</a> (in French, <a href="https://www.youtube.com/watch?v=UoJxBEQRLd0">“poisson” = fish</a>, but here it’s not actually named after the animal, but after <a href="https://en.wikipedia.org/wiki/Sim%C3%A9on_Denis_Poisson">French mathematician Siméon Denis Poisson</a>).</p>
+<p>A Poisson distribution is special because it generates whole numbers (i.e. nothing like 1.432) that follow a skewed pattern (i.e. more smaller values than larger values). There’s all sorts of fancy math behind it that you don’t need to worry about so much—all you need to know is that it’s good at modeling things called <a href="https://en.wikipedia.org/wiki/Poisson_point_process">Poisson processes</a>.</p>
+<p>For instance, let’s say you’re sitting at the front door of a coffee shop (in pre-COVID days) and you count how many people are in each arriving group. You’ll see something like this:</p>
+<ul>
+<li>1 person</li>
+<li>1 person</li>
+<li>2 people</li>
+<li>1 person</li>
+<li>3 people</li>
+<li>2 people</li>
+<li>1 person</li>
+</ul>
+<p>Lots of groups of one, some groups of two, fewer groups of three, and so on. <em>That’s</em> a Poisson process: a bunch of independent random events that combine into grouped events.</p>
+<p>That sounds weird and esoteric (and it is!), but it reflects lots of real world phenomena, and things you’ll potentially want to measure in a program. For instance, the number of kids a family has follows a type of Poisson process. Lots of families have 1, some have 2, fewer have 3, even fewer have 4, and so on. The number of cars in traffic, the number of phone calls received by an office, arrival times in a line, and even the outbreak of wars are all examples of Poisson processes.</p>
+<p>You can generate numbers from a Poisson distribution with the <code>rpois()</code> function in R. This distribution only takes a single parameter:</p>
+<ul>
+<li><code>lambda</code> (<span class="math inline">\(\lambda\)</span>)</li>
+</ul>
+<p>The <span class="math inline">\(\lambda\)</span> value controls the rate or speed that a Poisson process increases (i.e. jumps from 1 to 2, from 2 to 3, from 3 to 4, etc.). <em>I have absolutely zero mathematical intuition for how it works.</em> The two shape parameters for a Beta distribution at least fit in a fraction and you can wrap your head around that, but the lambda in a Poisson distribution is just a mystery to me. So whenever I use a Poisson distribution for something, I just play with the lambda until the data looks reasonable.</p>
+<p>Let’s assume that the number of kids a family has follows a Poisson process. Here’s how we can use <code>rpois()</code> to generate that data:</p>
+<pre class="r"><code>set.seed(123)
+
+# 10 different families
+rpois(10, lambda = 1)</code></pre>
+<pre><code>##  [1] 0 2 1 2 3 0 1 2 1 1</code></pre>
+<p>Cool. Most families have 0–1 kids; some have 2; one has 3.</p>
+<p>It’s easier to see these patterns with a plot:</p>
+<pre class="r"><code>set.seed(1234)
+
+plot_data &lt;- tibble(num_kids = rpois(500, lambda = 1))
+head(plot_data)</code></pre>
+<pre><code>## # A tibble: 6 x 1
+##   num_kids
+##      &lt;int&gt;
+## 1        0
+## 2        1
+## 3        1
+## 4        1
+## 5        2
+## 6        1</code></pre>
+<pre class="r"><code>plot_data %&gt;% 
+  group_by(num_kids) %&gt;% 
+  summarize(count = n()) %&gt;% 
+  mutate(proportion = count / sum(count))</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   num_kids count proportion
+##      &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1        0   180      0.36 
+## 2        1   187      0.374
+## 3        2    87      0.174
+## 4        3    32      0.064
+## 5        4    11      0.022
+## 6        5     3      0.006</code></pre>
+<pre class="r"><code>ggplot(plot_data, aes(x = num_kids)) +
+  geom_bar()</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/plot-poisson-lambda1-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Here 75ish% of families have 0–1 kids (36% + 37.4%), 17% have 2 kids, 6% have 3, 2% have 4, and only 0.6% have 5.</p>
+<p>We can play with the <span class="math inline">\(\lambda\)</span> to increase the rate of kids per family:</p>
+<pre class="r"><code>set.seed(1234)
+
+plot_data &lt;- tibble(num_kids = rpois(500, lambda = 2))
+head(plot_data)</code></pre>
+<pre><code>## # A tibble: 6 x 1
+##   num_kids
+##      &lt;int&gt;
+## 1        0
+## 2        2
+## 3        2
+## 4        2
+## 5        4
+## 6        2</code></pre>
+<pre class="r"><code>plot_data %&gt;% 
+  group_by(num_kids) %&gt;% 
+  summarize(count = n()) %&gt;% 
+  mutate(proportion = count / sum(count))</code></pre>
+<pre><code>## # A tibble: 8 x 3
+##   num_kids count proportion
+##      &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1        0    62      0.124
+## 2        1   135      0.27 
+## 3        2   145      0.290
+## 4        3    88      0.176
+## 5        4    38      0.076
+## 6        5    19      0.038
+## 7        6    10      0.02 
+## 8        7     3      0.006</code></pre>
+<pre class="r"><code>ggplot(plot_data, aes(x = num_kids)) +
+  geom_bar()</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/plot-poisson-lambda3-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Now most families have 1–2 kids. Cool.</p>
+</div>
+</div>
+<div id="rescaling-numbers" class="section level2">
+<h2>Rescaling numbers</h2>
+<p>All these different distributions are good at generating general shapes:</p>
+<ul>
+<li>Uniform: a bunch of random numbers with no central gravity</li>
+<li>Normal: an average ± some variation</li>
+<li>Beta: different shapes and skews and gravities between 0 and 1</li>
+<li>Binomial: yes/no outcomes that follow some probability</li>
+</ul>
+<p>The shapes are great, but you also care about the values of these numbers. This can be tricky. As we saw earlier with a normal distribution, sometimes you’ll get values that go below zero or above some value you care about. We fixed that with a truncated normal distribution, but not all distributions have truncated versions. Additionally, if you’re using a Beta distribution, you’re stuck in a 0–1 scale (or 0–10 or 0–100 if you multiply the value by 10 or 100 or whatever).</p>
+<p>What if you want a fun skewed Beta shape for a variable like income or some other value that doesn’t fit within a 0–1 range? You can rescale any set of numbers after-the-fact using the <code>rescale()</code> function from the <strong>scales</strong> library and rescale things to whatever range you want.</p>
+<p>For instance, let’s say that income isn’t normally distributed, but is right-skewed with a handful of rich people. This might look like a Beta distribution with <code>shape1 = 2</code> and <code>shape2 = 5</code>:</p>
+<pre class="r"><code>ggplot() +
+  geom_function(fun = dbeta, args = list(shape1 = 2, shape2 = 5))</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-2-5-income-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>If we generate random numbers from this distribution, they’ll all be stuck between 0 and 1:</p>
+<pre class="r"><code>set.seed(1234)
+
+fake_people &lt;- tibble(income = rbeta(1000, shape1 = 2, shape2 = 5))
+
+ggplot(fake_people, aes(x = income)) +
+  geom_histogram(binwidth = 0.1, color = &quot;white&quot;, boundary = 0)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-income-not-scaled-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>We can take those underling 0–1 values and rescale them to some other range using the <code>rescale()</code> function. We can specify the minimum and maximum values in the <code>to</code> argument. Here we’ll scale it up so that 0 = <span>$10,000</span> and 1 = <span>$100,000</span>. Our rescaled version follows the same skewed Beta distribution shape, but now we’re using better values!</p>
+<pre class="r"><code>library(scales)
+
+fake_people_scaled &lt;- fake_people %&gt;% 
+  mutate(income_scaled = rescale(income, to = c(10000, 100000)))
+head(fake_people_scaled)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   income income_scaled
+##    &lt;dbl&gt;         &lt;dbl&gt;
+## 1 0.101         21154.
+## 2 0.345         49014.
+## 3 0.553         72757.
+## 4 0.0219        12176.
+## 5 0.380         53036.
+## 6 0.399         55162.</code></pre>
+<pre class="r"><code>ggplot(fake_people_scaled, aes(x = income_scaled)) +
+  geom_histogram(binwidth = 5000, color = &quot;white&quot;, boundary = 0)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/beta-income-scaled-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>This works for anything, really. For instance, instead of specifying a mean and standard deviation for a normal distribution and hoping that the generated values don’t go too high or too low, you can generate a normal distribution with a mean of 0 and standard deviation of 1 and then rescale it to the range you want:</p>
+<pre class="r"><code>set.seed(1234)
+
+fake_data &lt;- tibble(age_not_scaled = rnorm(1000, mean = 0, sd = 1)) %&gt;% 
+  mutate(age = rescale(age_not_scaled, to = c(18, 65)))
+head(fake_data)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   age_not_scaled   age
+##            &lt;dbl&gt; &lt;dbl&gt;
+## 1         -1.21   33.6
+## 2          0.277  44.2
+## 3          1.08   49.9
+## 4         -2.35   25.5
+## 5          0.429  45.3
+## 6          0.506  45.8</code></pre>
+<pre class="r"><code>plot_unscaled &lt;- ggplot(fake_data, aes(x = age_not_scaled)) +
+  geom_histogram(binwidth = 0.5, color = &quot;white&quot;, boundary = 0)
+
+plot_scaled &lt;- ggplot(fake_data, aes(x = age)) +
+  geom_histogram(binwidth = 5, color = &quot;white&quot;, boundary = 0)
+
+plot_unscaled + plot_scaled</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/normal-scaled-up-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>This gives you less control over the center of the distribution (here it happens to be 40 because that’s in the middle of 18 and 65), but it gives you more control over the edges of the distribution.</p>
+<p>Rescaling things is really helpful when building in effects and interacting columns with other columns, since multiplying variables by different coefficients can make the values go way out of the normal range. You’ll see a lot more of that in the <a href="/example/synthetic-data/">synthetic data example</a>.</p>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<p>Phew. We covered a lot here, and we barely scratched the surface of all the distributions that exist. Here’s a helpful summary of the main distribtuions you should care about:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Distribution
+</th>
+<th style="text-align:left;">
+Description
+</th>
+<th style="text-align:left;">
+Situations
+</th>
+<th style="text-align:left;">
+Parameters
+</th>
+<th style="text-align:left;">
+Code
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Uniform
+</td>
+<td style="text-align:left;">
+Numbers between a minimum and maximum; everything equally likely
+</td>
+<td style="text-align:left;">
+ID numbers, age
+</td>
+<td style="text-align:left;">
+<code>min</code>, <code>max</code>
+</td>
+<td style="text-align:left;">
+<code>sample()</code> or <code>runif()</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Normal
+</td>
+<td style="text-align:left;">
+Numbers bunched up around an average with a surrounding spread; numbers closer to average more likely
+</td>
+<td style="text-align:left;">
+Income, education, most types of numbers that have some sort of central tendency
+</td>
+<td style="text-align:left;">
+<code>mean</code>, <code>sd</code>
+</td>
+<td style="text-align:left;">
+<code>rnorm()</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Truncated normal
+</td>
+<td style="text-align:left;">
+Normal distribution + constraints on minimum and/or maximum values
+</td>
+<td style="text-align:left;">
+Anything with a normal distribution
+</td>
+<td style="text-align:left;">
+<code>mean</code>, <code>sd</code>, <code>a</code> (minimum), <code>b</code> (maximum)
+</td>
+<td style="text-align:left;">
+<code>truncnorm::rtruncnorm()</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Beta
+</td>
+<td style="text-align:left;">
+Numbers constrained between 0 and 1
+</td>
+<td style="text-align:left;">
+Anything with percents; anything on a 0–1(00) scale; anything, really, if you use <code>rescale()</code> to rescale it
+</td>
+<td style="text-align:left;">
+<code>shape1</code> (<span class="math inline">\(\alpha\)</span>), <code>shape2</code> (<span class="math inline">\(\beta\)</span>) (<span class="math inline">\(\frac{\alpha}{\alpha + \beta}\)</span>)
+</td>
+<td style="text-align:left;">
+<code>rbeta()</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Binomial
+</td>
+<td style="text-align:left;">
+Binary variables
+</td>
+<td style="text-align:left;">
+Treatment/control, yes/no, true/false, 0/1
+</td>
+<td style="text-align:left;">
+<code>size</code>, <code>prob</code>
+</td>
+<td style="text-align:left;">
+<code>sample(..., prob = 0.5)</code> or <code>rbinom()</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Poisson
+</td>
+<td style="text-align:left;">
+Whole numbers that represent counts of things
+</td>
+<td style="text-align:left;">
+Number of kids, number of cities lived in, arrival times
+</td>
+<td style="text-align:left;">
+<code>lambda</code>
+</td>
+<td style="text-align:left;">
+<code>rpois()</code>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="example" class="section level2">
+<h2>Example</h2>
+<p>And here’s an example dataset of 1,000 fake people and different characteristics. One shortcoming of this fake data is that each of these columns is completely independent—there’s no relationship between age and education and family size and income. You can see how to make these columns correlated (and make one cause another!) in the <a href="/example/synthetic-data">example for synthetic data</a>.</p>
+<pre class="r"><code>set.seed(1234)
+
+# Set the number of people here once so it&#39;s easier to change later
+n_people &lt;- 1000
+
+example_fake_people &lt;- tibble(
+  id = 1:n_people,
+  opinion = sample(1:5, n_people, replace = TRUE),
+  age = runif(n_people, min = 18, max = 80),
+  income = rnorm(n_people, mean = 50000, sd = 10000),
+  education = rtruncnorm(n_people, mean = 16, sd = 6, a = 8, b = 24),
+  happiness = rbeta(n_people, shape1 = 2, shape2 = 1),
+  treatment = sample(c(TRUE, FALSE), n_people, replace = TRUE, prob = c(0.3, 0.7)),
+  size = rbinom(n_people, size = 1, prob = 0.5),
+  family_size = rpois(n_people, lambda = 1) + 1  # Add one so there are no 0s
+) %&gt;% 
+  # Adjust some of these columns
+  mutate(opinion = recode(opinion, &quot;1&quot; = &quot;Strongly disagree&quot;,
+                          &quot;2&quot; = &quot;Disagree&quot;, &quot;3&quot; = &quot;Neutral&quot;,
+                          &quot;4&quot; = &quot;Agree&quot;, &quot;5&quot; = &quot;Strongly agree&quot;)) %&gt;% 
+  mutate(size = recode(size, &quot;0&quot; = &quot;Small&quot;, &quot;1&quot; = &quot;Large&quot;)) %&gt;% 
+  mutate(happiness = rescale(happiness, to = c(1, 8)))
+
+head(example_fake_people)</code></pre>
+<pre><code>## # A tibble: 6 x 9
+##      id opinion             age income education happiness treatment size  family_size
+##   &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;lgl&gt;     &lt;chr&gt;       &lt;dbl&gt;
+## 1     1 Agree              31.7 43900.      18.3      7.20 TRUE      Large           1
+## 2     2 Disagree           52.9 34696.      17.1      4.73 TRUE      Large           2
+## 3     3 Strongly agree     45.3 43263.      17.1      7.32 FALSE     Large           4
+## 4     4 Agree              34.9 40558.      11.7      4.18 FALSE     Small           2
+## 5     5 Strongly disagree  50.3 41392.      13.3      2.61 TRUE      Small           2
+## 6     6 Strongly agree     63.6 69917.      11.2      4.36 FALSE     Small           2</code></pre>
+<pre class="r"><code>plot_opinion &lt;- ggplot(example_fake_people, aes(x = opinion)) +
+  geom_bar() +
+  guides(fill = FALSE) +
+  labs(title = &quot;Opinion (uniform with sample())&quot;)
+
+plot_age &lt;- ggplot(example_fake_people, aes(x = age)) +
+  geom_histogram(binwidth = 5, color = &quot;white&quot;, boundary = 0) +
+  labs(title = &quot;Age (uniform with runif())&quot;)
+
+plot_income &lt;- ggplot(example_fake_people, aes(x = income)) +
+  geom_histogram(binwidth = 5000, color = &quot;white&quot;, boundary = 0) +
+  labs(title = &quot;Income (normal)&quot;)
+
+plot_education &lt;- ggplot(example_fake_people, aes(x = education)) +
+  geom_histogram(binwidth = 2, color = &quot;white&quot;, boundary = 0) +
+  labs(title = &quot;Education (truncated normal)&quot;)
+
+plot_happiness &lt;- ggplot(example_fake_people, aes(x = happiness)) +
+  geom_histogram(binwidth = 1, color = &quot;white&quot;) +
+  scale_x_continuous(breaks = 1:8) +
+  labs(title = &quot;Happiness (Beta, rescaled to 1-8)&quot;)
+
+plot_treatment &lt;- ggplot(example_fake_people, aes(x = treatment)) +
+  geom_bar() +
+  labs(title = &quot;Treatment (binary with sample())&quot;)
+
+plot_size &lt;- ggplot(example_fake_people, aes(x = size)) +
+  geom_bar() +
+  labs(title = &quot;Size (binary with rbinom())&quot;)
+
+plot_family &lt;- ggplot(example_fake_people, aes(x = family_size)) +
+  geom_bar() +
+  scale_x_continuous(breaks = 1:7) +
+  labs(title = &quot;Family size (Poisson)&quot;)
+
+(plot_opinion + plot_age) / (plot_income + plot_education)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/example-plots-1-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>(plot_happiness + plot_treatment) / (plot_size + plot_family)</code></pre>
+<p><img src="/example/random-numbers_files/figure-html/example-plots-2-1.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
