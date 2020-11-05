@@ -4,9 +4,6 @@ linktitle: "Problem set 5"
 date: "2020-10-26"
 due_date: "2020-10-26"
 due_time: "11:59 PM"
-output:
-  blogdown::html_page:
-    toc: true
 menu:
   assignment:
     parent: Problem sets
