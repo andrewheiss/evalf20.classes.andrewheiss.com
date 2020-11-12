@@ -231,7 +231,7 @@ lessons:
   - title: 'Applied evaluation'
     header: True
 
-  - title: '<span class="content-title">Planning evaluations + synthetic data + statsy loose ends</span>'
+  - title: '<span class="content-title">Choosing and planning ethical evaluations</span>'
     session: "Session 13"
     date: "November 16–20"
     content: "13-content"
@@ -249,7 +249,7 @@ lessons:
     bg: 2
     bottomborder: True
 
-  - title: '<span class="content-title">Ethics and open science</span>'
+  - title: '<span class="content-title">Ethics, stories, and curiosity</span>'
     session: "Session 14"
     date: "November 30–December 4"
     content: "14-content"
