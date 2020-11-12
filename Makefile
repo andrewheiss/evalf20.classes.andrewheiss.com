@@ -8,7 +8,11 @@ all: zip_projects build pdf_slides
 
 # Slides to PDF -----------------------------------------------------------
 TO_PDF = $(wildcard static/slides/*.html)
-PDF_TARGETS = $(addsuffix .pdf,$(basename $(TO_PDF)))
+PDF_TARGETS_FULL = $(addsuffix .pdf,$(basename $(TO_PDF)))
+PDF_TARGETS = $(filter-out static/slides/14-slides.pdf, $(PDF_TARGETS_FULL))
+
+boop:
+	echo $(PDF_TARGETS)
 
 static/slides/%.pdf: static/slides/%.html
 	Rscript R/pdfize.R $@

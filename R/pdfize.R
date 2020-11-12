@@ -14,7 +14,9 @@ name_sans_ext <- tools::file_path_sans_ext(name_with_ext)
 
 pdfize <- function(slide_name) {
   pagedown::chrome_print(here::here(paste0(slide_name, ".html")),
-                         output = here::here(paste0(slide_name, ".pdf")))
+                         output = here::here(paste0(slide_name, ".pdf")),
+                         options = list(printBackground = TRUE),
+                         wait = 10, timeout = 600)
 }
 
 pdfize(name_sans_ext)
