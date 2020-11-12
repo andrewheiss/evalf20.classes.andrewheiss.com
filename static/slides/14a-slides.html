@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Ethics, stories, and curiosity</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Heiss" />
+    <meta name="date" content="2020-11-11" />
+    <script src="libs/header-attrs-2.4.5/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.1/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.1/tile-view.js"></script>
+    <link rel="stylesheet" href="css/ath-slides.css" type="text/css" />
+    <link rel="stylesheet" href="css/ath-inferno-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+class: center middle main-title section-title-7
+
+# Ethics, stories,&lt;br&gt;and curiosity
+
+.class-info[
+
+**Session 14**
+
+.light[PMAP 8521: Program evaluation&lt;br&gt;
+Andrew Young School of Policy Studies
+]
+
+]
+
+---
+
+name: outline
+class: title title-inv-8
+
+# Plan for today
+
+--
+
+.box-4.medium.sp-after-half[What did we just learn?]
+
+--
+
+.box-6.medium.sp-after-half[Ethics of data analytics]
+
+--
+
+.box-2.medium.sp-after-half[Ethics of storytelling]
+
+--
+
+.box-5.medium.sp-after-half[Curiosity]
+
+---
+
+layout: false
+name: overview
+class: center middle section-title section-title-4 animated fadeIn
+
+# What did we just learn?
+
+---
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/course-objectives.png" alt="Course objectives" title="Course objectives" width="68%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/01/eval-flowchart.png" alt="Class flowchart" title="Class flowchart" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: title title-4
+
+# Main takeaways
+
+--
+
+.box-inv-4.medium.sp-after[Don't be afraid of causal language!]
+
+--
+
+.box-4.medium[With careful use of DAGs&lt;br&gt;and special research designs,&lt;br&gt;you can make causal claims]
+
+---
+
+class: bg-full
+background-image: url("img/14/the-c-word.png")
+
+---
+
+layout: false
+name: ethics-analysis
+class: center middle section-title section-title-6 animated fadeIn
+
+# Ethics of data analytics
+
+---
+
+layout: true
+class: title title-6
+
+---
+
+# Powerful tools
+
+--
+
+.box-inv-6.medium.sp-after-half[R is an incredibly valuable skill]
+
+--
+
+.box-inv-6.medium.sp-after-half[Causal inference is an incredibly valuable skill]
+
+--
+
+.box-6.medium.sp-after-half[These tools can be used to improve the world!]
+
+--
+
+.box-6.medium[And potentially harm it]
+
+---
+
+# Possible pitfalls
+
+--
+
+.box-inv-6.medium[Manipulation]
+
+.box-6.small[Don't coerce people]
+
+--
+
+.box-inv-6.medium[Bias]
+
+.box-6.small[There's no such thing as objective data or models]
+
+--
+
+.box-inv-6.medium[Accidental evil]
+
+.box-6.small[Don't let stupidity transform into evil]
+
+---
+
+layout: false
+class: center middle section-title-inv section-title-inv-6
+
+# Manipulation
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/good-place.jpg" alt="The Good Place" title="The Good Place" width="95%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/good-place-points.jpeg" alt="The Good Place point system" title="The Good Place point system" width="95%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/wired-cover.jpg" alt="Wired social score cover" title="Wired social score cover" width="40%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.wired.com/story/age-of-social-credit/&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/china-bus.jpg" alt="China bus" title="China bus" width="85%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://boingboing.net/2018/11/26/just-dont-have-a-face.html&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/instagram-ranking.png" alt="Instagram ranking" title="Instagram ranking" width="50%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://techcrunch.com/2018/06/01/how-instagram-feed-works/&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/blue-feed-red-feed.png" alt="Blue Feed, Red Feed" title="Blue Feed, Red Feed" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;http://graphics.wsj.com/blue-feed-red-feed/&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/blue-feed-red-feed-example.png" alt="Blue Feed, Red Feed Example" title="Blue Feed, Red Feed Example" width="40%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;http://graphics.wsj.com/blue-feed-red-feed/#/president-trump&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/fb-like-everything.png" alt="Facebook like everything" title="Facebook like everything" width="80%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.wired.com/2014/08/i-liked-everything-i-saw-on-facebook-for-two-days-heres-what-it-did-to-me/&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/fb-spying.png" alt="Reply All Facebook Spying" title="Reply All Facebook Spying" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.gimletmedia.com/reply-all/109-facebook-spying&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/target-pregnant.png" alt="Target pregnant teen" title="Target pregnant teen" width="78%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.forbes.com/sites/kashmirhill/2012/02/16/how-target-figured-out-a-teen-girl-was-pregnant-before-her-father-did/#74dc8acf6668&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/airline-seating.png" alt="Airline seating" title="Airline seating" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.independent.co.uk/travel/news-and-advice/airline-flights-pay-extra-to-sit-together-split-up-family-algorithm-minister-a8640771.html&gt;
+
+---
+
+class: title title-6
+
+# It's not all dystopian!
+
+.pull-left.center[
+&lt;figure&gt;
+  &lt;img src="img/14/precision-health.png" alt="Precision medicine Obama" title="Precision medicine Obama" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+.pull-right.center[
+&lt;figure&gt;
+  &lt;img src="img/14/crisis-text-line.png" alt="Crisis text line" title="Crisis text line" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://obamawhitehouse.archives.gov/the-press-office/2015/01/30/fact-sheet-president-obama-s-precision-medicine-initiative&gt;
+
+&lt;https://www.crisistextline.org/community/what-ive-been-been-up-to/&gt;
+
+---
+
+class: middle
+
+.box-6.medium[What makes the social score&lt;br&gt;and the crisis score&lt;br&gt;ethically different?]
+
+.box-inv-6.medium[Or are they the same thing?]
+
+---
+
+class: title title-6
+
+# Avoid manipulation
+
+--
+
+.box-inv-6.medium.sp-after-half[Think about people]
+
+--
+
+.box-inv-6.medium.sp-after-half[Think about autonomy]
+
+--
+
+.box-inv-6.medium.sp-after-half[Don't rely 100% on data!]
+
+---
+
+layout: false
+class: center middle section-title-inv section-title-inv-6
+
+# Bias
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/predictim-headline.png" alt="Predictim article" title="Predictim article" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://gizmodo.com/predictim-claims-its-ai-can-flag-risky-babysitters-so-1830913997&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/predictim-excerpt.png" alt="Predictim article excerpt" title="Predictim article excerpt" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/predictim-score.png" alt="Predictim score" title="Predictim score" width="90%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: bg-full
+background-image: url("img/14/bias-books.png")
+
+---
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/amazon-hiring.png" alt="Amazon hiring" title="Amazon hiring" width="70%"&gt;
+&lt;/figure&gt;
+]
+
+--
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/compas-bad.png" alt="COMPAS bias" title="COMPAS bias" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://qz.com/1427621/companies-are-on-the-hook-if-their-hiring-algorithms-are-biased/&gt;
+
+&lt;https://www.popsci.com/recidivism-algorithm-random-bias&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/fb-pro-publica.png" alt="Facebook in ProPublica" title="Facebook in ProPublica" width="80%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.propublica.org/article/facebook-lets-advertisers-exclude-users-by-race&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/fb-hud.png" alt="Facebook HUD case" title="Facebook HUD case" width="100%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.hud.gov/sites/dfiles/Main/documents/HUD_v_Facebook.pdf&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/apple-card.png" alt="Apple card" title="Apple card" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+class: title title-6
+
+# Avoid bias
+
+--
+
+.box-inv-6.medium.sp-after-half[Make sure your sample is representative]
+
+--
+
+.box-inv-6.medium.sp-after-half[Think about theory]
+
+--
+
+.box-6.medium.sp-after-half[Remember that **NO** data,&lt;br&gt;models, or algorithms are neutral]
+
+---
+
+class: title title-6
+
+# Fight the algorithms
+
+.center.tiny.light[*Very feebly, but still…*]
+
+--
+
+.box-inv-6.medium.sp-before.sp-after-half[Incognito / private windows]
+
+--
+
+.box-inv-6.medium[adsettings.google.com]
+
+---
+
+layout: false
+class: center middle section-title-inv section-title-inv-6
+
+# Accidental(?) evil
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/algorithmic-cruelty.png" alt="Eric Meyer algorithmic cruelty" title="Eric Meyer algorithmic cruelty" width="70%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://meyerweb.com/eric/thoughts/2014/12/24/inadvertent-algorithmic-cruelty/&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/uber-crash.png" alt="Uber self-driving car crash" title="Uber self-driving car crash" width="75%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.npr.org/2019/11/07/777438412/feds-say-self-driving-uber-suv-did-not-recognize-jaywalking-pedestrian-in-fatal-&gt;
+
+---
+
+class: middle
+
+.center[
+&lt;figure&gt;
+  &lt;img src="img/14/fake-news.png" alt="NYT fake news on Facebook" title="NYT fake news on Facebook" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://www.nytimes.com/2019/01/10/us/politics/facebook-fake-news-2016-election.html&gt;
+
+---
+
+class: bg-full
+background-image: url("img/14/youtube-radicalization.png")
+
+???
+
+&lt;https://www.nytimes.com/interactive/2019/06/08/technology/youtube-radical.html&gt;
+
+---
+
+class: bg-full
+background-image: url("img/14/youtube-algorithm.jpg")
+
+???
+
+&lt;https://www.youtube.com/watch?v=BSpAWkQLlgM&gt;
+
+---
+
+class: bg-full
+background-image: url("img/14/bad-ai-tweets.png")
+
+???
+
+&lt;https://twitter.com/CBSNews/status/1203801451941765120&gt;
+
+&lt;https://twitter.com/colourmeamused_/status/1309141783427919876&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 ---
-title: "Ethics and open science"
-linktitle: "14: Ethics and open science"
+title: "Ethics, stories, and curiosity"
+linktitle: "14: Ethics, stories, and curiosity"
 date: "2020-11-30"
 start_date: "2020-11-30"
 end_date: "2020-12-04"
@@ -11,7 +11,7 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-syllabus-no-bib.csl"
-# slides: "14-slides"
+slides: "14-slides"
 output:
   blogdown::html_page:
     toc: true
@@ -21,7 +21,12 @@ output:
 
 <div id="TOC">
 <ul>
-<li><a href="#readings">Readings</a></li>
+<li><a href="#readings">Readings</a>
+<ul>
+<li><a href="#causal-inference-and-data-science">Causal inference and data science</a></li>
+<li><a href="#storytelling">Storytelling</a></li>
+<li><a href="#ethics">Ethics</a></li>
+</ul></li>
 <li><a href="#slides">Slides</a></li>
 <li><a href="#videos">Videos</a></li>
 </ul>
@@ -29,20 +34,33 @@ output:
 
 <div id="readings" class="section level2">
 <h2>Readings</h2>
-<p>This looks like a lot, but most of these are quite short.</p>
-<p>Keep in mind throughout all these readings that an “algorithm” in these contexts is typically some fancy type of regression model where the outcome variable is something binary like “Safe babysitter/unsafe babysitter,” “Gave up seat in past/didn’t give up seat in past”, or “Violated probation in past/didn’t violate probation in past”, and the explanatory variables are hundreds of pieces of data that might predict those outcomes (social media history, flight history, race, etc.).</p>
-<p>Data scientists build a (sometimes proprietary and complex) model based on existing data, plug in values for any given new person, multiply that person’s values by the coefficients in the model, and get a final score in the end for how likely someone is to be a safe babysitter or how likely someone is to return to jail.</p>
+<p>This looks like a lot, but most of these are quite short!</p>
+<div id="causal-inference-and-data-science" class="section level3">
+<h3>Causal inference and data science</h3>
 <ul>
 <li><i class="far fa-file-pdf"></i> Miguel A. Hernán, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5888052/">“The C-Word: Scientific Euphemisms Do Not Improve Causal Inference From Observational Data”</a> <span class="citation">Miguel A. Hernán, “The c-Word: Scientific Euphemisms Do Not Improve Causal Inference from Observational Data,” <em>American Journal of Publich Health</em> 108, no. 5 (May 2018): 616–19, doi:<a href="https://doi.org/10.2105/AJPH.2018.304337" role="doc-biblioref">10.2105/AJPH.2018.304337</a>.</span></li>
 <li><i class="fas fa-external-link-square-alt"></i> Hannah Fresques and Meg Marco, <a href="https://www.propublica.org/nerds/hadley-wickham-your-default-position-should-be-skepticism-and-other-advice-for-data-journalists">“‘Your Default Position Should Be Skepticism’ and Other Advice for Data Journalists From Hadley Wickham,”</a> <em>ProPublica</em>, June 10, 2019</li>
-<li><i class="fas fa-external-link-square-alt"></i> DJ Patil, <a href="https://medium.com/@dpatil/a-code-of-ethics-for-data-science-cda27d1fac1">“A Code of Ethics for Data Science”</a>
+</ul>
+</div>
+<div id="storytelling" class="section level3">
+<h3>Storytelling</h3>
 <ul>
-<li><i class="fas fa-book"></i> Mike Loukides, Hilary Mason, and DJ Patil, <a href="https://www.amazon.com/dp/B07GTC8ZN7"><em>Ethics and Data Science</em></a><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></li>
-</ul></li>
+<li><i class="fas fa-book"></i> Chapter 14 in <em>Impact Evaluation in Practice</em> <span class="citation">Paul J. Gertler et al., <em>Impact Evaluation in Practice</em>, 2nd ed. (Inter-American Development Bank; World Bank, 2016), <a href="https://openknowledge.worldbank.org/handle/10986/25030" role="doc-biblioref">https://openknowledge.worldbank.org/handle/10986/25030</a>.</span></li>
+<li><i class="fas fa-file-pdf"></i> Martin Krzywinski and Alberto Cairo, <a href="https://www.nature.com/articles/nmeth.2571.pdf">“Storytelling”</a></li>
+<li><i class="fab fa-youtube"></i> Ben Wellington, <a href="https://www.youtube.com/watch?v=6xsvGYIxJok">“Making data mean more through storytelling”</a></li>
+<li><i class="fab fa-youtube"></i> Will Schoder, <a href="https://www.youtube.com/watch?v=LuD2Aa0zFiA">“Every Story is the Same”</a></li>
+</ul>
+</div>
+<div id="ethics" class="section level3">
+<h3>Ethics</h3>
+<p>Keep in mind throughout all these readings that an “algorithm” in these contexts is typically some fancy type of regression model where the outcome variable is something binary like “Safe babysitter/unsafe babysitter,” “Gave up seat in past/didn’t give up seat in past”, or “Violated probation in past/didn’t violate probation in past”, and the explanatory variables are hundreds of pieces of data that might predict those outcomes (social media history, flight history, race, etc.).</p>
+<p>Data scientists build a (sometimes proprietary and complex) model based on existing data, plug in values for any given new person, multiply that person’s values by the coefficients in the model, and get a final score in the end for how likely someone is to be a safe babysitter or how likely someone is to return to jail.</p>
+<ul>
+<li><i class="fas fa-external-link-square-alt"></i> DJ Patil, <a href="https://medium.com/@dpatil/a-code-of-ethics-for-data-science-cda27d1fac1">“A Code of Ethics for Data Science”</a> (if your’re interested in this, also check out Mike Loukides, Hilary Mason, and DJ Patil, <a href="https://www.amazon.com/dp/B07GTC8ZN7"><em>Ethics and Data Science</em></a></li>
 <li><i class="fas fa-external-link-square-alt"></i> <a href="https://medium.com/@AINowInstitute/ai-in-2018-a-year-in-review-8b161ead2b4e">“AI in 2018: A Year in Review”</a></li>
 <li><i class="fas fa-external-link-square-alt"></i> <a href="https://www.nytimes.com/2018/05/04/books/review/automating-inequality-virginia-eubanks.html">“How Big Data Is ‘Automating Inequality’”</a></li>
 <li><i class="fas fa-external-link-square-alt"></i> <a href="https://annenberg.usc.edu/news/diversity-and-inclusion/algorithms-oppression-safiya-noble-finds-old-stereotypes-persist-new">“In ‘Algorithms of Oppression,’ Safiya Noble finds old stereotypes persist in new media”</a></li>
-<li><i class="fas fa-podcast"></i> <a href="https://99percentinvisible.org/episode/the-age-of-the-algorithm/">99% Invisible, “The Age of the Algorithm”</a>: Note that this is a podcast, or a 20ish minute audio story. <strong>Listen to this.</strong> The rest of the things on this page are helpful and supplementary (very few podcasts provide this much extra information), but you don’t need to go through it all.</li>
+<li><i class="fas fa-podcast"></i> <a href="https://99percentinvisible.org/episode/the-age-of-the-algorithm/">99% Invisible, “The Age of the Algorithm”</a>: Note that this is a podcast, or a 20ish minute audio story. <strong>Listen to this.</strong></li>
 <li><i class="fas fa-podcast"></i> <a href="https://www.wnycstudios.org/podcasts/otm/segments/biased-algorithms-biased-world">On the Media, “Biased Algorithms, Biased World”</a></li>
 <li><i class="fas fa-external-link-square-alt"></i> <a href="https://www.washingtonpost.com/technology/2018/11/16/wanted-perfect-babysitter-must-pass-ai-scan-respect-attitude/?utm_term=.080010494ed5">“Wanted: The ‘perfect babysitter.’ Must pass AI scan for respect and attitude.”</a></li>
 <li><i class="fas fa-external-link-square-alt"></i> <a href="https://qz.com/1427621/companies-are-on-the-hook-if-their-hiring-algorithms-are-biased/">“Companies are on the hook if their hiring algorithms are biased”</a></li>
@@ -53,17 +71,127 @@ output:
 </ul></li>
 </ul>
 </div>
+</div>
 <div id="slides" class="section level2">
 <h2>Slides</h2>
-<p>Slides go here.</p>
+<p>The slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.</p>
+{{% slide-buttons %}}
+<ul class="nav nav-tabs" id="slide-tabs" role="tablist">
+<li class="nav-item">
+<a class="nav-link active" id="introduction-tab" data-toggle="tab" href="#introduction" role="tab" aria-controls="introduction" aria-selected="true">Introduction</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="what-did-we-just-learn-tab" data-toggle="tab" href="#what-did-we-just-learn" role="tab" aria-controls="what-did-we-just-learn" aria-selected="false">What did we just learn?</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="ethics-of-data-analyitcs-a-tab" data-toggle="tab" href="#ethics-of-data-analyitcs-a" role="tab" aria-controls="ethics-of-data-analyitcs-a" aria-selected="false">Ethics of data analyitcs (a)</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="ethics-of-data-analytics-b-tab" data-toggle="tab" href="#ethics-of-data-analytics-b" role="tab" aria-controls="ethics-of-data-analytics-b" aria-selected="false">Ethics of data analytics (b)</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="ethics-of-data-analytics-c-tab" data-toggle="tab" href="#ethics-of-data-analytics-c" role="tab" aria-controls="ethics-of-data-analytics-c" aria-selected="false">Ethics of data analytics (c)</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="ethics-of-storytelling-a-tab" data-toggle="tab" href="#ethics-of-storytelling-a" role="tab" aria-controls="ethics-of-storytelling-a" aria-selected="false">Ethics of storytelling (a)</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="ethics-of-storytelling-b-tab" data-toggle="tab" href="#ethics-of-storytelling-b" role="tab" aria-controls="ethics-of-storytelling-b" aria-selected="false">Ethics of storytelling (b)</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="ethics-of-storytelling-c-tab" data-toggle="tab" href="#ethics-of-storytelling-c" role="tab" aria-controls="ethics-of-storytelling-c" aria-selected="false">Ethics of storytelling (c)</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="ethics-of-storytelling-d-tab" data-toggle="tab" href="#ethics-of-storytelling-d" role="tab" aria-controls="ethics-of-storytelling-d" aria-selected="false">Ethics of storytelling (d)</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="curiosity-tab" data-toggle="tab" href="#curiosity" role="tab" aria-controls="curiosity" aria-selected="false">Curiosity</a>
+</li>
+</ul>
+<div id="slide-tabs" class="tab-content">
+<div id="introduction" class="tab-pane fade show active" role="tabpanel" aria-labelledby="introduction-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#1">
+</iframe>
+</div>
+</div>
+<div id="what-did-we-just-learn" class="tab-pane fade" role="tabpanel" aria-labelledby="what-did-we-just-learn-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#overview">
+</iframe>
+</div>
+</div>
+<div id="ethics-of-data-analyitcs-a" class="tab-pane fade" role="tabpanel" aria-labelledby="ethics-of-data-analyitcs-a-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#ethics-analysis">
+</iframe>
+</div>
+</div>
+<div id="ethics-of-data-analytics-b" class="tab-pane fade" role="tabpanel" aria-labelledby="ethics-of-data-analytics-b-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#analysis-bias">
+</iframe>
+</div>
+</div>
+<div id="ethics-of-data-analytics-c" class="tab-pane fade" role="tabpanel" aria-labelledby="ethics-of-data-analytics-c-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#analysis-evil">
+</iframe>
+</div>
+</div>
+<div id="ethics-of-storytelling-a" class="tab-pane fade" role="tabpanel" aria-labelledby="ethics-of-storytelling-a-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#telling-stories">
+</iframe>
+</div>
+</div>
+<div id="ethics-of-storytelling-b" class="tab-pane fade" role="tabpanel" aria-labelledby="ethics-of-storytelling-b-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#stories-manipulation">
+</iframe>
+</div>
+</div>
+<div id="ethics-of-storytelling-c" class="tab-pane fade" role="tabpanel" aria-labelledby="ethics-of-storytelling-c-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#stories-misrepresentation">
+</iframe>
+</div>
+</div>
+<div id="ethics-of-storytelling-d" class="tab-pane fade" role="tabpanel" aria-labelledby="ethics-of-storytelling-d-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#stories-equity">
+</iframe>
+</div>
+</div>
+<div id="curiosity" class="tab-pane fade" role="tabpanel" aria-labelledby="curiosity-tab">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="/slides/14-slides.html#curiosity">
+</iframe>
+</div>
+</div>
+</div>
+<div class="fyi">
+<p><strong>Fun fact</strong>: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.</p>
+</div>
 </div>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
-<p>Videos go here.</p>
+<p>Videos for each section of the lecture are <a href="https://www.youtube.com/playlist?list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">available at this YouTube playlist</a>.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=djmK0RIldu0&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Introduction</a></li>
+<li><a href="https://www.youtube.com/watch?v=ini449ZegKI&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">What did we just learn?</a></li>
+<li><a href="https://www.youtube.com/watch?v=NjwiGW_bpOg&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Ethics of data analyitcs (a)</a></li>
+<li><a href="https://www.youtube.com/watch?v=VeX7WWZOyAc&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Ethics of data analytics (b)</a></li>
+<li><a href="https://www.youtube.com/watch?v=lr0rgzRondo&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Ethics of data analytics (c)</a></li>
+<li><a href="https://www.youtube.com/watch?v=RJpl7V76NeA&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Ethics of storytelling (a)</a></li>
+<li><a href="https://www.youtube.com/watch?v=dXPj0XGCpag&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Ethics of storytelling (b)</a></li>
+<li><a href="https://www.youtube.com/watch?v=O_yridxo4A8&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Ethics of storytelling (c)</a></li>
+<li><a href="https://www.youtube.com/watch?v=k-59BLi8dMc&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Ethics of storytelling (d)</a></li>
+<li><a href="https://www.youtube.com/watch?v=gqhoIe5vwoU&amp;list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q">Curiosity</a></li>
+</ul>
+<p>You can also watch the playlist (and skip around to different sections) here:</p>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/videoseries?list=PLS6tnpTr39sEKfedoOEFJvvNNHtDiYS-Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
 </div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>This concise booklet is the result of DJ Patil’s call for ethics in the previous post.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
