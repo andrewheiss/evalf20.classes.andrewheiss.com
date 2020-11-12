@@ -60,7 +60,7 @@ tutoring <- read_csv("data/tutoring_program_fuzzy.csv")
 
 In [the example for regression discontinuity](/example/rdd/), it was fairly easy to measure the size of the jump at the cutoff because compliance was perfect. No people who scored above the threshold used the tutoring program, and nobody who qualified for the program didn't use it. It was a *sharp* design, since program usage looked like this:
 
-```{r out.width="75%"}
+```{r echo=FALSE, out.width="75%"}
 knitr::include_graphics("/example/rdd_files/figure-html/check-fuzzy-sharp-1.png", error = FALSE)
 ```
 
@@ -185,8 +185,8 @@ We'll use a bandwidth of 10:
 # Bandwidth ±10
 model_sans_instrument <- lm(exit_exam ~ entrance_centered + tutoring,
                             data = filter(tutoring_centered,
-                                entrance_centered >= -10 & 
-                                  entrance_centered <= 10))
+                                          entrance_centered >= -10 & 
+                                            entrance_centered <= 10))
 tidy(model_sans_instrument)
 ```
 

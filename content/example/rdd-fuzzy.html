@@ -55,7 +55,6 @@ tutoring &lt;- read_csv(&quot;data/tutoring_program_fuzzy.csv&quot;)</code></pre
 <div id="noncompliance-around-a-cutoff" class="section level2">
 <h2>Noncompliance around a cutoff</h2>
 <p>In <a href="/example/rdd/">the example for regression discontinuity</a>, it was fairly easy to measure the size of the jump at the cutoff because compliance was perfect. No people who scored above the threshold used the tutoring program, and nobody who qualified for the program didn’t use it. It was a <em>sharp</em> design, since program usage looked like this:</p>
-<pre class="r"><code>knitr::include_graphics(&quot;/example/rdd_files/figure-html/check-fuzzy-sharp-1.png&quot;, error = FALSE)</code></pre>
 <p><img src="/example/rdd_files/figure-html/check-fuzzy-sharp-1.png" width="75%" style="display: block; margin: auto;" /></p>
 <p>However, seeing a cutoff this sharp and this perfect is fairly rare. It is possible that some people scored higher on the entrace exam and somehow used tutoring, or that some people scored below the threshold but didn’t participate in the program, either because they’re never-takers, or because they fell through bureaucratic cracks.</p>
 <p>More often, you’ll see compliance that looks like this:</p>
@@ -171,8 +170,8 @@ tutoring_centered</code></pre>
 <pre class="r"><code># Bandwidth ±10
 model_sans_instrument &lt;- lm(exit_exam ~ entrance_centered + tutoring,
                             data = filter(tutoring_centered,
-                                entrance_centered &gt;= -10 &amp; 
-                                  entrance_centered &lt;= 10))
+                                          entrance_centered &gt;= -10 &amp; 
+                                            entrance_centered &lt;= 10))
 tidy(model_sans_instrument)</code></pre>
 <pre><code>## # A tibble: 3 x 5
 ##   term              estimate std.error statistic   p.value
