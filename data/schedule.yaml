@@ -167,6 +167,7 @@ lessons:
     session: "Session 10"
     date: "October 26–30"
     content: "10-content"
+    example: "rdd"
     bg: 1
 
   - title: '<a href="https://georgia.gov/vote-absentee-ballot"><strong>Deadline to request an absentee ballot</strong></a> <small>(request must be received by this day)</small>'
@@ -188,6 +189,7 @@ lessons:
     session: "Session 11"
     date: "November 2–6"
     content: "11-content"
+    example: "iv"
     bg: 2
 
   - title: "<strong>Election Day</strong>"
@@ -209,6 +211,7 @@ lessons:
     session: "Session 12"
     date: "November 9–13"
     content: "12-content"
+    example: "rdd-fuzzy"
     bg: 1
 
   - title: 'Weekly check-in 12'
@@ -228,10 +231,11 @@ lessons:
   - title: 'Applied evaluation'
     header: True
 
-  - title: '<span class="content-title">Planning and running evaluations + other types of evaluation</span>'
+  - title: '<span class="content-title">Planning evaluations + synthetic data + statsy loose ends</span>'
     session: "Session 13"
     date: "November 16–20"
     content: "13-content"
+    example: "synthetic-data"
     bg: 2
 
   - title: 'Weekly check-in 13'
