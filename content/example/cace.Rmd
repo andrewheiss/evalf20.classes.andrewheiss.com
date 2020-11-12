@@ -23,9 +23,9 @@ options(dplyr.summarise.inform = FALSE)
 
 ## Compliance and treatment effects
 
-Throughout this course, we've talked about the difference between the average treatment effect (ATE), or the average effect of a program for *an entire population*, and conditional averages treatment effects (CATE), or the average effect of a program for some segment of the population. There are all sorts of CATEs: you can find the CATE for men vs. women, for people who are treated with the program (the average treatment on the treated, or ATT or TOT), for people who are not treated with the program (the average treatment on the untreated, or ATU), and so on.
+Throughout this course, we've talked about the difference between the average treatment effect (ATE), or the average effect of a program for *an entire population*, and conditional average treatment effect (CATE), or the average effect of a program for some segment of the population. There are all sorts of CATEs: you can find the CATE for men vs. women, for people who are treated with the program (the average treatment on the treated, or ATT or TOT), for people who are not treated with the program (the average treatment on the untreated, or ATU), and so on.
 
-One important type of CATE is the effect of a program on just those who *comply* with the program. We can call this the complier average treatment effect, but the acronym would be the same as conditional average treatment effect, so we'll call it the **conditional average causal effect** or CACE.
+One important type of CATE is the effect of a program on just those who *comply* with the program. We can call this the complier average treatment effect, but the acronym would be the same as conditional average treatment effect, so we'll call it the **complier average causal effect** or CACE.
 
 Thinking about compliance is important. You might randomly assign people to receive treatment or a program, but people might not do what you tell them. Additionally, people might do the program if assigned to do it, but they would have done it anyway. We can split the population into four types of people:
 
