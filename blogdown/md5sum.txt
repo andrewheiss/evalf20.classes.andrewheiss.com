@@ -49,7 +49,7 @@
 "content/resource/citations.Rmd" "a206313d2b9df49e198e99a70151d759"
 "content/resource/data.Rmd" "90f70f2eacc55c95b564133519d52d36"
 "content/resource/exam1.Rmd" "cc4e5cf9f607f00323f144c7a8c4cf39"
-"content/resource/exam2.Rmd" "91e4c0412563048617304472799af743"
+"content/resource/exam2.Rmd" "3cfe2590be54817be17a8adeb7a06720"
 "content/resource/install.Rmd" "60888226c69c0105e1e26f8343a62019"
 "content/resource/markdown.Rmd" "dcad9239aaf74783f7c712a964d05e84"
 "content/resource/r.Rmd" "e1aa3b1e4b100437393525a02ff6ae3c"
