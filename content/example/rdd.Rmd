@@ -191,9 +191,9 @@ Now that we know this is a sharp design and that there's no bunching of test sco
 ```{r check-outcome-discontinuity, message=FALSE}
 ggplot(tutoring, aes(x = entrance_exam, y = exit_exam, color = tutoring)) +
   geom_point(size = 0.5, alpha = 0.5) + 
-  # Add a line based on a linear model for the people scoring less than 70
+  # Add a line based on a linear model for the people scoring 70 or less
   geom_smooth(data = filter(tutoring, entrance_exam <= 70), method = "lm") +
-  # Add a line based on a linear model for the people scoring 70 or more
+  # Add a line based on a linear model for the people scoring more than 70
   geom_smooth(data = filter(tutoring, entrance_exam > 70), method = "lm") +
   geom_vline(xintercept = 70) +
   labs(x = "Entrance exam score", y = "Exit exam score", color = "Used tutoring")

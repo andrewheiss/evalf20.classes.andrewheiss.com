@@ -173,9 +173,9 @@ plot_density_test &lt;- rdplotdensity(rdd = test_density,
 <p>Now that we know this is a sharp design and that there’s no bunching of test scores around the 70-point threshold, we can finally see if there’s a discontinuity in final scores based on participation in the tutoring program. Plot the running variable on the x-axis, the outcome variable on the y-axis, and color the points by whether they participated in the program.</p>
 <pre class="r"><code>ggplot(tutoring, aes(x = entrance_exam, y = exit_exam, color = tutoring)) +
   geom_point(size = 0.5, alpha = 0.5) + 
-  # Add a line based on a linear model for the people scoring less than 70
+  # Add a line based on a linear model for the people scoring 70 or less
   geom_smooth(data = filter(tutoring, entrance_exam &lt;= 70), method = &quot;lm&quot;) +
-  # Add a line based on a linear model for the people scoring 70 or more
+  # Add a line based on a linear model for the people scoring more than 70
   geom_smooth(data = filter(tutoring, entrance_exam &gt; 70), method = &quot;lm&quot;) +
   geom_vline(xintercept = 70) +
   labs(x = &quot;Entrance exam score&quot;, y = &quot;Exit exam score&quot;, color = &quot;Used tutoring&quot;)</code></pre>
