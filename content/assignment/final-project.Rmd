@@ -42,8 +42,8 @@ This project is due by **7:00 PM on Monday, December 14, 2020.** <span style="co
 
 You can either run the analysis in RStudio locally on your computer (highly recommended(!!), since you won't have to worry about keeping all your work on RStudio's servers), or use an RStudio.cloud project. You can make a copy of this RStudio.cloud project—it doesn't have anything in it, but I have preinstalled all the packages we've used over the course of the semester, so you don't have to.
 
-- ~~[<i class="fas fa-external-link-square-alt"></i> Empty RStudio.cloud project](#)~~
-- [<i class="fas fa-file-archive"></i> Empty RStudio project you can download and unzip on your computer](/files/final-project.zip) (doesn't include any packages, since you're responsible for installing those)
+- [<i class="fas fa-external-link-square-alt"></i> Empty RStudio.cloud project](https://rstudio.cloud/spaces/82624/project/1970737)
+- [<i class="fas fa-file-archive"></i> Empty RStudio project you can download and unzip on your computer](/projects/final-project.zip) (doesn't include any packages, since you're responsible for installing those)
 
 
 ## Resources
