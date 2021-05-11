@@ -2,7 +2,7 @@
 title: "Final project"
 date: "2020-12-14"
 due_date: "2020-12-14"
-due_time: "11:59 PM"
+due_time: "7:00 PM"
 output:
   blogdown::html_page:
     toc: true
